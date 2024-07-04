@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">olimpo-app</string>
+    <string name="app_name">Olimpo</string>
+    <string name="bem_vindo">Bem Vindo ao Olimpo!</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
+    <string name="entrar">Entrar</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="cadastrar_se"><u>Cadastrar-se</u></string>
+    <string name="login"><u>Login</u></string>
+    <string name="add_image">Add Image</string>
+    <string name="nome">Nome</string>
+    <string name="confirma_senha">Confirmar Senha</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="select_user">Select User</string>
+    <string name="type_a_message">Type a message</string>
 </resources>
