@@ -88,23 +88,23 @@ class cadastro_activity : AppCompatActivity() {
 
     private fun isValidSignUpDetails(): Boolean {
         if(encodedImage == null){
-            showToast("Select profile image")
+            showToast("Insira uma foto de perfil")
             return false
         }else if(binding.inputName.text.toString().trim().isEmpty()) {
-            showToast(("Enter name"))
+            showToast(("Insira um nome"))
             return false
         }else if(binding.inputEmail.text.toString().trim().isEmpty()){
-            showToast(("Enter email"))
+            showToast(("Insira um email"))
             return false
         }else if(!Patterns.EMAIL_ADDRESS.matcher(binding.inputEmail.text.toString()).matches()){
-            showToast("Enter valid image")
+            showToast("insira um email válido")
             return false
         }else if(binding.inputPassword.text.toString().trim().isEmpty()){
             return false
         }else if(binding.confirmPassword.text.toString().trim().isEmpty()){
             return false
         }else if(binding.inputPassword.text.toString() != binding.confirmPassword.text.toString()){
-            showToast("Password & confirm password must be same")
+            showToast("As senhas devem ser as mesmas")
             return false
         }else{
             return true
