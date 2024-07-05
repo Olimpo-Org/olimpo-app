@@ -13,7 +13,7 @@ android {
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
-
+        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -51,4 +51,11 @@ dependencies {
     // Size em SDP
     implementation("com.intuit.sdp:sdp-android:1.0.6")
     implementation("com.intuit.ssp:ssp-android:1.0.6")
+
+    // Rounded ImageView
+    implementation("com.makeramen:roundedimageview:2.3.0")
+
+    // MultiDex
+    implementation("androidx.multidex:multidex:2.0.1")
+
 }
