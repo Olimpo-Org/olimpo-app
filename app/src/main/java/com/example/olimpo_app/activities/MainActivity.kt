@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun loadUserDetails(){
-        bindind.textName.text = preferenceManager.getString(Constants.KEY_NAME)
+//        bindind.textName.text = preferenceManager.getString(Constants.KEY_NAME)
         val bytes = Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE), Base64.DEFAULT)
         val bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
         bindind.imageProfile.setImageBitmap(bitmap)

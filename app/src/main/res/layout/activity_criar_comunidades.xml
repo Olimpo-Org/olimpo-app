@@ -21,12 +21,12 @@
         app:riv_corner_radius="@dimen/_8sdp" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageSignOut2"
+        android:id="@+id/imageSignOut"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/olimpo_logo"
+        android:background="@drawable/right_arrow"
         android:padding="@dimen/_6sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,74 +44,64 @@
         app:layout_constraintTop_toBottomOf="@id/imageProfile"
         app:layout_constraintVertical_bias="0.0">
 
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:background="@drawable/background_input"
-            android:paddingTop="@dimen/_10ssp"
-            android:paddingBottom="@dimen/_10ssp"
-            android:text="               Encontrar comunidades"
-            android:textColor="@color/White"
-            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_60sdp"
-            android:text="Minhas comunidades"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Crie sua comunidade"
             android:textColor="@color/Blue"
             android:textSize="@dimen/_15sdp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/conversationsRecyclerView"
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/OlimpoFoto"
+            android:layout_width="122dp"
+            android:layout_height="118dp"
+            android:layout_marginLeft="@dimen/_110sdp"
+            android:layout_marginTop="@dimen/_60sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/add_foto"
+            android:scaleType="centerCrop"
+            app:riv_oval="true" />
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="407dp"
+            android:layout_height="68dp"
             android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_90sdp"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:overScrollMode="never"
-            android:padding="@dimen/_5sdp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/comunidade" />
+            android:layout_marginTop="@dimen/_180sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:textColorHint="@color/Blue">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_180sdp"
+                android:layout_marginBottom="@dimen/_20ssp"
+                android:background="@drawable/borda_cinza"
+                android:hint="@string/nome"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:paddingStart="@dimen/_16sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:textColor="@color/Blue"
+                android:textSize="@dimen/_13ssp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_410sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_450sdp"
             android:layout_marginRight="@dimen/_10sdp"
-            android:background="@drawable/background_input"
-            android:gravity="left"
+            android:backgroundTint="@color/Blue"
+            android:gravity="center"
             android:paddingTop="@dimen/_9sdp"
             android:paddingBottom="@dimen/_8sdp"
-            android:text="       Criar Comunidade"
-            android:textColor="@color/White"
+            android:text="Criar Comunidade"
+
             />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:background="@drawable/search_icon"
-            android:padding="@dimen/_6sdp"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:layout_marginLeft="@dimen/_20sdp"
-            app:tint="@color/White" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:background="@drawable/ic_add"
-            android:padding="@dimen/_6sdp"
-            android:layout_marginTop="539dp"
-            android:layout_marginLeft="@dimen/_26sdp"
-            app:tint="@color/White" />
-
-
     </FrameLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

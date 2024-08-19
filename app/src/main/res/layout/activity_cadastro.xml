@@ -19,13 +19,12 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/OlimpoFoto"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_width="122dp"
+            android:layout_height="118dp"
             android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/add_foto"
             android:scaleType="centerCrop"
-            app:riv_oval="true"
-            android:background="@drawable/icon_user"
-            />
+            app:riv_oval="true" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -36,12 +35,12 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputName"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_45sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_16sdp"
-                android:background="@drawable/background_input"
+                android:background="@drawable/borda_cinza"
                 android:hint="@string/nome"
                 android:imeOptions="actionNext"
-                android:textColor="@color/primary_text"
+                android:textColor="@color/Blue"
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:paddingStart="@dimen/_16sdp"
@@ -61,14 +60,14 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputEmail"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_45sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_16sdp"
-                android:background="@drawable/background_input"
+                android:background="@drawable/borda_cinza"
                 android:hint="@string/email"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/primary_text"
+                android:textColor="@color/Blue"
                 android:paddingStart="@dimen/_16sdp"
                 android:paddingEnd="@dimen/_16sdp"
                 android:textSize="@dimen/_13ssp"
@@ -84,14 +83,14 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputPassword"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_45sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_16sdp"
-                android:background="@drawable/background_input"
+                android:background="@drawable/borda_cinza"
                 android:hint="@string/senha"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
-                android:textColor="@color/primary_text"
+                android:textColor="@color/Blue"
                 android:paddingStart="@dimen/_16sdp"
                 android:paddingEnd="@dimen/_16sdp"
                 android:textSize="@dimen/_13ssp"
@@ -108,14 +107,14 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirmPassword"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_45sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_16sdp"
-                android:background="@drawable/background_input"
+                android:background="@drawable/borda_cinza"
                 android:hint="@string/confirma_senha"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
-                android:textColor="@color/primary_text"
+                android:textColor="@color/Blue"
                 android:paddingStart="@dimen/_16sdp"
                 android:paddingEnd="@dimen/_16sdp"
                 android:textSize="@dimen/_13ssp"/>
@@ -129,12 +128,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonSignIn"
-                android:layout_width="151dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/Blue"
                 android:text="@string/cadastrar"
-                android:textColor="@color/white"
+                android:textColor="@color/White"
                 android:textSize="@dimen/_13ssp"
                 app:cornerRadius="@dimen/_100sdp" />
 

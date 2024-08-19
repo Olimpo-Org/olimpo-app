@@ -8,7 +8,7 @@ android:clipToPadding="false"
 android:overScrollMode="never"
 android:padding="@dimen/_24sdp"
 android:scrollbars="none"
-android:background="@color/white"
+android:background="@color/Pure_White"
 tools:context=".activities.login_activity">
 
 <LinearLayout
@@ -30,7 +30,7 @@ tools:context=".activities.login_activity">
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
         android:text="@string/bem_vindo"
-        android:textColor="@color/primary_text"
+        android:textColor="@color/Black"
         android:textSize="@dimen/_14ssp"
         android:layout_marginBottom="@dimen/_20sdp"/>
 
@@ -43,14 +43,14 @@ tools:context=".activities.login_activity">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputEmail"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_16sdp"
-            android:background="@drawable/background_input"
+            android:background="@drawable/borda_cinza"
             android:hint="@string/email"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
-            android:textColor="@color/primary_text"
+            android:textColor="@color/Blue"
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             android:textSize="@dimen/_13ssp"
@@ -68,14 +68,14 @@ tools:context=".activities.login_activity">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputPassword"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_16sdp"
-            android:background="@drawable/background_input"
+            android:background="@drawable/borda_cinza"
             android:hint="@string/senha"
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:inputType="textPassword"
-            android:textColor="@color/primary_text"
+            android:textColor="@color/Blue"
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             android:textSize="@dimen/_13ssp"
@@ -97,7 +97,7 @@ tools:context=".activities.login_activity">
             android:layout_gravity="center"
             android:text="@string/entrar"
             android:backgroundTint="@color/Blue"
-            android:textColor="@color/white"
+            android:textColor="@color/Pure_White"
             android:textSize="@dimen/_13ssp"
             app:cornerRadius="@dimen/_100sdp" />
 

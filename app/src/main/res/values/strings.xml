@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Olimpo</string>
-    <string name="bem_vindo">Bem Vindo ao Olimpo!</string>
+    <string name="bem_vindo">Bem Vindo ao <b>Olimpo!</b></string>
     <string name="email">Email</string>
     <string name="senha">Senha</string>
     <string name="entrar">Entrar</string>
@@ -13,4 +13,7 @@
     <string name="sign_up">SIGN UP</string>
     <string name="select_user">Select User</string>
     <string name="type_a_message">Type a message</string>
+    <string name="recusar_usu_rio"><u>Recusar usuário</u></string>
+    <string name="nome_do_f_rum">Nome do fórum</string>
+    <string name="online" />
 </resources>

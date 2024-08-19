@@ -5,34 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/Blue"
-    tools:context=".activities.MainActivity">
+    android:background="@color/Blue">
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/imageProfile"
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/exit"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:riv_corner_radius="@dimen/_8sdp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="12dp"
+        android:text="Nome da comunidade"
+        android:textColor="@color/Pure_White"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+        app:layout_constraintStart_toEndOf="@+id/imageSignOut" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageSignOut2"
+        android:id="@+id/btn_voltar"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/olimpo_logo"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="13dp"
+        android:background="@drawable/right_arrow"
+        android:padding="@dimen/_6sdp"
+        app:layout_constraintEnd_toStartOf="@+id/imageSignOut"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageSignOut"
+        app:tint="@color/White" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageSignOut"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/add_foto"
         android:padding="@dimen/_6sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/White" />
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_16sdp"
@@ -41,7 +53,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageProfile"
         app:layout_constraintVertical_bias="0.0">
 
 
@@ -54,7 +65,7 @@
             android:background="@drawable/background_input"
             android:paddingTop="@dimen/_10ssp"
             android:paddingBottom="@dimen/_10ssp"
-            android:text="               Encontrar comunidades"
+            android:text="               Encontrar pessoas ou fóruns"
             android:textColor="@color/White"
             />
         <TextView
@@ -62,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_60sdp"
-            android:text="Minhas comunidades"
+            android:text="Meus chats"
             android:textColor="@color/Blue"
             android:textSize="@dimen/_15sdp" />
 
@@ -77,7 +88,7 @@
             android:overScrollMode="never"
             android:padding="@dimen/_5sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/comunidade" />
+            tools:listitem="@layout/chats" />
 
         <Button
             android:layout_width="match_parent"
@@ -89,7 +100,7 @@
             android:gravity="left"
             android:paddingTop="@dimen/_9sdp"
             android:paddingBottom="@dimen/_8sdp"
-            android:text="       Criar Comunidade"
+            android:text="       Novo fórum"
             android:textColor="@color/White"
             />
 
@@ -112,6 +123,38 @@
             app:tint="@color/White" />
 
 
+    <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="@dimen/_1sdp"
+            android:layout_marginTop="600dp"
+            android:background="@drawable/home_icon_" />
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="@dimen/_65sdp"
+            android:layout_marginTop="600dp"
+            android:background="@drawable/comments_" />
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="600dp"
+            android:layout_marginLeft="@dimen/_129sdp"
+            android:background="@drawable/plus_square" />
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="600dp"
+            android:layout_marginLeft="@dimen/_192sdp"
+            android:background="@drawable/shop_icon" />
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="600dp"
+            android:layout_marginLeft="@dimen/_254sdp"
+            android:background="@drawable/profile" />
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
