@@ -8,53 +8,83 @@
     android:background="@color/Blue"
     tools:context=".activities.MainActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="54dp"
+        android:layout_marginEnd="216dp"
+        android:layout_marginBottom="16dp"
+        android:text="Nome da comunidade"
+        android:textColor="@color/Pure_White"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btn_voltar" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageSignOut"
+        android:id="@+id/btn_voltar"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="7dp"
         android:background="@drawable/right_arrow"
         android:padding="@dimen/_6sdp"
-        app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:tint="@color/White" />
 
     <FrameLayout
-        android:id="@+id/frameLayout2"
-        android:layout_width="419dp"
-        android:layout_height="662dp"
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:background="@color/Pure_White"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/OlimpoFoto"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="160dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/add_foto"
+            android:scaleType="centerCrop"
+            app:riv_oval="true" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:text="Encontrar chats"
-            android:textColor="@color/Blue" />
+            android:layout_marginLeft="130dp"
+            android:layout_marginTop="115dp"
+            android:text="Other_Username"
+            android:textColor="@color/Black"
+            android:textSize="@dimen/_14ssp" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSignIn"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="150dp"
+            android:backgroundTint="@color/Blue"
+            android:text="Conversar no chat"
+            android:textColor="@color/White"
+            android:textSize="@dimen/_13ssp"
+            app:cornerRadius="@dimen/_100sdp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="388dp"
-            android:layout_height="527dp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_40sdp"
+            android:id="@+id/conversationsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginTop="200dp"
             android:clipToPadding="false"
             android:orientation="vertical"
             android:overScrollMode="never"
-            android:padding="@dimen/_5sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/users" />
+            tools:listitem="@layout/item_profile" />
 
         <ImageButton
             android:layout_width="50dp"
@@ -68,7 +98,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_65sdp"
             android:layout_marginTop="615dp"
-            android:background="@drawable/comments_" />
+            android:background="@drawable/comments" />
 
         <ImageButton
             android:layout_width="50dp"
@@ -89,6 +119,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_254sdp"
             android:layout_marginTop="615dp"
-            android:background="@drawable/profile" />
+            android:background="@drawable/profile_" />
     </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

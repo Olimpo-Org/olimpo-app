@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Blue"
+    >
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btn_voltar"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="13dp"
+        android:background="@drawable/right_arrow"
+        android:padding="@dimen/_6sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/White" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/Pure_White"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_voltar">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listImageRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="400dp"
+            />
+
+        <EditText
+            android:id="@+id/editTextTextMultiLine"
+            android:layout_width="360dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="120dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/borda_cinza"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="O que você quer contar aos seus amigos?..."
+            android:inputType="textMultiLine"
+            android:maxLength="50"
+            android:padding="16dp"
+            android:textSize="10dp" />
+
+        <Button
+            android:id="@+id/publicationButton"
+            android:layout_width="160dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="25dp"
+            android:text="Publicação"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/announcementButton"
+            android:layout_width="160dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="220dp"
+            android:layout_marginTop="25dp"
+            android:text="Anúncio" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="75dp"
+            android:text="Venda"
+            />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="155dp"
+            android:layout_marginTop="75dp"
+            android:text="Serviço" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="288dp"
+            android:layout_marginTop="75dp"
+            android:text="Doação"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/button2"
+            app:layout_constraintTop_toBottomOf="@+id/announcementButton" />
+
+        <ImageButton
+            android:id="@+id/galeryButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="340dp"
+            android:background="@drawable/image_"
+            />
+
+        <Button
+            android:id="@+id/publishButton"
+            android:layout_width="176dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="220dp"
+            android:layout_marginTop="340dp"
+            android:text="Publicar" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="615dp"
+            android:background="@drawable/home_icon_" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="@dimen/_65sdp"
+            android:layout_marginTop="615dp"
+            android:background="@drawable/comments" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="@dimen/_129sdp"
+            android:layout_marginTop="615dp"
+            android:background="@drawable/plus_square_" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="@dimen/_192sdp"
+            android:layout_marginTop="615dp"
+            android:background="@drawable/shop_icon" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="@dimen/_254sdp"
+            android:layout_marginTop="615dp"
+            android:background="@drawable/profile" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

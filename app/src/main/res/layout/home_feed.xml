@@ -48,7 +48,7 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/background_content_bottom"
+        android:background="@color/Pure_White"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -67,36 +67,38 @@
             tools:listitem="@layout/item_home" />
 
         <ImageButton
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="@dimen/_1sdp"
-            android:layout_marginTop="600dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="615dp"
             android:background="@drawable/home_icon" />
 
         <ImageButton
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_65sdp"
-            android:layout_marginTop="600dp"
+            android:layout_marginTop="615dp"
             android:background="@drawable/comments" />
 
         <ImageButton
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="600dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_129sdp"
+            android:layout_marginTop="615dp"
             android:background="@drawable/plus_square" />
+
         <ImageButton
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="600dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_192sdp"
+            android:layout_marginTop="615dp"
             android:background="@drawable/shop_icon" />
+
         <ImageButton
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="600dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_254sdp"
+            android:layout_marginTop="615dp"
             android:background="@drawable/profile" />
     </FrameLayout>
 

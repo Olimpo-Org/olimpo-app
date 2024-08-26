@@ -8,7 +8,7 @@
     android:overScrollMode="never"
     android:padding="@dimen/_24sdp"
     android:scrollbars="none"
-    android:background="@color/white"    tools:context=".activities.cadastro_activity">
+    android:background="@color/Pure_White"    tools:context=".activities.cadastro_activity">
 
     <LinearLayout
         android:layout_width="match_parent"

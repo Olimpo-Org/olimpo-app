@@ -20,11 +20,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(bindind.root)
 
         loadUserDetails()
-        setListeners()
+//        setListeners()
     }
-    private fun setListeners(){
-        bindind.imageSignOut.setOnClickListener { signOut() }
-    }
+//    private fun setListeners(){
+//        bindind.imageSignOut.setOnClickListener { signOut() }
+//    }
 
 
     private fun loadUserDetails(){
