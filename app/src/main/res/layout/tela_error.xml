@@ -59,6 +59,7 @@
             android:textSize="@dimen/_18sdp" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonTryAgain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -72,6 +73,7 @@
             app:cornerRadius="@dimen/_100sdp" />
 
         <TextView
+            android:id="@+id/textTryAgain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="118dp"

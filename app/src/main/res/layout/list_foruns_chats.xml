@@ -10,12 +10,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="20dp"
         android:text="Nome da comunidade"
         android:textColor="@color/Pure_White"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout"
-        app:layout_constraintStart_toEndOf="@+id/imageSignOut" />
+        app:layout_constraintStart_toEndOf="@+id/imageSignOut"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.571" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/btn_voltar"
@@ -124,6 +126,7 @@
 
 
         <ImageButton
+            android:id="@+id/btnHome"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_10sdp"
@@ -131,6 +134,7 @@
             android:background="@drawable/home_icon_" />
 
         <ImageButton
+            android:id="@+id/btnConversations"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_65sdp"
@@ -138,6 +142,7 @@
             android:background="@drawable/comments_" />
 
         <ImageButton
+            android:id="@+id/btnAdd"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_129sdp"
@@ -145,6 +150,7 @@
             android:background="@drawable/plus_square" />
 
         <ImageButton
+            android:id="@+id/btnShop"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_192sdp"
@@ -152,6 +158,7 @@
             android:background="@drawable/shop_icon" />
 
         <ImageButton
+            android:id="@+id/btnProfile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_254sdp"

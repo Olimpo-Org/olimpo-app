@@ -18,9 +18,9 @@
 
 
         <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/OlimpoFoto"
-            android:layout_width="122dp"
-            android:layout_height="118dp"
+            android:id="@+id/fotoPerfil"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_marginBottom="@dimen/_20sdp"
             android:background="@drawable/add_foto"
             android:scaleType="centerCrop"

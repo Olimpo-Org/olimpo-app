@@ -42,7 +42,7 @@
             />
 
         <EditText
-            android:id="@+id/editTextTextMultiLine"
+            android:id="@+id/editText"
             android:layout_width="360dp"
             android:layout_height="200dp"
             android:layout_marginStart="24dp"
@@ -58,7 +58,7 @@
             android:textSize="10dp" />
 
         <Button
-            android:id="@+id/publicationButton"
+            android:id="@+id/btnPublication"
             android:layout_width="160dp"
             android:layout_height="40dp"
             android:layout_marginStart="24dp"
@@ -68,7 +68,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/announcementButton"
+            android:id="@+id/btnAnnouncement"
             android:layout_width="160dp"
             android:layout_height="40dp"
             android:layout_marginLeft="220dp"
@@ -76,7 +76,7 @@
             android:text="Anúncio" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/btnSale"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="25dp"
@@ -85,7 +85,7 @@
             />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btnService"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="155dp"
@@ -93,7 +93,7 @@
             android:text="Serviço" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnDonation"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="288dp"
@@ -104,7 +104,7 @@
             app:layout_constraintTop_toBottomOf="@+id/announcementButton" />
 
         <ImageButton
-            android:id="@+id/galeryButton"
+            android:id="@+id/btnGallery"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="24dp"
@@ -113,7 +113,7 @@
             />
 
         <Button
-            android:id="@+id/publishButton"
+            android:id="@+id/btnPublish"
             android:layout_width="176dp"
             android:layout_height="40dp"
             android:layout_marginLeft="220dp"
@@ -121,6 +121,7 @@
             android:text="Publicar" />
 
         <ImageButton
+            android:id="@+id/btnHome"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_10sdp"
@@ -128,6 +129,7 @@
             android:background="@drawable/home_icon_" />
 
         <ImageButton
+            android:id="@+id/btnConversations"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_65sdp"
@@ -135,6 +137,7 @@
             android:background="@drawable/comments" />
 
         <ImageButton
+            android:id="@+id/btnAdd"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_129sdp"
@@ -142,6 +145,7 @@
             android:background="@drawable/plus_square_" />
 
         <ImageButton
+            android:id="@+id/btnShop"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_192sdp"
@@ -149,6 +153,7 @@
             android:background="@drawable/shop_icon" />
 
         <ImageButton
+            android:id="@+id/btnProfile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_254sdp"
