@@ -8,7 +8,7 @@
     android:overScrollMode="never"
     android:padding="@dimen/_24sdp"
     android:scrollbars="none"
-    android:background="@color/Pure_White"    tools:context=".activities.cadastro_activity">
+    android:background="@color/Pure_White"    tools:context=".activities.CadastroActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,19 +26,21 @@
             android:scaleType="centerCrop"
             app:riv_oval="true" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColorHint="@color/Blue"
-            >
 
-            <com.google.android.material.textfield.TextInputEditText
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nome"
+            android:layout_marginRight="@dimen/_120sdp"
+            android:textColor="@color/Blue"
+            />
+
+            <EditText
                 android:id="@+id/inputName"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:background="@drawable/borda_cinza"
-                android:hint="@string/nome"
                 android:imeOptions="actionNext"
                 android:textColor="@color/Blue"
                 android:importantForAutofill="no"
@@ -47,23 +49,23 @@
                 android:paddingEnd="@dimen/_16sdp"
                 android:textSize="@dimen/_13ssp"
                 android:layout_marginBottom="@dimen/_20ssp"
+                app:boxBackgroundMode="none"
                 />
-        </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/email"
+            android:layout_marginRight="@dimen/_120sdp"
+            android:textColor="@color/Blue"
+            />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColorHint="@color/Blue"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/inputEmail"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:background="@drawable/borda_cinza"
-                android:hint="@string/email"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
@@ -71,22 +73,24 @@
                 android:paddingStart="@dimen/_16sdp"
                 android:paddingEnd="@dimen/_16sdp"
                 android:textSize="@dimen/_13ssp"
-                android:layout_marginBottom="@dimen/_20ssp"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginBottom="@dimen/_20ssp"
+                app:boxBackgroundMode="none"
+                />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/senha"
+            android:layout_marginRight="@dimen/_120sdp"
+            android:textColor="@color/Blue"
+            />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColorHint="@color/Blue">
-
-            <com.google.android.material.textfield.TextInputEditText
+         <EditText
                 android:id="@+id/inputPassword"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:background="@drawable/borda_cinza"
-                android:hint="@string/senha"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
@@ -94,31 +98,32 @@
                 android:paddingStart="@dimen/_16sdp"
                 android:paddingEnd="@dimen/_16sdp"
                 android:textSize="@dimen/_13ssp"
-
+                app:boxBackgroundMode="none"
                 android:layout_marginBottom="@dimen/_20ssp"/>
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColorHint="@color/Blue"
-            >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/confirma_senha"
+            android:layout_marginRight="@dimen/_92sdp"
+            android:textColor="@color/Blue"
+            />
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/confirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:background="@drawable/borda_cinza"
-                android:hint="@string/confirma_senha"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
                 android:textColor="@color/Blue"
                 android:paddingStart="@dimen/_16sdp"
                 android:paddingEnd="@dimen/_16sdp"
-                android:textSize="@dimen/_13ssp"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:textSize="@dimen/_13ssp"
+                app:boxBackgroundMode="none"
+                />
 
         <FrameLayout
             android:layout_width="match_parent"

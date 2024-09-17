@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/Blue"
+    tools:context=".activities.CreateCommunityActivity"
     >
 
     <com.makeramen.roundedimageview.RoundedImageView
@@ -19,6 +20,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:riv_corner_radius="@dimen/_8sdp" />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/imageSolicitation"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="72dp"
+        android:background="@drawable/user_plus"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_corner_radius="@dimen/_8sdp" />
+
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/btnVoltar"
@@ -64,31 +78,30 @@
             android:scaleType="centerCrop"
             app:riv_oval="true" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="68dp"
-            android:layout_marginLeft="@dimen/_10sdp"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_180sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:textColorHint="@color/Blue">
+            android:layout_marginLeft="@dimen/_5ssp"
+            android:text="@string/nome"
+            android:textColor="@color/Blue" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputName"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_marginTop="@dimen/_180sdp"
-                android:layout_marginBottom="@dimen/_20ssp"
-                android:background="@drawable/borda_cinza"
-                android:hint="@string/nome"
-                android:imeOptions="actionNext"
-                android:importantForAutofill="no"
-                android:inputType="text"
-                android:paddingStart="@dimen/_16sdp"
-                android:paddingEnd="@dimen/_16sdp"
-                android:textColor="@color/Blue"
-                android:textSize="@dimen/_13ssp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
+        <EditText
+            android:id="@+id/inputName"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_200sdp"
+            android:background="@drawable/borda_cinza"
+            android:imeOptions="actionNext"
+            android:textColor="@color/Blue"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:paddingStart="@dimen/_16sdp"
+            android:paddingEnd="@dimen/_16sdp"
+            android:textSize="@dimen/_13ssp"
+            android:layout_marginBottom="@dimen/_20ssp"
+            app:boxBackgroundMode="none"
+            />
 
         <Button
             android:id="@+id/btnCreateCommunity"
@@ -99,6 +112,7 @@
             android:layout_marginRight="@dimen/_10sdp"
             android:backgroundTint="@color/Blue"
             android:gravity="center"
+            android:background="@drawable/background_input"
             android:paddingTop="@dimen/_9sdp"
             android:paddingBottom="@dimen/_8sdp"
             android:text="Criar Comunidade"
