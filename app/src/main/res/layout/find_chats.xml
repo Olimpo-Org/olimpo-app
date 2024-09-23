@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/Blue"
-    tools:context=".activities.MainActivity">
+    android:background="@color/Blue">
 
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -57,6 +56,7 @@
             tools:listitem="@layout/users" />
 
         <ImageButton
+            android:id="@+id/btnHome"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_10sdp"
@@ -64,6 +64,7 @@
             android:background="@drawable/home_icon_" />
 
         <ImageButton
+            android:id="@+id/btnConversations"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_65sdp"
@@ -71,6 +72,7 @@
             android:background="@drawable/comments_" />
 
         <ImageButton
+            android:id="@+id/btnAdd"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_129sdp"
@@ -78,6 +80,7 @@
             android:background="@drawable/plus_square" />
 
         <ImageButton
+            android:id="@+id/btnShop"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_192sdp"
@@ -85,6 +88,7 @@
             android:background="@drawable/shop_icon" />
 
         <ImageButton
+            android:id="@+id/btnProfile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_254sdp"

@@ -15,10 +15,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.olimpo_app.databinding.ActivityCadastroBinding
 import com.example.olimpo_app.utilites.Constants
 import com.example.olimpo_app.utilites.PreferenceManager
+import com.google.firebase.firestore.FirebaseFirestore
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 
-class cadastro_activity : AppCompatActivity() {
+class CadastroActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCadastroBinding
     private lateinit var preferenceManager: PreferenceManager
     private var encodedImage: String? = null
@@ -36,7 +37,7 @@ class cadastro_activity : AppCompatActivity() {
                 signUp()
             }
         }
-        binding.OlimpoFoto.setOnClickListener {
+        binding.fotoPerfil.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             pickImage.launch(intent)
@@ -46,17 +47,32 @@ class cadastro_activity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
     }
-    private fun signUp(){
+
+    private fun signUp() {
         loading(true)
+        val database = FirebaseFirestore.getInstance()
         val user = hashMapOf(
             Constants.KEY_NAME to binding.inputName.text.toString(),
             Constants.KEY_EMAIL to binding.inputEmail.text.toString(),
             Constants.KEY_PASSWORD to binding.inputPassword.text.toString(),
-            Constants.KEY_IMAGE to encodedImage !!
+            Constants.KEY_IMAGE to encodedImage!!
         )
-        val intent = Intent(applicationContext, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
+        database.collection(Constants.KEY_COLLECTION_USERS)
+            .add(user)
+            .addOnSuccessListener {
+                loading(false)
+                preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true)
+                preferenceManager.putString(Constants.KEY_USER_ID, it.id)
+                preferenceManager.putString(Constants.KEY_NAME, binding.inputName.text.toString())
+                preferenceManager.putString(Constants.KEY_IMAGE, encodedImage!!)
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+            }
+            .addOnFailureListener { e ->
+                loading(false)
+                e.message?.let { message -> showToast(message) }
+            }
     }
     private fun encodeImage(bitmap: Bitmap): String{
         val previewWidth = 150
@@ -77,7 +93,7 @@ class cadastro_activity : AppCompatActivity() {
                 try {
                     val inputStream = imageUri?.let { uri -> contentResolver.openInputStream(uri) }
                     val bitmap = BitmapFactory.decodeStream(inputStream)
-                    binding.OlimpoFoto.setImageBitmap(bitmap)
+                    binding.fotoPerfil.setImageBitmap(bitmap)
                     encodedImage = encodeImage(bitmap)
                 } catch (e: FileNotFoundException) {
                     e.printStackTrace()

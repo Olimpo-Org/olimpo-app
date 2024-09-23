@@ -50,6 +50,7 @@
             android:layout_width="314dp"
             android:layout_height="41dp"
             android:layout_marginTop="20dp"
+            android:background="@drawable/background_input"
             android:backgroundTint="@color/Blue"
             android:text="Solicitar entrada"
             app:layout_constraintEnd_toEndOf="parent"

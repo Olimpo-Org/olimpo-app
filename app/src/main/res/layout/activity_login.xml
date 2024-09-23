@@ -9,7 +9,7 @@ android:overScrollMode="never"
 android:padding="@dimen/_24sdp"
 android:scrollbars="none"
 android:background="@color/Pure_White"
-tools:context=".activities.login_activity">
+tools:context=".activities.LoginActivity">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -34,44 +34,46 @@ tools:context=".activities.login_activity">
         android:textSize="@dimen/_14ssp"
         android:layout_marginBottom="@dimen/_20sdp"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColorHint="@color/Blue"
-        >
 
-        <com.google.android.material.textfield.TextInputEditText
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/_120sdp"
+        android:text="@string/email"
+        android:textColor="@color/Blue"
+        />
+
+        <EditText
             android:id="@+id/inputEmail"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_20ssp"
             android:background="@drawable/borda_cinza"
-            android:hint="@string/email"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
-            android:textColor="@color/Blue"
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
+            android:textColor="@color/Blue"
             android:textSize="@dimen/_13ssp"
-            android:layout_marginBottom="@dimen/_20ssp"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+            app:boxBackgroundMode="none"
+        />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/senha"
+        android:layout_marginRight="@dimen/_120sdp"
+        android:textColor="@color/Blue"
+        />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColorHint="@color/Blue"
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/inputPassword"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_16sdp"
             android:background="@drawable/borda_cinza"
-            android:hint="@string/senha"
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:inputType="textPassword"
@@ -80,7 +82,6 @@ tools:context=".activities.login_activity">
             android:paddingEnd="@dimen/_16sdp"
             android:textSize="@dimen/_13ssp"
             />
-    </com.google.android.material.textfield.TextInputLayout>
 
 
 

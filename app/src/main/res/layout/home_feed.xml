@@ -5,39 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/Blue"
-    tools:context=".activities.MainActivity">
+    android:background="@color/Blue">
 
     <TextView
+        android:id="@+id/communityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="24dp"
         android:text="Nome da comunidade"
         android:textColor="@color/Pure_White"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout"
-        app:layout_constraintStart_toEndOf="@+id/imageSignOut" />
+        app:layout_constraintStart_toEndOf="@+id/perfilImage"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/btn_voltar"
+        android:id="@+id/btnVoltar"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="13dp"
         android:background="@drawable/right_arrow"
         android:padding="@dimen/_6sdp"
-        app:layout_constraintEnd_toStartOf="@+id/imageSignOut"
+        app:layout_constraintEnd_toStartOf="@+id/perfilImage"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageSignOut"
+        app:layout_constraintTop_toTopOf="@+id/perfilImage"
         app:tint="@color/White" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageSignOut"
+        android:id="@+id/perfilImage"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/add_foto"
         android:padding="@dimen/_6sdp"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,12 +51,13 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:background="@color/Pure_White"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_voltar">
+        app:layout_constraintTop_toBottomOf="@+id/btnVoltar">
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -67,6 +71,7 @@
             tools:listitem="@layout/item_home" />
 
         <ImageButton
+            android:id="@+id/btnHome"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_10sdp"
@@ -74,6 +79,7 @@
             android:background="@drawable/home_icon" />
 
         <ImageButton
+            android:id="@+id/btnConversations"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_65sdp"
@@ -81,6 +87,7 @@
             android:background="@drawable/comments" />
 
         <ImageButton
+            android:id="@+id/btnAdd"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_129sdp"
@@ -88,6 +95,7 @@
             android:background="@drawable/plus_square" />
 
         <ImageButton
+            android:id="@+id/btnShop"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_192sdp"
@@ -95,6 +103,7 @@
             android:background="@drawable/shop_icon" />
 
         <ImageButton
+            android:id="@+id/btnProfile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="@dimen/_254sdp"

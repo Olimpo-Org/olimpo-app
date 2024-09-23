@@ -9,8 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.olimpo_app.databinding.ActivityLoginBinding
 import com.example.olimpo_app.utilites.Constants
 import com.example.olimpo_app.utilites.PreferenceManager
+import com.google.firebase.firestore.FirebaseFirestore
 
-class login_activity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityLoginBinding
     private lateinit var preferenceManager: PreferenceManager
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,14 +29,31 @@ class login_activity : AppCompatActivity() {
     }
     private fun signIn() {
         loading(true)
-        val intent = Intent(applicationContext, MainActivity::class.java)
+        val database = FirebaseFirestore.getInstance()
+        database.collection(Constants.KEY_COLLECTION_USERS)
+            .whereEqualTo(Constants.KEY_EMAIL, binding.inputEmail.text.toString())
+            .whereEqualTo(Constants.KEY_PASSWORD, binding.inputPassword.text.toString())
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful && task.result != null && task.result!!.documents.size > 0) {
+                    val documentSnapshot = task.result!!.documents[0]
+                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true)
+                    preferenceManager.putString(Constants.KEY_USER_ID, documentSnapshot.id)
+                    preferenceManager.putString(Constants.KEY_NAME, documentSnapshot.getString(Constants.KEY_NAME)!!)
+                    preferenceManager.putString(Constants.KEY_IMAGE, documentSnapshot.getString(Constants.KEY_IMAGE)!!)
+                    val intent = Intent(applicationContext, MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
+                }else{
+                    loading(false)
+                    showToast("Unable to sign in")
+                }
+            }
     }
 
         private fun setListeners(){
             binding.textCreateNewAccount.setOnClickListener {
-                startActivity(Intent(this, cadastro_activity::class.java))
+                startActivity(Intent(this, CadastroActivity::class.java))
             }
             binding.buttonSignIn.setOnClickListener {
                 if (isValidSignInDetails()) {
