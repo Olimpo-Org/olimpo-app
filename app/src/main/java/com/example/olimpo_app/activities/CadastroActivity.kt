@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.example.olimpo_app.R
 import com.example.olimpo_app.databinding.ActivityCadastroBinding
 import com.example.olimpo_app.utilites.Constants
 import com.example.olimpo_app.utilites.PreferenceManager
@@ -38,9 +39,10 @@ class CadastroActivity : AppCompatActivity() {
             }
         }
         binding.fotoPerfil.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            pickImage.launch(intent)
+            val galeriaIntent =
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            galeriaIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            pickImage.launch(galeriaIntent)
         }
     }
     private fun showToast(message: String){
@@ -103,26 +105,66 @@ class CadastroActivity : AppCompatActivity() {
     }
 
     private fun isValidSignUpDetails(): Boolean {
-        if(encodedImage == null){
+        if(binding.inputName.text.toString().trim().isEmpty() and binding.inputEmail.text.toString().trim().isEmpty() and binding.inputPassword.text.toString().trim().isEmpty() and binding.confirmPassword.text.toString().trim().isEmpty()){
+            binding.textNome.setTextColor(getColor(R.color.Red_Bad))
+            binding.textEmail.setTextColor(getColor(R.color.Red_Bad))
+            binding.textSenha.setTextColor(getColor(R.color.Red_Bad))
+            binding.textConfirmSenha.setTextColor(getColor(R.color.Red_Bad))
+            binding.errorMessage.visibility = View.VISIBLE
+            return false
+        }else if(encodedImage == null){
+            binding.errorMessage.visibility = View.VISIBLE
             showToast("Insira uma foto de perfil")
             return false
         }else if(binding.inputName.text.toString().trim().isEmpty()) {
-            showToast(("Insira um nome"))
+            binding.textNome.setTextColor(getColor(R.color.Red_Bad))
+            binding.textEmail.setTextColor(getColor(R.color.Blue))
+            binding.textSenha.setTextColor(getColor(R.color.Blue))
+            binding.textConfirmSenha.setTextColor(getColor(R.color.Blue))
+            binding.errorMessage.visibility = View.VISIBLE
             return false
         }else if(binding.inputEmail.text.toString().trim().isEmpty()){
-            showToast(("Insira um email"))
+            binding.textNome.setTextColor(getColor(R.color.Blue))
+            binding.textEmail.setTextColor(getColor(R.color.Red_Bad))
+            binding.textSenha.setTextColor(getColor(R.color.Blue))
+            binding.textConfirmSenha.setTextColor(getColor(R.color.Blue))
+            binding.errorMessage.visibility = View.VISIBLE
             return false
         }else if(!Patterns.EMAIL_ADDRESS.matcher(binding.inputEmail.text.toString()).matches()){
-            showToast("insira um email válido")
+            binding.textNome.setTextColor(getColor(R.color.Blue))
+            binding.textEmail.setTextColor(getColor(R.color.Red_Bad))
+            binding.textSenha.setTextColor(getColor(R.color.Blue))
+            binding.textConfirmSenha.setTextColor(getColor(R.color.Blue))
+            binding.errorMessage.visibility = View.VISIBLE
             return false
         }else if(binding.inputPassword.text.toString().trim().isEmpty()){
+            binding.textNome.setTextColor(getColor(R.color.Blue))
+            binding.textEmail.setTextColor(getColor(R.color.Blue))
+            binding.textSenha.setTextColor(getColor(R.color.Red_Bad))
+            binding.textConfirmSenha.setTextColor(getColor(R.color.Blue))
+            binding.errorMessage.visibility = View.VISIBLE
             return false
         }else if(binding.confirmPassword.text.toString().trim().isEmpty()){
+            binding.textNome.setTextColor(getColor(R.color.Blue))
+            binding.textEmail.setTextColor(getColor(R.color.Blue))
+            binding.textSenha.setTextColor(getColor(R.color.Blue))
+            binding.textConfirmSenha.setTextColor(getColor(R.color.Red_Bad))
+            binding.errorMessage.visibility = View.VISIBLE
             return false
         }else if(binding.inputPassword.text.toString() != binding.confirmPassword.text.toString()){
-            showToast("As senhas devem ser as mesmas")
+            binding.textNome.setTextColor(getColor(R.color.Blue))
+            binding.textEmail.setTextColor(getColor(R.color.Blue))
+            binding.textSenha.setTextColor(getColor(R.color.Red_Bad))
+            binding.textConfirmSenha.setTextColor(getColor(R.color.Red_Bad))
+            binding.errorMessage.visibility = View.VISIBLE
             return false
         }else{
+            binding.textSenha.setTextColor(getColor(R.color.Blue))
+            binding.textNome.setTextColor(getColor(R.color.Blue))
+            binding.textEmail.setTextColor(getColor(R.color.Blue))
+            binding.textSenha.setTextColor(getColor(R.color.Blue))
+            binding.textConfirmSenha.setTextColor(getColor(R.color.Blue))
+            binding.errorMessage.visibility = View.GONE
             return true
         }
     }

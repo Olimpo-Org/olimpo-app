@@ -10,6 +10,7 @@
     <color name="Pure_White">#FFFFFF</color>
     <color name="Black">#000000</color>
     <color name="Text_Color">#4A4A4A</color>
+    <color name="Red_Bad">#FF3B30</color>
 
 
 </resources>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.HomeActivity">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/background_header"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_voltar"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/right_arrow"
+            android:padding="@dimen/_6sdp"
+            app:tint="@color/White" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/perfilImage"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/add_foto"
+            android:padding="@dimen/_6sdp"
+            app:tint="@color/White" />
+        <TextView
+            android:id="@+id/communityName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="25dp"
+            android:text="Nome da comunidade"
+            android:textColor="@color/Pure_White"/>
+
+    </LinearLayout>
+<LinearLayout
+android:id="@+id/footer"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:padding="20dp"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+android:background="@drawable/background_footer">
+
+<ImageButton
+    android:id="@+id/bt_home"
+    android:layout_width="wrap_content"
+    android:layout_height="48dp"
+    android:layout_weight="1"
+    android:background="@drawable/background_footer"
+    app:srcCompat="@drawable/home_icon_"/>
+
+<ImageButton
+    android:id="@+id/bt_chat"
+    android:layout_width="wrap_content"
+    android:layout_height="48dp"
+    android:layout_weight="1"
+    android:background="@drawable/background_footer"
+    app:srcCompat="@drawable/comments" />
+
+<ImageButton
+    android:id="@+id/bt_add_publication"
+    android:layout_width="wrap_content"
+    android:layout_height="48dp"
+    android:layout_weight="1"
+    android:background="@drawable/background_footer"
+    app:srcCompat="@drawable/plus_square" />
+
+<ImageButton
+    android:id="@+id/bt_shop"
+    android:layout_width="wrap_content"
+    android:layout_height="48dp"
+    android:layout_weight="1"
+    android:background="@drawable/background_footer"
+    app:srcCompat="@drawable/shop_icon" />
+
+    <ImageButton
+        android:id="@+id/bt_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_footer"
+        app:srcCompat="@drawable/profile" />
+
+</LinearLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/White"
+        app:layout_constraintBottom_toTopOf="@+id/footer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

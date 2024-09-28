@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Pure_White"
+    tools:context=".activities.fragment.ListCommunitiesChatsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:background="@drawable/background_input"
+        android:paddingTop="@dimen/_10ssp"
+        android:paddingBottom="@dimen/_10ssp"
+        android:text="                Encontrar pessoas ou fóruns"
+        android:textColor="@color/White"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_60sdp"
+        android:text="Meus chats"
+        android:textColor="@color/Blue"
+        android:textSize="@dimen/_15sdp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/conversationsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="535dp"
+        android:layout_marginTop="@dimen/_90sdp"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:overScrollMode="never"
+        android:padding="@dimen/_5sdp"
+        tools:listitem="@layout/item_chats" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_510sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:background="@drawable/background_input"
+        android:gravity="left"
+        android:paddingTop="@dimen/_9sdp"
+        android:paddingBottom="@dimen/_8sdp"
+        android:text="         Novo fórum"
+        android:textColor="@color/White"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:background="@drawable/search_icon"
+        android:padding="@dimen/_6sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginLeft="@dimen/_20sdp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:background="@drawable/ic_add"
+        android:padding="@dimen/_6sdp"
+        android:layout_marginTop="@dimen/_515sdp"
+        android:layout_marginLeft="@dimen/_26sdp"/>
+
+
+</FrameLayout>

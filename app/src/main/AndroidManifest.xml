@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -14,33 +15,41 @@
         android:theme="@style/Theme.Olimpoapp"
         tools:targetApi="31">
         <activity
-            android:name=".activities.LoginActivity"
-            android:screenOrientation="locked"
-            android:windowSoftInputMode="adjustResize"
+            android:name=".activities.HomeActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="false"
+            android:screenOrientation="locked"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.CadastroActivity"
+            android:exported="false"
             android:screenOrientation="locked"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.FindCommunitiesActivity"
+            android:exported="false"
             android:screenOrientation="locked"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.CreateCommunityActivity"
+            android:exported="false"
+            android:screenOrientation="locked"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.SolicitacaoActivity"
+            android:exported="false"
             android:screenOrientation="locked"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.MainActivity"
-            android:screenOrientation="locked"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="locked" />
         <activity
             android:name=".activities.SplashScreen"
-            android:screenOrientation="locked"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="locked">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,13 +57,17 @@
             </intent-filter>
         </activity>
 
-    <service
-        android:name=".firebase.MessagingService"
-        android:exported="false">
-        <intent-filter>
-            <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-        </intent-filter>
-    </service>
+        <service
+            android:name=".firebase.MessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
+
 </manifest>
