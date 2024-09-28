@@ -6,6 +6,7 @@ import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.olimpo_app.R
 import com.example.olimpo_app.databinding.ActivityLoginBinding
 import com.example.olimpo_app.utilites.Constants
 import com.example.olimpo_app.utilites.PreferenceManager
@@ -46,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(intent)
                 }else{
                     loading(false)
-                    showToast("Unable to sign in")
+                    showToast("Não foi possível logar")
                 }
             }
     }
@@ -54,6 +55,9 @@ class LoginActivity : AppCompatActivity() {
         private fun setListeners(){
             binding.textCreateNewAccount.setOnClickListener {
                 startActivity(Intent(this, CadastroActivity::class.java))
+                binding.textEmail.setTextColor(getColor(R.color.Blue))
+                binding.textSenha.setTextColor(getColor(R.color.Blue))
+                binding.errorMessage.visibility = View.GONE
             }
             binding.buttonSignIn.setOnClickListener {
                 if (isValidSignInDetails()) {
@@ -76,16 +80,31 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
         private fun isValidSignInDetails(): Boolean {
-            if(binding.inputEmail.text.toString().trim().isEmpty()){
-                showToast("Insira um email")
+            if(binding.inputEmail.text.toString().trim().isEmpty() and binding.inputPassword.text.toString().trim().isEmpty()) {
+                binding.textEmail.setTextColor(getColor(R.color.Red_Bad))
+                binding.textSenha.setTextColor(getColor(R.color.Red_Bad))
+                binding.errorMessage.visibility = View.VISIBLE
                 return false
+
+            }else if(binding.inputEmail.text.toString().trim().isEmpty()){
+                    binding.textEmail.setTextColor(getColor(R.color.Red_Bad))
+                    binding.textSenha.setTextColor(getColor(R.color.Blue))
+                    binding.errorMessage.visibility = View.VISIBLE
+                    return false
             }else if (!Patterns.EMAIL_ADDRESS.matcher(binding.inputEmail.text.toString()).matches()){
-                showToast("Insira um email válido")
+                binding.textEmail.setTextColor(getColor(R.color.Red_Bad))
+                binding.textSenha.setTextColor(getColor(R.color.Blue))
+                binding.errorMessage.visibility = View.VISIBLE
                 return false
             }else if(binding.inputPassword.text.toString().trim().isEmpty()) {
-                showToast("Insira uma senha")
+                binding.textEmail.setTextColor(getColor(R.color.Blue))
+                binding.textSenha.setTextColor(getColor(R.color.Red_Bad))
+                binding.errorMessage.visibility = View.VISIBLE
                 return false
             }else{
+                binding.textEmail.setTextColor(getColor(R.color.Blue))
+                binding.textSenha.setTextColor(getColor(R.color.Blue))
+                binding.errorMessage.visibility = View.GONE
                 return true
             }
     }

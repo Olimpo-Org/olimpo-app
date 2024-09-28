@@ -10,7 +10,7 @@
     >
 
     <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/btnSignOut"
+        android:id="@+id/buttonSignOut"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
         android:layout_marginTop="20dp"
@@ -35,7 +35,7 @@
 
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/btnVoltar"
+        android:id="@+id/buttonArrow"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
         android:layout_marginStart="16dp"
@@ -55,68 +55,97 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnSignOut"
+        app:layout_constraintTop_toBottomOf="@id/buttonSignOut"
         app:layout_constraintVertical_bias="0.0">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="Crie sua comunidade"
-            android:textColor="@color/Blue"
-            android:textSize="@dimen/_15sdp" />
-
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/fotoPerfil"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginLeft="@dimen/_110sdp"
-            android:layout_marginTop="@dimen/_60sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
-            android:background="@drawable/add_foto"
-            android:scaleType="centerCrop"
-            app:riv_oval="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_180sdp"
-            android:layout_marginLeft="@dimen/_5ssp"
-            android:text="@string/nome"
-            android:textColor="@color/Blue" />
-
-        <EditText
-            android:id="@+id/inputName"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_200sdp"
-            android:background="@drawable/borda_cinza"
-            android:imeOptions="actionNext"
-            android:textColor="@color/Blue"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp"
-            android:textSize="@dimen/_13ssp"
-            android:layout_marginBottom="@dimen/_20ssp"
-            app:boxBackgroundMode="none"
-            />
+            android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btnCreateCommunity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_450sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:backgroundTint="@color/Blue"
-            android:gravity="center"
-            android:background="@drawable/background_input"
-            android:paddingTop="@dimen/_9sdp"
-            android:paddingBottom="@dimen/_8sdp"
-            android:text="Criar Comunidade"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Crie sua comunidade"
+                android:textColor="@color/Blue"
+                android:textSize="@dimen/_15sdp"
+                app:layout_constraintBottom_toTopOf="@+id/fotoPerfil"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.105"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.482" />
 
-            />
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/fotoPerfil"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="46dp"
+                android:background="@drawable/add_foto"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toTopOf="@+id/inputName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:riv_oval="true" />
+
+            <TextView
+                android:id="@+id/textName"
+                android:layout_width="38dp"
+                android:layout_height="19dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/nome"
+                android:textColor="@color/Blue"
+                app:layout_constraintStart_toStartOf="@+id/inputName"
+                app:layout_constraintTop_toBottomOf="@+id/fotoPerfil" />
+
+            <EditText
+                android:id="@+id/inputName"
+                android:layout_width="370dp"
+                android:layout_height="52dp"
+                android:layout_marginBottom="240dp"
+                android:background="@drawable/borda_cinza"
+                android:gravity="left|center"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:paddingLeft="@dimen/_10ssp"
+                android:textColor="@color/Blue"
+                android:textSize="@dimen/_13ssp"
+                app:boxBackgroundMode="none"
+                app:layout_constraintBottom_toTopOf="@+id/btnCreateCommunity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.487"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/errorMessage"
+                android:layout_width="130dp"
+                android:layout_height="21dp"
+                android:layout_marginTop="62dp"
+                android:text="Algo está incorreto*"
+                android:textColor="@color/Red_Bad"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/inputName"
+                app:layout_constraintTop_toTopOf="@+id/inputName" />
+
+            <Button
+                android:id="@+id/btnCreateCommunity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="52dp"
+                android:background="@drawable/background_input"
+                android:backgroundTint="@color/Blue"
+                android:gravity="center"
+                android:textColor="@color/Pure_White"
+                android:paddingTop="@dimen/_9sdp"
+                android:paddingBottom="@dimen/_8sdp"
+
+                android:text="Criar Comunidade"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

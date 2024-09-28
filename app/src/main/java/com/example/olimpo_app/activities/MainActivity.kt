@@ -31,14 +31,17 @@ class MainActivity : BaseActivity(), ConversionListener {
         bindind.encontrarComunidade.setOnClickListener{
             val intent = Intent(applicationContext, FindCommunitiesActivity::class.java)
             startActivity(intent)
+            finish()
         }
         bindind.imageSolicitation.setOnClickListener{
             val intent = Intent(applicationContext, SolicitacaoActivity::class.java)
             startActivity(intent)
+            finish()
         }
         bindind.btnCreateCommunity.setOnClickListener{
             val intent = Intent(applicationContext, CreateCommunityActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
@@ -87,7 +90,7 @@ class MainActivity : BaseActivity(), ConversionListener {
                 startActivity(Intent(applicationContext,LoginActivity::class.java))
                 finish()
             }
-            ?.addOnFailureListener { showToast("Unable to sign out") }
+            ?.addOnFailureListener { showToast("Não foi possível sair :/") }
 
     }
 
