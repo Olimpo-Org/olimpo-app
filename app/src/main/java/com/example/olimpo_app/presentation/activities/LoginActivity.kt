@@ -1,4 +1,4 @@
-package com.example.olimpo_app.activities
+package com.example.olimpo_app.presentation.activities
 
 import android.content.Intent
 import android.os.Bundle

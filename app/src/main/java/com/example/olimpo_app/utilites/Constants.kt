@@ -17,5 +17,11 @@ class Constants {
         const val KEY_RECEIVER_ID = "receiverId"
         const val KEY_MESSAGE = "message"
         const val KEY_TIMESTAMP = "timestamp"
+        const val KEY_COLLECTION_COMMUNITY = "community"
+        const val KEY_IS_CREATE = "isCreate"
+        const val KEY_COMMUNITY_ID = "communityId"
+        const val KEY_COMMUNITY_NAME = "communityName"
+        const val KEY_COMMUNITY_IMAGE = "communityImage"
+        const val KEY_COMMUNITY_TOKEN = "fcmToken"
     }
 }

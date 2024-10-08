@@ -1,11 +1,11 @@
-package com.example.olimpo_app.activities
+package com.example.olimpo_app.presentation.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import com.example.olimpo_app.data.models.User
 import com.example.olimpo_app.databinding.ActivityMainBinding
 import com.example.olimpo_app.listeners.ConversionListener
-import com.example.olimpo_app.models.User
 import com.example.olimpo_app.utilites.Constants
 import com.example.olimpo_app.utilites.PreferenceManager
 import com.google.firebase.firestore.FieldValue
@@ -26,7 +26,6 @@ class MainActivity : BaseActivity(), ConversionListener {
 
         getToken()
         setListeners()
-//        listenConversations()
 
         bindind.encontrarComunidade.setOnClickListener{
             val intent = Intent(applicationContext, FindCommunitiesActivity::class.java)
@@ -54,14 +53,6 @@ class MainActivity : BaseActivity(), ConversionListener {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 
-//    private fun listenConversations() {
-//        database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
-//            .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
-//            .addSnapshotListener(eventListener)
-//        database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
-//            .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
-//            .addSnapshotListener(eventListener)
-//    }
     private fun getToken(){
         FirebaseMessaging.getInstance().token
             .addOnSuccessListener { updateToken(it) }
@@ -87,7 +78,7 @@ class MainActivity : BaseActivity(), ConversionListener {
         documentReference?.update(updates)
             ?.addOnSuccessListener {
                 preferenceManager.clear()
-                startActivity(Intent(applicationContext,LoginActivity::class.java))
+                startActivity(Intent(applicationContext, LoginActivity::class.java))
                 finish()
             }
             ?.addOnFailureListener { showToast("Não foi possível sair :/") }

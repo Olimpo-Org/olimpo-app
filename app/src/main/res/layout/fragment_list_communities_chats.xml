@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Pure_White"
-    tools:context=".activities.fragment.ListCommunitiesChatsFragment">
+    tools:context=".presentation.activities.fragment.ListCommunitiesChatsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <EditText
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_10sdp"
@@ -16,7 +16,8 @@
         android:background="@drawable/background_input"
         android:paddingTop="@dimen/_10ssp"
         android:paddingBottom="@dimen/_10ssp"
-        android:text="                Encontrar pessoas ou fóruns"
+        android:gravity="left"
+        android:text="           Encontrar pessoas ou fóruns"
         android:textColor="@color/White"
         />
     <TextView
@@ -31,7 +32,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/conversationsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="535dp"
+        android:layout_height="510dp"
         android:layout_marginTop="@dimen/_90sdp"
         android:clipToPadding="false"
         android:orientation="vertical"
@@ -43,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_510sdp"
+        android:layout_marginTop="@dimen/_485sdp"
         android:layout_marginRight="@dimen/_10sdp"
         android:background="@drawable/background_input"
         android:gravity="left"
@@ -66,7 +67,7 @@
         android:layout_height="@dimen/_30sdp"
         android:background="@drawable/ic_add"
         android:padding="@dimen/_6sdp"
-        android:layout_marginTop="@dimen/_515sdp"
+        android:layout_marginTop="@dimen/_490sdp"
         android:layout_marginLeft="@dimen/_26sdp"/>
 
 

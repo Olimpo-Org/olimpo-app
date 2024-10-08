@@ -4,43 +4,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Pure_White"
-    tools:context=".activities.fragment.ShopFragment">
+    tools:context=".presentation.activities.fragment.ShopFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="8dp"
-        android:text="Venda"
-        />
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:background="@drawable/background_footer">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginLeft="155dp"
-        android:layout_marginTop="8dp"
-        android:text="Serviço" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginLeft="288dp"
-        android:layout_marginTop="8dp"
-        android:text="Doação"
-        />
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textColor="@color/Pure_White"
+            android:layout_marginLeft="@dimen/_10ssp"
+            android:text="Venda"
+            />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/_20ssp"
+            android:textColor="@color/Pure_White"
+            android:text="Serviço" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/_20ssp"
+            android:textColor="@color/Pure_White"
+            android:text="Doação"
+            />
+
+
+    </LinearLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/conversationsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="680dp"
-        android:layout_marginTop="50dp"
+        android:layout_height="660dp"
+        android:layout_marginTop="70dp"
         android:clipToPadding="false"
         android:orientation="vertical"
         android:overScrollMode="never"
-         tools:listitem="@layout/item_shop" />
+        tools:listitem="@layout/item_shop" />
 </FrameLayout>

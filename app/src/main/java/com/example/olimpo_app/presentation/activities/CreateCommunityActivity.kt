@@ -1,4 +1,4 @@
-package com.example.olimpo_app.activities
+package com.example.olimpo_app.presentation.activities
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -27,6 +27,7 @@ class CreateCommunityActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCriarComunidadesBinding.inflate(layoutInflater)
+        preferenceManager = PreferenceManager(applicationContext)
         setContentView(binding.root)
 
         setListeners()
@@ -46,7 +47,7 @@ class CreateCommunityActivity : AppCompatActivity() {
         binding.buttonSignOut.setOnClickListener { signOut() }
         binding.btnCreateCommunity.setOnClickListener{
             if (isValidCreateDetails()) {
-//                createCommunity()
+                createCommunity()
             }
         }
 
@@ -60,38 +61,38 @@ class CreateCommunityActivity : AppCompatActivity() {
     private fun showToast(text: String){
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
-//    private fun createCommunity() {
-//        val database = FirebaseFirestore.getInstance()
-//        val user = hashMapOf(
-//            Constants.KEY_NAME to binding.inputName.text.toString(),
-//            Constants.KEY_IMAGE to encodedImage!!
-//        )
-//        database.collection(Constants.KEY_COLLECTION_USERS)
-//            .add(user)
-//            .addOnSuccessListener {
-//                preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true)
-//                preferenceManager.putString(Constants.KEY_USER_ID, it.id)
-//                preferenceManager.putString(Constants.KEY_NAME, binding.inputName.text.toString())
-//                preferenceManager.putString(Constants.KEY_IMAGE, encodedImage!!)
-//                val intent = Intent(applicationContext, MainActivity::class.java)
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-//                startActivity(intent)
-//            }
-//            .addOnFailureListener { e ->
-//                e.message?.let { message -> showToast(message) }
-//            }
-//    }
+    private fun createCommunity() {
+        val database = FirebaseFirestore.getInstance()
+        val user = hashMapOf(
+            Constants.KEY_COMMUNITY_NAME to binding.inputName.text.toString(),
+            Constants.KEY_COMMUNITY_IMAGE to encodedImage!!
+        )
+        database.collection(Constants.KEY_COLLECTION_COMMUNITY)
+            .add(user)
+            .addOnSuccessListener {
+                preferenceManager.putBoolean(Constants.KEY_IS_CREATE, true)
+                preferenceManager.putString(Constants.KEY_COMMUNITY_ID, it.id)
+                preferenceManager.putString(Constants.KEY_COMMUNITY_NAME, binding.inputName.text.toString())
+                preferenceManager.putString(Constants.KEY_COMMUNITY_IMAGE, encodedImage!!)
+                val intent = Intent(applicationContext, HomeActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+            }
+            .addOnFailureListener { e ->
+                e.message?.let { message -> showToast(message) }
+            }
+    }
     private fun signOut() {
         showToast("Saindo...")
         val database = FirebaseFirestore.getInstance()
         val documentReference = preferenceManager.getString(Constants.KEY_USER_ID)?.let {
             database.collection(Constants.KEY_COLLECTION_USERS).document(it)
         }
-        val updates = hashMapOf<String, Any>( Constants.KEY_FCM_TOKEN to FieldValue.delete() )
+        val updates = hashMapOf<String, Any>( Constants.KEY_COMMUNITY_TOKEN to FieldValue.delete() )
         documentReference?.update(updates)
             ?.addOnSuccessListener {
                 preferenceManager.clear()
-                startActivity(Intent(applicationContext,LoginActivity::class.java))
+                startActivity(Intent(applicationContext, LoginActivity::class.java))
                 finish()
             }
             ?.addOnFailureListener { showToast("Não foi possível sair :/") }
@@ -103,7 +104,7 @@ class CreateCommunityActivity : AppCompatActivity() {
         val previewHeight = bitmap.height * previewWidth / bitmap.width
         val previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false)
         val byteArrayOutputStream = ByteArrayOutputStream()
-        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream)
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
         val bytes = byteArrayOutputStream.toByteArray()
         return Base64.encodeToString(bytes, Base64.DEFAULT)
     }

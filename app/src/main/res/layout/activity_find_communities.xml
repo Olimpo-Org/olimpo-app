@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/Blue"
-    tools:context=".activities.FindCommunitiesActivity">
+    tools:context=".presentation.activities.FindCommunitiesActivity">
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/buttonSignOut"
@@ -71,7 +71,6 @@
             android:id="@+id/conversationsRecyclerView"
             android:layout_width="386dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_50sdp"
             android:clipToPadding="false"
             android:orientation="vertical"
