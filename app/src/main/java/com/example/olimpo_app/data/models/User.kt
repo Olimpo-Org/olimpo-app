@@ -1,4 +1,4 @@
-package com.example.olimpo_app.models
+package com.example.olimpo_app.data.models
 
 import java.io.Serializable
 

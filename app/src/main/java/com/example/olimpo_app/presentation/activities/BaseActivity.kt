@@ -1,4 +1,4 @@
-package com.example.olimpo_app.activities
+package com.example.olimpo_app.presentation.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

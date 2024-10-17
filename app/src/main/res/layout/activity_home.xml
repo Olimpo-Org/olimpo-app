@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.HomeActivity">
+    tools:context=".presentation.activities.HomeActivity">
 
     <LinearLayout
         android:id="@+id/header"
@@ -24,23 +24,28 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/right_arrow"
             android:padding="@dimen/_6sdp"
+            android:visibility="visible"
             app:tint="@color/White" />
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/perfilImage"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_marginTop="15dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="7dp"
             android:layout_marginLeft="5dp"
             android:background="@drawable/add_foto"
-            android:padding="@dimen/_6sdp"
+            android:visibility="visible"
+            app:riv_oval="true"
+            android:scaleType="centerCrop"
             app:tint="@color/White" />
         <TextView
             android:id="@+id/communityName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
+            android:textSize="@dimen/_16sdp"
             android:text="Nome da comunidade"
+            android:visibility="visible"
             android:textColor="@color/Pure_White"/>
 
     </LinearLayout>
@@ -61,7 +66,7 @@ android:background="@drawable/background_footer">
     android:layout_height="48dp"
     android:layout_weight="1"
     android:background="@drawable/background_footer"
-    app:srcCompat="@drawable/home_icon_"/>
+    app:srcCompat="@drawable/home_icon"/>
 
 <ImageButton
     android:id="@+id/bt_chat"

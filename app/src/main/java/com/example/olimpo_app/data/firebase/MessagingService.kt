@@ -1,8 +1,9 @@
-package com.example.olimpo_app.firebase
+package com.example.olimpo_app.data.firebase
 
 import android.annotation.SuppressLint
 import android.util.Log
-import com.example.olimpo_app.models.User
+import com.example.olimpo_app.data.models.Community
+import com.example.olimpo_app.data.models.User
 import com.example.olimpo_app.utilites.Constants
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -23,7 +24,11 @@ class MessagingService: FirebaseMessagingService() {
             name = remoteMessage.data[Constants.KEY_NAME]!!,
             id = remoteMessage.data[Constants.KEY_USER_ID]!!,
             token = remoteMessage.data[Constants.KEY_FCM_TOKEN],
-
             )
+        val community = Community(
+            name = remoteMessage.data[Constants.KEY_COMMUNITY_NAME]!!,
+            id = remoteMessage.data[Constants.KEY_COMMUNITY_ID]!!,
+            token = remoteMessage.data[Constants.KEY_COMMUNITY_TOKEN],
+        )
     }
 }

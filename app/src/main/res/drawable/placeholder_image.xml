@@ -1,0 +1,12 @@
+<!-- placeholder_image.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background branco -->
+    <item android:drawable="@android:color/white" />
+
+    <!-- Quadrado cinza como espaço reservado -->
+    <item android:drawable="@android:color/darker_gray" android:gravity="center">
+        <shape android:shape="rectangle">
+            <size android:width="100dp" android:height="100dp" />
+        </shape>
+    </item>
+</layer-list>

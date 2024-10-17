@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/Blue"
-    tools:context=".activities.MainActivity">
+    tools:context=".presentation.activities.MainActivity">
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/imageSignOut"
@@ -67,7 +67,6 @@
                 android:drawableLeft="@drawable/users_alt"
                 android:text="Encontrar comunidades"
                 android:paddingTop="@dimen/_6ssp"
-                android:paddingBottom="@dimen/_10ssp"
                 android:textColor="@color/Pure_White"
                 android:textSize="@dimen/_15sdp" />
         <TextView

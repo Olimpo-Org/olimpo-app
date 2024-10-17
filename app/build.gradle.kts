@@ -48,6 +48,8 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
+
 
     // Size em SDP
     implementation("com.intuit.sdp:sdp-android:1.0.6")
@@ -70,8 +72,10 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:25.1.0")
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
 
     //Camera
     implementation("androidx.camera:camera-core:1.2.2")
@@ -84,5 +88,9 @@ dependencies {
     //Fonts
     implementation("com.google.android.gms:play-services-base:17.6.0")
     implementation("androidx.compose.ui:ui-text-google-fonts:1.7.0")
+
+    // Coroutine Lifecycle Scopes
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.2")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.8.2")
 
 }
