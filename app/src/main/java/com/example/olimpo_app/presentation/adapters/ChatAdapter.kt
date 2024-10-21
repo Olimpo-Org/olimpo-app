@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.olimpo_app.data.models.ChatMessage
+import com.example.olimpo_app.data.model.messageFlow.ChatMessage
 import com.example.olimpo_app.databinding.ItemMessageReceiveBinding
 import com.example.olimpo_app.databinding.ItemMessageSendBinding
 

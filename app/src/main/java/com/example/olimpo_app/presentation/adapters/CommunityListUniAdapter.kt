@@ -7,9 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.olimpo_app.data.models.Community
+import com.example.olimpo_app.data.model.accessFlow.Community
 import com.example.olimpo_app.databinding.ItemComunidadeBinding
-import com.example.olimpo_app.listeners.CommunityListener
+import com.example.olimpo_app.presentation.listeners.CommunityListener
 
 class CommunityListUniAdapter (
     private val communities: List<Community>,

@@ -7,7 +7,7 @@
     android:clipToPadding="false"
     android:overScrollMode="never"
     android:scrollbars="none"
-     tools:context=".presentation.activities.CadastroActivity">
+     tools:context=".presentation.activity.accessFlow.CadastroActivity">
 
     <ImageView
         android:layout_width="393dp"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Pure_White"
-    tools:context=".presentation.activities.fragment.ShopFragment">
+    tools:context=".presentation.fragment.negotiationFlow.ShopFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout

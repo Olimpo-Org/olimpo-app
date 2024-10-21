@@ -15,51 +15,51 @@
         android:theme="@style/Theme.Olimpoapp"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.activities.EditLoginActivity"
+            android:name=".presentation.activity.accessFlow.EditLoginActivity"
             android:exported="false"
             android:screenOrientation="locked"
             android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".presentation.activities.ChatActivity"
+        <activity android:name=".presentation.activity.messageFlow.ChatActivity"
             android:exported="false"
             android:screenOrientation="locked"
             android:windowSoftInputMode="adjustResize"
             />
         <activity
-            android:name=".presentation.activities.HomeActivity"
+            android:name=".presentation.activity.feedFlow.HomeActivity"
             android:exported="false"
             android:screenOrientation="locked"
             android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".presentation.activities.LoginActivity"
+            android:name=".presentation.activity.accessFlow.LoginActivity"
             android:exported="false"
             android:screenOrientation="locked"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".presentation.activities.CadastroActivity"
+            android:name=".presentation.activity.accessFlow.CadastroActivity"
             android:exported="false"
             android:screenOrientation="locked"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".presentation.activities.FindCommunitiesActivity"
+            android:name=".presentation.activity.accessFlow.FindCommunitiesActivity"
             android:exported="false"
             android:screenOrientation="locked"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".presentation.activities.CreateCommunityActivity"
+            android:name=".presentation.activity.accessFlow.CreateCommunityActivity"
             android:exported="false"
             android:screenOrientation="locked"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".presentation.activities.SolicitacaoActivity"
+            android:name=".presentation.activity.accessFlow.SolicitacaoActivity"
             android:exported="false"
             android:screenOrientation="locked"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".presentation.activities.MainActivity"
+            android:name=".presentation.activity.feedFlow.MainActivity"
             android:exported="false"
             android:screenOrientation="locked" />
         <activity
-            android:name=".presentation.activities.SplashScreen"
+            android:name=".presentation.activity.SplashScreen"
             android:exported="true"
             android:screenOrientation="locked">
             <intent-filter>
@@ -70,7 +70,7 @@
         </activity>
 
         <service
-            android:name=".data.firebase.MessagingService"
+            android:name=".data.firebase.MessageService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
