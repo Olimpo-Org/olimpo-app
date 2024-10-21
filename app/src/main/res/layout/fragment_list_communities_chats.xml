@@ -8,6 +8,7 @@
 
     <!-- TODO: Update blank fragment layout -->
     <Button
+        android:id="@+id/btnEncontrarPessoas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_10sdp"
@@ -30,9 +31,9 @@
         android:textSize="@dimen/_15sdp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/conversationsRecyclerView"
+        android:id="@+id/recentConversationsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="510dp"
+        android:layout_height="490dp"
         android:layout_marginTop="@dimen/_90sdp"
         android:clipToPadding="false"
         android:orientation="vertical"
@@ -44,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_485sdp"
+        android:layout_marginTop="@dimen/_470sdp"
         android:layout_marginRight="@dimen/_10sdp"
         android:background="@drawable/background_input"
         android:gravity="left"
@@ -57,7 +58,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
-        android:background="@drawable/search_icon"
+        android:background="@drawable/users_alt"
         android:padding="@dimen/_6sdp"
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginLeft="@dimen/_20sdp"/>
@@ -67,7 +68,7 @@
         android:layout_height="@dimen/_30sdp"
         android:background="@drawable/ic_add"
         android:padding="@dimen/_6sdp"
-        android:layout_marginTop="@dimen/_490sdp"
+        android:layout_marginTop="@dimen/_475sdp"
         android:layout_marginLeft="@dimen/_26sdp"/>
 
 

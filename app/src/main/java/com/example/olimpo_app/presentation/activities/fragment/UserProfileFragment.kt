@@ -1,5 +1,6 @@
 package com.example.olimpo_app.presentation.activities.fragment
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.olimpo_app.databinding.FragmentUserProfileBinding
+import com.example.olimpo_app.presentation.activities.EditLoginActivity
 import com.example.olimpo_app.utilites.Constants
 import com.example.olimpo_app.utilites.PreferenceManager
 
@@ -31,6 +33,11 @@ class UserProfileFragment : Fragment() {
         // Initialize preferenceManager here after the view is created
         preferenceManager = PreferenceManager(requireContext())
 
+
+        binding.buttonEdit.setOnClickListener {
+            val intent = Intent(requireContext(), EditLoginActivity::class.java)
+            startActivity(intent)
+        }
         // Load the user details after the view is fully created
         loadUserDetails()
     }
@@ -38,7 +45,6 @@ class UserProfileFragment : Fragment() {
     private fun loadUserDetails() {
         // Update UI elements using binding
         binding.username.text = preferenceManager.getString(Constants.KEY_NAME)
-
         val imageString = preferenceManager.getString(Constants.KEY_IMAGE)
         if (!imageString.isNullOrEmpty()) {
             val bytes = Base64.decode(imageString, Base64.DEFAULT)

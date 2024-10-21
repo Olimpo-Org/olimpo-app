@@ -10,12 +10,13 @@ android:scrollbars="none"
 tools:context=".presentation.activities.LoginActivity">
 
     <ImageView
-        android:layout_width="390dp"
-        android:layout_height="809dp"
+        android:id="@+id/imageView2"
+        android:layout_width="647dp"
+        android:layout_height="907dp"
         android:background="@drawable/login_cadastro_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
@@ -24,10 +25,10 @@ tools:context=".presentation.activities.LoginActivity">
         android:id="@+id/OlimpoFoto"
         android:layout_width="104dp"
         android:layout_height="104dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="116dp"
         android:background="@drawable/olimpo_logo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/olimpo_logo" />
@@ -53,24 +54,24 @@ tools:context=".presentation.activities.LoginActivity">
             app:layout_constraintBottom_toTopOf="@+id/inputEmail"
             app:layout_constraintStart_toStartOf="@+id/inputEmail" />
 
-        <EditText
-            android:id="@+id/inputEmail"
-            android:layout_width="@dimen/_235sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginTop="46dp"
-            android:background="@drawable/borda_cinza"
-            android:imeOptions="actionNext"
-            android:importantForAutofill="no"
-            android:inputType="textEmailAddress"
-            android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp"
-            android:textColor="@color/Blue"
-            android:textSize="@dimen/_13ssp"
-            app:boxBackgroundMode="none"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView5" />
 
+    <EditText
+        android:id="@+id/inputEmail"
+        android:layout_width="@dimen/_235sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/borda_cinza"
+        android:imeOptions="actionNext"
+        android:importantForAutofill="no"
+        android:inputType="textEmailAddress"
+        android:paddingStart="@dimen/_16sdp"
+        android:paddingEnd="@dimen/_16sdp"
+        android:textColor="@color/Blue"
+        android:textSize="@dimen/_13ssp"
+        app:boxBackgroundMode="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView5" />
 
     <TextView
         android:id="@+id/textSenha"
@@ -81,28 +82,28 @@ tools:context=".presentation.activities.LoginActivity">
         app:layout_constraintBottom_toTopOf="@+id/inputPassword"
         app:layout_constraintStart_toStartOf="@+id/inputPassword" />
 
-        <EditText
-            android:id="@+id/inputPassword"
-            android:layout_width="@dimen/_235sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginTop="74dp"
-            android:background="@drawable/borda_cinza"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            android:inputType="textPassword"
-            android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp"
-            android:textColor="@color/Blue"
-            android:textSize="@dimen/_13ssp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/inputEmail" />
+    <EditText
+        android:id="@+id/inputPassword"
+        android:layout_width="@dimen/_235sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginTop="116dp"
+        android:background="@drawable/borda_cinza"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        android:paddingStart="@dimen/_16sdp"
+        android:paddingEnd="@dimen/_16sdp"
+        android:textColor="@color/Blue"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/inputEmail" />
 
     <FrameLayout
         android:id="@+id/frameLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="92dp"
         android:animateLayoutChanges="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -111,7 +112,7 @@ tools:context=".presentation.activities.LoginActivity">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSignIn"
-            android:layout_width="113dp"
+            android:layout_width="186dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:backgroundTint="@color/Blue"
@@ -132,12 +133,12 @@ tools:context=".presentation.activities.LoginActivity">
         android:id="@+id/textCreateNewAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="92dp"
         android:text="@string/cadastrar_se"
         android:textColor="@color/Blue"
         android:textSize="@dimen/_13ssp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/frameLayout4" />
 

@@ -68,10 +68,9 @@
             android:textSize="@dimen/_15sdp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/conversationsRecyclerView"
+            android:id="@+id/UsersRecyclerView"
             android:layout_width="386dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_50sdp"
             android:clipToPadding="false"
             android:orientation="vertical"

@@ -2,42 +2,53 @@ package com.example.olimpo_app.presentation.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import com.example.olimpo_app.data.models.Community
 import com.example.olimpo_app.data.models.User
 import com.example.olimpo_app.databinding.ActivityMainBinding
+import com.example.olimpo_app.listeners.CommunityListener
 import com.example.olimpo_app.listeners.ConversionListener
+import com.example.olimpo_app.presentation.adapters.CommunityListUniAdapter
 import com.example.olimpo_app.utilites.Constants
 import com.example.olimpo_app.utilites.PreferenceManager
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.messaging.FirebaseMessaging
 
-class MainActivity : BaseActivity(), ConversionListener {
+class MainActivity : BaseActivity(), ConversionListener, CommunityListener {
 
-    private lateinit var bindind: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     private lateinit var preferenceManager: PreferenceManager
+    private lateinit var communityListUniAdapter: CommunityListUniAdapter
+    private lateinit var communities: MutableList<Community>
     private lateinit var database: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bindind = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(bindind.root)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         preferenceManager = PreferenceManager(applicationContext)
 
+        init()
         getToken()
         setListeners()
+        listenConversations()
 
-        bindind.encontrarComunidade.setOnClickListener{
+        binding.encontrarComunidade.setOnClickListener{
             val intent = Intent(applicationContext, FindCommunitiesActivity::class.java)
             startActivity(intent)
             finish()
         }
-        bindind.imageSolicitation.setOnClickListener{
+        binding.imageSolicitation.setOnClickListener{
             val intent = Intent(applicationContext, SolicitacaoActivity::class.java)
             startActivity(intent)
             finish()
         }
-        bindind.btnCreateCommunity.setOnClickListener{
+        binding.btnCreateCommunity.setOnClickListener{
             val intent = Intent(applicationContext, CreateCommunityActivity::class.java)
             startActivity(intent)
             finish()
@@ -46,13 +57,52 @@ class MainActivity : BaseActivity(), ConversionListener {
 
 
     private fun setListeners(){
-        bindind.imageSignOut.setOnClickListener { signOut() }
+        binding.imageSignOut.setOnClickListener { signOut() }
     }
-
+    private fun init() {
+        communities = ArrayList()
+        communityListUniAdapter = CommunityListUniAdapter(communities, this)
+        binding.conversationsRecyclerView.adapter = communityListUniAdapter
+        database = FirebaseFirestore.getInstance()
+    }
     private fun showToast(text: String){
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
+    private fun listenConversations() {
+        database.collection(Constants.KEY_COLLECTION_COMMUNITY)
+            .addSnapshotListener(eventListener)
+    }
 
+    private val eventListener = EventListener<QuerySnapshot> { value, error ->
+        if (error != null) {
+            // Log de erro ou notificação para o usuário
+            showToast("Error fetching communities: ${error.message}")
+            return@EventListener
+        }
+        if (value != null) {
+            // Limpa a lista antes de adicionar novos dados
+            communities.clear()
+            for (documentChange in value.documentChanges) {
+                if (documentChange.type == DocumentChange.Type.ADDED) {
+                    val community = Community().apply {
+                        id = documentChange.document.getString(Constants.KEY_COMMUNITY_ID) ?: ""
+                        name = documentChange.document.getString(Constants.KEY_COMMUNITY_NAME) ?: ""
+                        image = documentChange.document.getString(Constants.KEY_COMMUNITY_IMAGE) ?: ""
+                    }
+                    // Adiciona a comunidade na lista
+                    communities.add(community)
+                }
+            }
+            // Notifica o adaptador de uma vez só
+            communityListUniAdapter.notifyDataSetChanged()
+            binding.conversationsRecyclerView.visibility = if (communities.isNotEmpty()) View.VISIBLE else View.GONE
+            binding.LinearLayout.visibility = View.GONE
+        } else {
+            // Se não houver dados, esconde o RecyclerView
+            binding.conversationsRecyclerView.visibility = View.GONE
+            binding.LinearLayout.visibility = View.VISIBLE
+        }
+    }
     private fun getToken(){
         FirebaseMessaging.getInstance().token
             .addOnSuccessListener { updateToken(it) }
@@ -88,6 +138,11 @@ class MainActivity : BaseActivity(), ConversionListener {
     override fun onConversionClicked(user: User) {
         val intent = Intent(applicationContext, ChatActivity::class.java)
         intent.putExtra(Constants.KEY_USER, user)
+        startActivity(intent)
+    }
+    override fun onCommunityClicked(community: Community) {
+        val intent = Intent(applicationContext, HomeActivity::class.java)
+        intent.putExtra(Constants.KEY_COLLECTION_COMMUNITY, community.toString())
         startActivity(intent)
     }
 }
