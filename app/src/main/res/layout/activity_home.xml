@@ -58,7 +58,7 @@ android:padding="20dp"
 app:layout_constraintBottom_toBottomOf="parent"
 app:layout_constraintEnd_toEndOf="parent"
 app:layout_constraintStart_toStartOf="parent"
-android:background="@drawable/background_footer">
+android:background="@drawable/background_mega_footer">
 
 <ImageButton
     android:id="@+id/bt_home"

@@ -10,25 +10,24 @@
      tools:context=".presentation.activities.CadastroActivity">
 
     <ImageView
-        android:layout_width="393dp"
-        android:layout_height="810dp"
+        android:layout_width="675dp"
+        android:layout_height="843dp"
         android:background="@drawable/login_cadastro_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/fotoPerfil"
         android:layout_width="104dp"
         android:layout_height="104dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="108dp"
         android:background="@drawable/add_foto"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:riv_oval="true" />

@@ -12,19 +12,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/_70sdp"
-        android:background="@drawable/borda_azul"
-        >
+        android:background="@drawable/borda_azul">
 
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/OlimpoFoto"
             android:layout_width="47dp"
             android:layout_height="47dp"
-            android:layout_marginEnd="28dp"
+            android:layout_marginStart="28dp"
             android:background="@drawable/add_foto"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:riv_oval="true" />
 
@@ -39,10 +38,10 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.453"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.116"
+            app:layout_constraintStart_toEndOf="@+id/OlimpoFoto"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.136" />
+            app:layout_constraintVertical_bias="0.146" />
 
         <TextView
             android:id="@+id/textView2"
@@ -55,10 +54,10 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.405"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.098"
+            app:layout_constraintStart_toEndOf="@+id/OlimpoFoto"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.863" />
+            app:layout_constraintVertical_bias="0.878" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

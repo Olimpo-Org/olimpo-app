@@ -15,8 +15,20 @@
         android:theme="@style/Theme.Olimpoapp"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.activities.EditLoginActivity"
+            android:exported="false"
+            android:screenOrientation="locked"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".presentation.activities.ChatActivity"
+            android:exported="false"
+            android:screenOrientation="locked"
+            android:windowSoftInputMode="adjustResize"
+            />
+        <activity
             android:name=".presentation.activities.HomeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="locked"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".presentation.activities.LoginActivity"
             android:exported="false"

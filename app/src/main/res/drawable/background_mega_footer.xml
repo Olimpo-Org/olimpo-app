@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Cor de fundo -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/Pure_White" /> <!-- Cor do fundo -->
+        </shape>
+    </item>
+
+    <!-- Borda (stroke) na parte superior -->
+    <item >
+        <shape android:shape="rectangle">
+            <stroke android:width="0.5dp" android:color="@color/Blue" /> <!-- Cor e espessura da borda -->
+            <solid android:color="@android:color/transparent" /> <!-- Fundo transparente na borda -->
+        </shape>
+    </item>
+</layer-list>

@@ -63,17 +63,27 @@ class CreateCommunityActivity : AppCompatActivity() {
     }
     private fun createCommunity() {
         val database = FirebaseFirestore.getInstance()
-        val user = hashMapOf(
+
+        // Criação da comunidade
+        val community = hashMapOf(
             Constants.KEY_COMMUNITY_NAME to binding.inputName.text.toString(),
             Constants.KEY_COMMUNITY_IMAGE to encodedImage!!
         )
+
+        // Adiciona a nova comunidade no Firestore
         database.collection(Constants.KEY_COLLECTION_COMMUNITY)
-            .add(user)
-            .addOnSuccessListener {
+            .add(community)
+            .addOnSuccessListener { communityDocument ->  // Retorna o documento criado
+                val communityId = communityDocument.id
                 preferenceManager.putBoolean(Constants.KEY_IS_CREATE, true)
-                preferenceManager.putString(Constants.KEY_COMMUNITY_ID, it.id)
+                preferenceManager.putString(Constants.KEY_COMMUNITY_ID, communityId)
                 preferenceManager.putString(Constants.KEY_COMMUNITY_NAME, binding.inputName.text.toString())
                 preferenceManager.putString(Constants.KEY_COMMUNITY_IMAGE, encodedImage!!)
+
+                // Chama o método para adicionar todos os usuários à comunidade recém-criada
+                addUsersToCommunity(communityId)
+
+                // Redireciona para a HomeActivity
                 val intent = Intent(applicationContext, HomeActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
@@ -82,6 +92,46 @@ class CreateCommunityActivity : AppCompatActivity() {
                 e.message?.let { message -> showToast(message) }
             }
     }
+
+    private fun addUsersToCommunity(communityId: String) {
+        val database = FirebaseFirestore.getInstance()
+
+        // Busca todos os usuários da coleção de usuários
+        database.collection(Constants.KEY_COLLECTION_USERS)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val batch = database.batch()
+
+                // Lista de IDs dos usuários
+                val userIds = mutableListOf<String>()
+
+                for (document in querySnapshot.documents) {
+                    val userId = document.id
+                    userIds.add(userId)
+                }
+
+                val communityData = hashMapOf(
+                    Constants.KEY_COMMUNITY_MEMBERS to userIds  // Lista de IDs de usuários
+                )
+
+                // Atualiza o documento da comunidade com a lista de membros
+                val communityRef = database.collection(Constants.KEY_COLLECTION_COMMUNITY).document(communityId)
+                batch.update(communityRef, communityData as Map<String, Any>)
+
+                // Executa o batch de operações
+                batch.commit().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        showToast("Todos os usuários foram adicionados à comunidade.")
+                    } else {
+                        showToast("Falha ao adicionar usuários à comunidade.")
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                showToast("Erro ao buscar usuários: ${e.message}")
+            }
+    }
+
     private fun signOut() {
         showToast("Saindo...")
         val database = FirebaseFirestore.getInstance()

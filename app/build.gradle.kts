@@ -68,7 +68,7 @@ dependencies {
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
-    implementation("com.google.firebase:firebase-messaging:24.0.1")
+    implementation("com.google.firebase:firebase-messaging:24.0.2")
     implementation("com.google.firebase:firebase-firestore:25.1.0")
 
     // Retrofit
