@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.olimpo_app.data.models.Publication
+import com.example.olimpo_app.data.model.feedFlow.Publication
 import com.example.olimpo_app.databinding.ItemHomeBinding
 
 class PublicationAdapter: RecyclerView.Adapter<PublicationAdapter.PublicationViewHolder>() {
@@ -38,8 +38,8 @@ class PublicationAdapter: RecyclerView.Adapter<PublicationAdapter.PublicationVie
     override fun onBindViewHolder(holder: PublicationViewHolder, position: Int) {
         holder.binding.apply {
             val posts = postsList[position]
-            OlimpoFoto.imageAlpha = posts.sender_image
-            username.text = posts.sender_name
+            OlimpoFoto.imageAlpha = posts.senderImage
+            username.text = posts.senderName
             recyclerView.adapter = posts.images
             textView3.text = posts.likes
             description.text = posts.description

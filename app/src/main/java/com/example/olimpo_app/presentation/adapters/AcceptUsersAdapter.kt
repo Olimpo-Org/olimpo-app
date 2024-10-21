@@ -6,9 +6,9 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.olimpo_app.data.models.User
+import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.databinding.ItemUsuariosBinding
-import com.example.olimpo_app.listeners.UserListener
+import com.example.olimpo_app.presentation.listeners.UserListener
 
 class AcceptUsersAdapter(private val users: List<User>, val listener: UserListener): RecyclerView.Adapter<AcceptUsersAdapter.AcceptUserViewHolder>() {
     inner class AcceptUserViewHolder(private val binding: ItemUsuariosBinding): RecyclerView.ViewHolder(binding.root) {

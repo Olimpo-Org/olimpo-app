@@ -6,10 +6,10 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.olimpo_app.data.models.ChatMessage
-import com.example.olimpo_app.data.models.User
+import com.example.olimpo_app.data.model.messageFlow.ChatMessage
+import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.databinding.ItemChatsBinding
-import com.example.olimpo_app.listeners.ConversionListener
+import com.example.olimpo_app.presentation.listeners.ConversionListener
 
 class RecentConversationsAdapter(
     private val chatMessages: List<ChatMessage>,

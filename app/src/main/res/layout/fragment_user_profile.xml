@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Pure_White"
-    tools:context=".presentation.activities.fragment.UserProfileFragment">
+    tools:context=".presentation.fragment.accessFlow.UserProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <com.makeramen.roundedimageview.RoundedImageView
