@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.olimpo_app.R
 import com.example.olimpo_app.databinding.ActivityCriarComunidadesBinding
 import com.example.olimpo_app.presentation.activity.feedFlow.HomeActivity
-import com.example.olimpo_app.presentation.activity.feedFlow.MainActivity
+import com.example.olimpo_app.presentation.activity.accessFlow.MainActivity
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.PreferenceManager
 import com.google.firebase.firestore.FieldValue

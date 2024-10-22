@@ -7,7 +7,6 @@ import android.widget.Toast
 import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.databinding.ActivitySolicitacaoBinding
 import com.example.olimpo_app.presentation.activity.BaseActivity
-import com.example.olimpo_app.presentation.activity.feedFlow.MainActivity
 import com.example.olimpo_app.presentation.listeners.UserListener
 import com.example.olimpo_app.presentation.adapters.AcceptUsersAdapter
 import com.example.olimpo_app.utils.Constants

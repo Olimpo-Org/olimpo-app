@@ -1,4 +1,4 @@
-package com.example.olimpo_app.presentation.activity.feedFlow
+package com.example.olimpo_app.presentation.activity.accessFlow
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,10 +8,7 @@ import com.example.olimpo_app.data.model.accessFlow.Community
 import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.databinding.ActivityMainBinding
 import com.example.olimpo_app.presentation.activity.BaseActivity
-import com.example.olimpo_app.presentation.activity.accessFlow.CreateCommunityActivity
-import com.example.olimpo_app.presentation.activity.accessFlow.FindCommunitiesActivity
-import com.example.olimpo_app.presentation.activity.accessFlow.LoginActivity
-import com.example.olimpo_app.presentation.activity.accessFlow.SolicitacaoActivity
+import com.example.olimpo_app.presentation.activity.feedFlow.HomeActivity
 import com.example.olimpo_app.presentation.activity.messageFlow.ChatActivity
 import com.example.olimpo_app.presentation.listeners.CommunityListener
 import com.example.olimpo_app.presentation.listeners.ConversionListener

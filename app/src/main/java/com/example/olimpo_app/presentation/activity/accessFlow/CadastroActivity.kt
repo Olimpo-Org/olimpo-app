@@ -14,7 +14,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.olimpo_app.R
 import com.example.olimpo_app.databinding.ActivityCadastroBinding
-import com.example.olimpo_app.presentation.activity.feedFlow.MainActivity
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.PreferenceManager
 import com.google.firebase.firestore.FirebaseFirestore
