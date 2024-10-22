@@ -1,15 +1,19 @@
 package com.example.olimpo_app.presentation.fragment.messageFlow
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.olimpo_app.R
+import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.data.model.messageFlow.ChatMessage
 import com.example.olimpo_app.databinding.FragmentListCommunitiesChatsBinding
-import com.example.olimpo_app.presentation.listeners.ConversionListener
+import com.example.olimpo_app.presentation.activity.messageFlow.ChatActivity
 import com.example.olimpo_app.presentation.adapters.RecentConversationsAdapter
+import com.example.olimpo_app.presentation.listeners.ConversionListener
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.PreferenceManager
 import com.google.firebase.firestore.DocumentChange
@@ -54,6 +58,8 @@ class ListCommunitiesChatsFragment : Fragment(), ConversionListener {
     private fun init(){
         conversations = ArrayList()
         conversationsAdapter = RecentConversationsAdapter(conversations, this)
+        binding.recentConversationsRecyclerView.adapter = conversationsAdapter
+        binding.recentConversationsRecyclerView.layoutManager = LinearLayoutManager(context)
         database = FirebaseFirestore.getInstance()
     }
 
@@ -121,6 +127,10 @@ class ListCommunitiesChatsFragment : Fragment(), ConversionListener {
             .document(preferenceManager.getString(Constants.KEY_USER_ID)!!)
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
             .addOnFailureListener { }
-
+    }
+    override fun onConversionClicked(user: User) {
+        val intent = Intent(requireContext(), ChatActivity::class.java)
+        intent.putExtra(Constants.KEY_USER, user)
+        startActivity(intent)
     }
 }
