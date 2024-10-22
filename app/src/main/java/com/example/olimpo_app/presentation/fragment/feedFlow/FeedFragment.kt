@@ -23,7 +23,7 @@ class FeedFragment : Fragment() {
     private lateinit var binding: FragmentFeedBinding
     private lateinit var publicationAdapter: PublicationAdapter
 
-    private val featureApi = FeaturesApiInstance.api
+    private val featureApi = FeaturesApiInstance.service
     private val publicationRepository = PublicationRepository(featureApi)
 
     override fun onCreateView(

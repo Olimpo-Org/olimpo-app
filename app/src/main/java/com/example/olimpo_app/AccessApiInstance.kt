@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object AccessApiInstance {
     private const val BASE_URL = "https://olimpoapi.onrender.com"
 
-    val api: AccessAPIService by lazy {
+    val service: AccessAPIService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
