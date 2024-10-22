@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.olimpo_app.data.model.accessFlow.Community
 import com.example.olimpo_app.databinding.ActivityFindCommunitiesBinding
 import com.example.olimpo_app.presentation.activity.feedFlow.HomeActivity
-import com.example.olimpo_app.presentation.activity.feedFlow.MainActivity
 import com.example.olimpo_app.presentation.listeners.CommunityListener
 import com.example.olimpo_app.presentation.adapters.CommunityListAdapter
 import com.example.olimpo_app.utils.Constants
