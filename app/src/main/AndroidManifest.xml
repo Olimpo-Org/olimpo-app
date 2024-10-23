@@ -55,7 +55,7 @@
             android:screenOrientation="locked"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".presentation.activity.feedFlow.MainActivity"
+            android:name=".presentation.activity.accessFlow.MainActivity"
             android:exported="false"
             android:screenOrientation="locked" />
         <activity

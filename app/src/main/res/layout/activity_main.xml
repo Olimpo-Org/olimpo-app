@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/Blue"
-    tools:context=".presentation.activity.feedFlow.MainActivity">
+    tools:context=".presentation.activity.accessFlow.MainActivity">
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/imageSignOut"
