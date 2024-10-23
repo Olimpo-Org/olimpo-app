@@ -94,4 +94,11 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.2")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.8.2")
 
+    // Gson Library
+    implementation ("com.google.code.gson:gson:2.8.8")
+
+    // Firebase Storage
+    implementation("com.google.firebase:firebase-storage")
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+
 }
