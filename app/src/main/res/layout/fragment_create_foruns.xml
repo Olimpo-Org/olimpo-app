@@ -17,30 +17,30 @@
         android:background="@drawable/add_foto"
         android:scaleType="centerCrop" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_140sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:textColorHint="@color/Blue">
+    <TextView
+        android:id="@+id/textEmail"
+        android:layout_width="39dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:text="Nome do Grupo"
+        android:textColor="@color/Blue" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputForumName"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_140sdp"
-            android:layout_marginBottom="@dimen/_20ssp"
-            android:background="@drawable/borda_cinza"
-            android:hint="@string/nome_do_f_rum"
-            android:imeOptions="actionNext"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp"
-            android:textColor="@color/Blue"
-            android:textSize="@dimen/_13ssp" />
-    </com.google.android.material.textfield.TextInputLayout>
+    <EditText
+        android:id="@+id/inputEmail"
+        android:layout_width="@dimen/_290sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:background="@drawable/borda_cinza"
+        android:imeOptions="actionNext"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:paddingStart="@dimen/_16sdp"
+        android:paddingEnd="@dimen/_16sdp"
+        android:textColor="@color/Blue"
+        android:textSize="@dimen/_13ssp" />
+
 
     <TextView
         android:layout_width="match_parent"
@@ -51,25 +51,27 @@
         android:textColor="@color/Blue" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="380dp"
+        android:id="@+id/listUser"
+        android:layout_width="366dp"
+        android:layout_height="319dp"
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_215sdp"
         android:clipToPadding="false"
         android:orientation="vertical"
         android:overScrollMode="never"
         android:padding="@dimen/_5sdp"
-         tools:listitem="@layout/item_users" />
+        tools:listitem="@layout/item_users" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_510sdp"
+        android:layout_marginTop="@dimen/_470sdp"
         android:layout_marginRight="@dimen/_10sdp"
         android:backgroundTint="@color/Blue"
         android:gravity="center"
+        android:textColor="@color/Pure_White"
         android:paddingTop="@dimen/_9sdp"
         android:paddingBottom="@dimen/_8sdp"
-        android:text="Criar Comunidade" />
+        android:text="Criar grupo" />
 </FrameLayout>
