@@ -2,6 +2,7 @@ package com.example.olimpo_app.presentation.fragment.messageFlow
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
@@ -152,10 +153,10 @@ class CreateForunsFragment : Fragment(), UserListener{
             if (it.data != null) {
                 val imageUri = it.data?.data
                 try {
-//                    val inputStream = imageUri?.let { uri -> context.contentResolver.openInputStream(uri) }
-//                    val bitmap = BitmapFactory.decodeStream(inputStream)
-//                    binding.imageProfile.setImageBitmap(bitmap)
-//                    encodedImage = encodeImage(bitmap)
+                    val inputStream = imageUri?.let { uri -> context?.contentResolver?.openInputStream(uri) }
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+                    binding.imageProfile.setImageBitmap(bitmap)
+                    encodedImage = encodeImage(bitmap)
                 } catch (e: FileNotFoundException) {
                     e.printStackTrace()
                 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,6 +15,7 @@
         android:layout_marginLeft="@dimen/_110sdp"
         android:layout_marginTop="@dimen/_30sdp"
         android:layout_marginBottom="@dimen/_20sdp"
+        app:riv_oval="true"
         android:background="@drawable/add_foto"
         android:scaleType="centerCrop" />
 
@@ -63,6 +65,7 @@
         tools:listitem="@layout/item_users" />
 
     <Button
+        android:id="@+id/btnCreateGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_10sdp"
