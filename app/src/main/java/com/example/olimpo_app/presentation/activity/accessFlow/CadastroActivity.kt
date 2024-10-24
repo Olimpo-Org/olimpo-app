@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
@@ -15,10 +16,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.olimpo_app.AccessApiInstance
 import com.example.olimpo_app.R
+import com.example.olimpo_app.data.firebase.ImageUpload
 import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.data.repository.UserRepository
 import com.example.olimpo_app.databinding.ActivityCadastroBinding
 import com.example.olimpo_app.utils.Constants
+import com.example.olimpo_app.utils.ErrorLog
+import com.example.olimpo_app.utils.JsonConverter
 import com.example.olimpo_app.utils.PreferenceManager
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -28,8 +32,10 @@ import java.io.FileNotFoundException
 class CadastroActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCadastroBinding
     private lateinit var preferenceManager: PreferenceManager
-    private var encodedImage: String? = null
+    private var encodedImage: Bitmap? = null
     private val accessRepository = UserRepository(AccessApiInstance.service)
+    private val imageUpload = ImageUpload()
+    private val jsonConverter = JsonConverter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,68 +59,96 @@ class CadastroActivity : AppCompatActivity() {
         }
     }
 
-    private fun showToast(message: String){
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
     private fun signUpFirebaseAndApi() {
-        signUpFirebase {
-            singUpApi()
+        loading(true)
+        if (encodedImage != null) {
+            lifecycleScope.launch {
+                val imageUrl = imageUpload.uploadImage(encodedImage!!)
+                if (imageUrl != null) {
+                    signUpFirebase(imageUrl) {
+                        singUpApi(imageUrl).let {
+                            loading(false)
+                        }
+                    }
+                } else {
+                    loading(false)
+                    showToast("Falha no upload da imagem")
+                }
+
+            }
         }
     }
 
-    private fun signUpFirebase(onSuccess: () -> Unit) {
-        loading(true)
+    private fun signUpFirebase(imageUrl: String, onSuccess: () -> Unit) {
         val database = FirebaseFirestore.getInstance()
         val user = hashMapOf(
             Constants.KEY_NAME to binding.inputName.text.toString(),
             Constants.KEY_EMAIL to binding.inputEmail.text.toString(),
             Constants.KEY_PASSWORD to binding.inputPassword.text.toString(),
-            Constants.KEY_IMAGE to encodedImage!!
+            Constants.KEY_IMAGE to imageUrl
         )
         database.collection(Constants.KEY_COLLECTION_USERS)
             .add(user)
             .addOnSuccessListener {
-                loading(false)
-                preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true)
-                preferenceManager.putString(Constants.KEY_USER_ID, it.id)
-                preferenceManager.putString(Constants.KEY_NAME, binding.inputName.text.toString())
-                preferenceManager.putString(Constants.KEY_IMAGE, encodedImage!!)
+                preferenceManager.putString(Constants.KEY_FIREBASE_USER_ID, it.id)
                 onSuccess()
             }
             .addOnFailureListener { e ->
-                loading(false)
                 e.message?.let { message -> showToast(message) }
+                loading(false)
+                ErrorLog().log(
+                    "CadastroActivity",
+                    e
+                )
             }
     }
 
-    private fun singUpApi() {
+    private fun singUpApi(imageUrl: String) {
         lifecycleScope.launch {
-            val user = UserAPI(
-                null,
-                binding.inputEmail.text.toString(),
-                binding.inputPassword.text.toString(),
-                binding.inputName.text.toString(),
-                binding.inputSurname?.text.toString(),
-                binding.inputCpf?.text.toString(),
-                encodedImage!!,
-                if(binding.genero?.text == "masculino") 1 else 2,
-            )
-            val response = accessRepository.createUser(user)
-            response.toString()
-            if (response.isSuccessful && response.body() != null) {
-                response.body()!!.id?.let {
-                    preferenceManager.putLong(Constants.KEY_USER_ID, it)
+            try {
+                val user = UserAPI(
+                    null,
+                    binding.inputEmail.text.toString(),
+                    binding.inputPassword.text.toString(),
+                    binding.inputName.text.toString(),
+                    binding.inputSurname?.text.toString(),
+                    binding.inputCpf?.text.toString(),
+                    imageUrl,
+                    if (binding.genero?.text == "masculino") 1 else 2,
+                )
+                Log.d(
+                    "CadastroActivity",
+                    user.toString()
+                )
+                val response = accessRepository.createUser(user)
+                response.toString()
+                if (response.isSuccessful && response.body() != null) {
+                    response.body()!!.id?.let {
+                        preferenceManager.putLong(Constants.KEY_API_USER_ID, it)
+                    }
+                    preferenceManager.putString(Constants.KEY_NAME, response.body()!!.name)
+                    preferenceManager.putString(Constants.KEY_IMAGE, response.body()!!.profileImage)
+                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true)
+                    jsonConverter.saveObjectToJson(this@CadastroActivity, Constants.KEY_OBJ_USER, response.body()!!)
+                    Log.d("CadastroActivity", "User: ${response.body()!!}")
+                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(intent)
+                } else {
+                    loading(false)
+                    showToast("Tente novamente")
+                    Log.d(
+                        "CadastroActivity",
+                        "Erro: ${response.errorBody()?.string()}"
+                    )
                 }
-                preferenceManager.putString(Constants.KEY_NAME, response.body()!!.name)
-                preferenceManager.putString(Constants.KEY_IMAGE, response.body()!!.profileImage)
-                preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true)
-                val intent = Intent(applicationContext, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(intent)
-            } else {
+            } catch (e: Exception) {
                 loading(false)
-                showToast("Falha ao cadastrar via API")
+                showToast("Tente novamente")
+                ErrorLog().log(
+                    "CadastroActivity",
+                    e
+                )
             }
         }
     }
@@ -138,14 +172,18 @@ class CadastroActivity : AppCompatActivity() {
                     val inputStream = imageUri?.let { uri -> contentResolver.openInputStream(uri) }
                     val bitmap = BitmapFactory.decodeStream(inputStream)
                     binding.fotoPerfil.setImageBitmap(bitmap)
-                    encodedImage = encodeImage(bitmap)
+                    encodedImage = bitmap
                 } catch (e: FileNotFoundException) {
-                    e.printStackTrace()
+                    ErrorLog().log(
+                        "CadastroActivity",
+                        e
+                    )
                 }
             }
         }
     }
 
+    // Validation
     private fun isValidSignUpDetails(): Boolean {
         if(binding.inputName.text.toString().trim().isEmpty() ||
             binding.inputEmail.text.toString().trim().isEmpty() ||
@@ -172,6 +210,7 @@ class CadastroActivity : AppCompatActivity() {
         }
     }
 
+    // Utils
     private fun loading(isLoading: Boolean){
         if(isLoading){
             binding.buttonSignIn.visibility = View.INVISIBLE
@@ -180,5 +219,9 @@ class CadastroActivity : AppCompatActivity() {
             binding.progressBar.visibility = View.INVISIBLE
             binding.buttonSignIn.visibility = View.VISIBLE
         }
+    }
+
+    private fun showToast(message: String){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

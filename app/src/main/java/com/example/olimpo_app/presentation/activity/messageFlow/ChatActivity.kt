@@ -48,12 +48,12 @@ class ChatActivity : BaseActivity() {
 
     private fun listenMessages(){
         database.collection(Constants.KEY_COLLECTION_CHAT)
-            .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+            .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID))
             .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.id)
             .addSnapshotListener(eventListener)
         database.collection(Constants.KEY_COLLECTION_CHAT)
             .whereEqualTo(Constants.KEY_SENDER_ID, receiverUser.id)
-            .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+            .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID))
             .addSnapshotListener(eventListener)
     }
 
@@ -71,7 +71,7 @@ class ChatActivity : BaseActivity() {
                         document.document.getString(Constants.KEY_MESSAGE)!!,
                         getReadableDateTime(document.document.getDate(Constants.KEY_TIMESTAMP)!!),
                         document.document.getDate(Constants.KEY_TIMESTAMP)!!,
-                        document.document.getString(Constants.KEY_USER_ID)?: "",
+                        document.document.getString(Constants.KEY_FIREBASE_USER_ID)?: "",
                         document.document.getString(Constants.KEY_NAME)?: "",
                         document.document.getString(Constants.KEY_IMAGE)?: ""
                     )
@@ -100,7 +100,7 @@ class ChatActivity : BaseActivity() {
 
     private fun sendMessage(){
         val message = hashMapOf(
-            Constants.KEY_SENDER_ID to preferenceManager.getString(Constants.KEY_USER_ID),
+            Constants.KEY_SENDER_ID to preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID),
             Constants.KEY_RECEIVER_ID to preferenceManager.getString(Constants.KEY_RECEIVER_ID),
             Constants.KEY_MESSAGE to binding.inputMessage.text.toString(),
             Constants.KEY_TIMESTAMP to Date()
@@ -110,7 +110,7 @@ class ChatActivity : BaseActivity() {
             updateConversion(binding.inputMessage.text.toString())
         }else{
             val conversion: HashMap<String, Any> = HashMap()
-            conversion[Constants.KEY_SENDER_ID] = preferenceManager.getString(Constants.KEY_USER_ID) ?: ""
+            conversion[Constants.KEY_SENDER_ID] = preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID) ?: ""
             conversion[Constants.KEY_SENDER_NAME] = preferenceManager.getString(Constants.KEY_NAME) ?: ""
             conversion[Constants.KEY_SENDER_IMAGE] = preferenceManager.getString(Constants.KEY_IMAGE) ?: ""
             conversion[Constants.KEY_RECEIVER_ID] = receiverUser.id
@@ -126,7 +126,7 @@ class ChatActivity : BaseActivity() {
                 tokens.put(receiverUser.token)
 
                 val data = JSONObject()
-                data.put(Constants.KEY_USER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                data.put(Constants.KEY_FIREBASE_USER_ID, preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID))
                 data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME))
                 data.put(Constants.KEY_FCM_TOKEN, preferenceManager.getString(Constants.KEY_FCM_TOKEN))
                 data.put(Constants.KEY_MESSAGE, binding.inputMessage.text.toString())
@@ -176,7 +176,7 @@ class ChatActivity : BaseActivity() {
         chatAdapter = ChatAdapter(
             chatMessages,
             getBitmapFromEncodedString(receiverUser.image!!),
-            preferenceManager.getString(Constants.KEY_USER_ID)!!
+            preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)!!
         )
         binding.chatRecyclerView.adapter = chatAdapter
         database = FirebaseFirestore.getInstance()
@@ -224,12 +224,12 @@ class ChatActivity : BaseActivity() {
     private fun checkForConversion() {
         if (chatMessages.isNotEmpty()) {
             checkForConversionRemotely(
-                preferenceManager.getString(Constants.KEY_USER_ID).toString(),
+                preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID).toString(),
                 receiverUser.id
             )
             checkForConversionRemotely(
                 receiverUser.id,
-                preferenceManager.getString(Constants.KEY_USER_ID).toString()
+                preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID).toString()
             )
         }
     }

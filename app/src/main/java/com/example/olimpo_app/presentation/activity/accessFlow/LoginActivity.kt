@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("LoginActivity", "Login no Firebase bem-sucedido")
                     val documentSnapshot = task.result!!.documents[0]
                     preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true)
-                    preferenceManager.putString(Constants.KEY_USER_ID, documentSnapshot.id)
+                    preferenceManager.putString(Constants.KEY_FIREBASE_USER_ID, documentSnapshot.id)
                     preferenceManager.putString(Constants.KEY_NAME, documentSnapshot.getString(Constants.KEY_NAME)!!)
                     preferenceManager.putString(Constants.KEY_IMAGE, documentSnapshot.getString(Constants.KEY_IMAGE)!!)
                 } else {
@@ -86,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
 
                     response.body()!!.id?.let {
                         preferenceManager.putLong(
-                            Constants.KEY_USER_ID,
+                            Constants.KEY_FIREBASE_USER_ID,
                             it
                         )
                     }

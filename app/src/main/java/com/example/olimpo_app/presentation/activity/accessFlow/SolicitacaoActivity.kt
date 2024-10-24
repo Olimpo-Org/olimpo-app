@@ -49,7 +49,7 @@ class SolicitacaoActivity : BaseActivity(), UserListener {
         database.collection(Constants.KEY_COLLECTION_USERS)
             .get()
             .addOnCompleteListener {
-                val currentUserId = preferenceManager.getString(Constants.KEY_USER_ID)
+                val currentUserId = preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)
                 if (it.isSuccessful && it.result != null){
                     val users = mutableListOf<User>()
                     for(queryDocumentSnapshot in it.result){
@@ -81,11 +81,12 @@ class SolicitacaoActivity : BaseActivity(), UserListener {
                 val response = communityRepository.getAllSolicitations(
                     preferenceManager.getString(Constants.KEY_COMMUNITY_ID)!!.toLong()
                 )
+                val listUser = mutableListOf<User>()
 
                 if (response.isSuccessful && response.body() != null){
                     val users = response.body()!!
                     if (users.isNotEmpty()){
-                        val acceptUsersAdapter = AcceptUsersAdapter(users, this@SolicitacaoActivity)
+                        val acceptUsersAdapter = AcceptUsersAdapter(listUser, this@SolicitacaoActivity)
                         binding.UsersRecyclerView.adapter = acceptUsersAdapter
                         binding.UsersRecyclerView.visibility = View.VISIBLE
                     }
@@ -106,7 +107,7 @@ class SolicitacaoActivity : BaseActivity(), UserListener {
     private fun signOut() {
         showToast("Saindo...")
         val database = FirebaseFirestore.getInstance()
-        val documentReference = preferenceManager.getString(Constants.KEY_USER_ID)?.let {
+        val documentReference = preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)?.let {
             database.collection(Constants.KEY_COLLECTION_USERS).document(it)
         }
         val updates = hashMapOf<String, Any>( Constants.KEY_FCM_TOKEN to FieldValue.delete() )
