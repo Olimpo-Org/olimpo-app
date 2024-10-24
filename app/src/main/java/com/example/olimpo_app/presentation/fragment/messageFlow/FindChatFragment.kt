@@ -89,7 +89,7 @@ class FindChatFragment : Fragment(), UserListener {
 
     private fun fetchUsersDetails(memberIds: List<String>, callback: UsersCallback) {
         val database = FirebaseFirestore.getInstance()
-        val currentUserId = preferenceManager.getString(Constants.KEY_USER_ID)
+        val currentUserId = preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)
         val users = mutableListOf<User>()
 
         binding.userList.layoutManager = LinearLayoutManager(requireContext())

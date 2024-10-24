@@ -107,7 +107,7 @@ class FindCommunitiesActivity : AppCompatActivity(), CommunityListener {
         preferenceManager.putString(Constants.KEY_FCM_TOKEN, token)
         val database = FirebaseFirestore.getInstance()
         val documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
-            .document(preferenceManager.getString(Constants.KEY_USER_ID)!!)
+            .document(preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)!!)
 
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
             .addOnFailureListener { showToast("Unable to update token") }
@@ -116,7 +116,7 @@ class FindCommunitiesActivity : AppCompatActivity(), CommunityListener {
     private fun signOut() {
         showToast("Saindo...")
         val database = FirebaseFirestore.getInstance()
-        val documentReference = preferenceManager.getString(Constants.KEY_USER_ID)?.let {
+        val documentReference = preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)?.let {
             database.collection(Constants.KEY_COLLECTION_USERS).document(it)
         }
         val updates = hashMapOf<String, Any>(Constants.KEY_FCM_TOKEN to FieldValue.delete())

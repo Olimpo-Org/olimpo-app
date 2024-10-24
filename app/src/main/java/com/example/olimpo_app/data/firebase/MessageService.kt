@@ -22,7 +22,7 @@ class MessageService: FirebaseMessagingService() {
 
         val user = User(
             name = remoteMessage.data[Constants.KEY_NAME]!!,
-            id = remoteMessage.data[Constants.KEY_USER_ID]!!,
+            id = remoteMessage.data[Constants.KEY_FIREBASE_USER_ID]!!,
             token = remoteMessage.data[Constants.KEY_FCM_TOKEN],
             )
         val community = Community(
