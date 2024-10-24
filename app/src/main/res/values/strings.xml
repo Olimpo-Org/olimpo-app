@@ -9,13 +9,16 @@
     <string name="login"><u>Login</u></string>
     <string name="add_image">Add Image</string>
     <string name="nome">Nome</string>
-    <string name="confirma_senha">Confirmar Senha</string>
+    <string name="sobrenome">Sobrenome</string>
+    <string name="cpf">CPF</string>
+    <string name="genero">Gênero</string>
     <string name="sign_up">SIGN UP</string>
     <string name="select_user">Select User</string>
     <string name="type_a_message">Type a message</string>
     <string name="recusar_usu_rio"><u>Recusar usuário</u></string>
     <string name="nome_do_f_rum">Nome do fórum</string>
     <string name="online" />
+    <string name="confirma_senha">Confirma senha</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

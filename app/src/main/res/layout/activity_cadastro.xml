@@ -10,12 +10,11 @@
      tools:context=".presentation.activity.accessFlow.CadastroActivity">
 
     <ImageView
-        android:layout_width="393dp"
-        android:layout_height="810dp"
+        android:layout_width="395dp"
+        android:layout_height="812dp"
         android:background="@drawable/login_cadastro_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
@@ -24,7 +23,7 @@
         android:id="@+id/fotoPerfil"
         android:layout_width="104dp"
         android:layout_height="104dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="88dp"
         android:background="@drawable/add_foto"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +46,7 @@
         android:id="@+id/inputName"
         android:layout_width="@dimen/_235sdp"
         android:layout_height="@dimen/_35sdp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="116dp"
         android:background="@drawable/borda_cinza"
         android:imeOptions="actionNext"
         android:importantForAutofill="no"
@@ -60,7 +59,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fotoPerfil" />
+        app:layout_constraintTop_toTopOf="@+id/fotoPerfil" />
+    <TextView
+        android:id="@+id/textSobrenome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:text="@string/sobrenome"
+        android:textColor="@color/Blue"
+        app:layout_constraintBottom_toTopOf="@+id/inputSurname"
+        app:layout_constraintStart_toStartOf="@+id/inputSurname" />
+
+    <EditText
+        android:id="@+id/inputSurname"
+        android:layout_width="@dimen/_235sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginTop="76dp"
+        android:background="@drawable/borda_cinza"
+        android:imeOptions="actionNext"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:paddingStart="@dimen/_16sdp"
+        android:paddingEnd="@dimen/_16sdp"
+        android:textColor="@color/Blue"
+        android:textSize="@dimen/_13ssp"
+        app:boxBackgroundMode="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/inputName" />
 
     <TextView
         android:id="@+id/textEmail"
@@ -75,7 +101,7 @@
         android:id="@+id/inputEmail"
         android:layout_width="@dimen/_235sdp"
         android:layout_height="@dimen/_35sdp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="75dp"
         android:background="@drawable/borda_cinza"
         android:imeOptions="actionDone"
         android:importantForAutofill="no"
@@ -86,9 +112,9 @@
         android:textSize="@dimen/_13ssp"
         app:boxBackgroundMode="none"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputName" />
+        app:layout_constraintTop_toTopOf="@+id/inputSurname" />
 
     <TextView
         android:id="@+id/textSenha"
@@ -120,23 +146,23 @@
         app:layout_constraintTop_toBottomOf="@+id/inputEmail" />
 
     <TextView
-        android:id="@+id/textConfirmSenha"
+        android:id="@+id/cpf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/confirma_senha"
+        android:text="@string/cpf"
         android:textColor="@color/Blue"
-        app:layout_constraintBottom_toTopOf="@+id/confirmPassword"
-        app:layout_constraintStart_toStartOf="@+id/confirmPassword" />
+        app:layout_constraintBottom_toTopOf="@+id/inputCpf"
+        app:layout_constraintStart_toStartOf="@+id/inputCpf" />
 
     <EditText
-        android:id="@+id/confirmPassword"
+        android:id="@+id/inputCpf"
         android:layout_width="@dimen/_235sdp"
         android:layout_height="@dimen/_35sdp"
         android:layout_marginTop="25dp"
         android:background="@drawable/borda_cinza"
         android:imeOptions="actionDone"
         android:importantForAutofill="no"
-        android:inputType="textPassword"
+        android:inputType="text"
         android:paddingStart="@dimen/_16sdp"
         android:paddingEnd="@dimen/_16sdp"
         android:textColor="@color/Blue"
@@ -147,16 +173,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputPassword" />
 
+    <TextView
+        android:id="@+id/genero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/genero"
+        android:textColor="@color/Blue"
+        app:layout_constraintBottom_toTopOf="@+id/inputGenero"
+        app:layout_constraintStart_toStartOf="@+id/inputGenero" />
+
+    <EditText
+        android:id="@+id/inputGenero"
+        android:layout_width="@dimen/_235sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginTop="65dp"
+        android:background="@drawable/borda_cinza"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:paddingStart="@dimen/_16sdp"
+        android:paddingEnd="@dimen/_16sdp"
+        android:textColor="@color/Blue"
+        android:textSize="@dimen/_13ssp"
+        app:boxBackgroundMode="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/inputCpf" />
+
     <FrameLayout
         android:id="@+id/frameLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="57dp"
         android:animateLayoutChanges="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/confirmPassword">
+        app:layout_constraintTop_toTopOf="@+id/inputGenero">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSignIn"
@@ -188,7 +241,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.186"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmPassword"
+        app:layout_constraintTop_toBottomOf="@+id/inputCpf"
         app:layout_constraintVertical_bias="0.562" />
 
     <TextView

@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.olimpo_app.R
 import com.example.olimpo_app.databinding.ActivityCriarComunidadesBinding
 import com.example.olimpo_app.presentation.activity.feedFlow.HomeActivity
-import com.example.olimpo_app.presentation.activity.feedFlow.MainActivity
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.PreferenceManager
 import com.google.firebase.firestore.FieldValue
@@ -137,7 +136,7 @@ class CreateCommunityActivity : AppCompatActivity() {
     private fun signOut() {
         showToast("Saindo...")
         val database = FirebaseFirestore.getInstance()
-        val documentReference = preferenceManager.getString(Constants.KEY_USER_ID)?.let {
+        val documentReference = preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)?.let {
             database.collection(Constants.KEY_COLLECTION_USERS).document(it)
         }
         val updates = hashMapOf<String, Any>( Constants.KEY_COMMUNITY_TOKEN to FieldValue.delete() )

@@ -1,4 +1,4 @@
-package com.example.olimpo_app.presentation.activity.feedFlow
+package com.example.olimpo_app.presentation.activity.accessFlow
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,10 +8,7 @@ import com.example.olimpo_app.data.model.accessFlow.Community
 import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.databinding.ActivityMainBinding
 import com.example.olimpo_app.presentation.activity.BaseActivity
-import com.example.olimpo_app.presentation.activity.accessFlow.CreateCommunityActivity
-import com.example.olimpo_app.presentation.activity.accessFlow.FindCommunitiesActivity
-import com.example.olimpo_app.presentation.activity.accessFlow.LoginActivity
-import com.example.olimpo_app.presentation.activity.accessFlow.SolicitacaoActivity
+import com.example.olimpo_app.presentation.activity.feedFlow.HomeActivity
 import com.example.olimpo_app.presentation.activity.messageFlow.ChatActivity
 import com.example.olimpo_app.presentation.adapters.CommunityListUniAdapter
 import com.example.olimpo_app.presentation.listeners.CommunityListener
@@ -118,7 +115,7 @@ class MainActivity : BaseActivity(), ConversionListener, CommunityListener {
         preferenceManager.putString(Constants.KEY_FCM_TOKEN, token)
         val database = FirebaseFirestore.getInstance()
         val documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
-            .document(preferenceManager.getString(Constants.KEY_USER_ID)!!)
+            .document(preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)!!)
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
             .addOnFailureListener { showToast("Indisponível para atualizar o token") }
 
@@ -127,7 +124,7 @@ class MainActivity : BaseActivity(), ConversionListener, CommunityListener {
     private fun signOut() {
         showToast("Saindo...")
         val database = FirebaseFirestore.getInstance()
-        val documentReference = preferenceManager.getString(Constants.KEY_USER_ID)?.let {
+        val documentReference = preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)?.let {
             database.collection(Constants.KEY_COLLECTION_USERS).document(it)
         }
         val updates = hashMapOf<String, Any>( Constants.KEY_FCM_TOKEN to FieldValue.delete() )

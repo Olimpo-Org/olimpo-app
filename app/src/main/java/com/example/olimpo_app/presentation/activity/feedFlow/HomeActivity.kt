@@ -9,11 +9,12 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.example.olimpo_app.R
 import com.example.olimpo_app.databinding.ActivityHomeBinding
-import com.example.olimpo_app.presentation.fragment.accessFlow.UserProfileFragment
+import com.example.olimpo_app.presentation.activity.accessFlow.MainActivity
 import com.example.olimpo_app.presentation.fragment.feedFlow.CreatePublicationFragment
 import com.example.olimpo_app.presentation.fragment.feedFlow.FeedFragment
 import com.example.olimpo_app.presentation.fragment.messageFlow.ListCommunitiesChatsFragment
 import com.example.olimpo_app.presentation.fragment.negotiationFlow.ShopFragment
+import com.example.olimpo_app.presentation.fragment.accessFlow.UserProfileFragment
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.PreferenceManager
 

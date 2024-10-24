@@ -73,10 +73,10 @@ class ListCommunitiesChatsFragment : Fragment(), ConversionListener {
 
     private fun listenConversations() {
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
-            .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+            .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID))
             .addSnapshotListener(eventListener)
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
-            .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+            .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID))
             .addSnapshotListener(eventListener)
     }
 
@@ -92,7 +92,7 @@ class ListCommunitiesChatsFragment : Fragment(), ConversionListener {
                     val chatMessage = ChatMessage()
                     chatMessage.senderId = senderId
                     chatMessage.receiverId = receiverId
-                    if(preferenceManager.getString(Constants.KEY_USER_ID).equals(senderId)){
+                    if(preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID).equals(senderId)){
                         chatMessage.conversionImage = documentChange.document.getString(Constants.KEY_RECEIVER_IMAGE) ?: ""
                         chatMessage.conversionName = documentChange.document.getString(Constants.KEY_RECEIVER_NAME) ?: ""
                         chatMessage.conversionId = documentChange.document.getString(Constants.KEY_RECEIVER_ID) ?: ""
@@ -132,7 +132,7 @@ class ListCommunitiesChatsFragment : Fragment(), ConversionListener {
         preferenceManager.putString(Constants.KEY_FCM_TOKEN, token)
         val database = FirebaseFirestore.getInstance()
         val documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
-            .document(preferenceManager.getString(Constants.KEY_USER_ID)!!)
+            .document(preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)!!)
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
             .addOnFailureListener { }
     }
