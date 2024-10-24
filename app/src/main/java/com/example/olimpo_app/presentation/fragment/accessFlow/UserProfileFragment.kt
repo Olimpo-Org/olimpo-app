@@ -1,6 +1,5 @@
 package com.example.olimpo_app.presentation.fragment.accessFlow
 
-import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
@@ -9,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.olimpo_app.databinding.FragmentUserProfileBinding
-import com.example.olimpo_app.presentation.activity.accessFlow.EditLoginActivity
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.PreferenceManager
 
@@ -34,10 +32,7 @@ class UserProfileFragment : Fragment() {
         preferenceManager = PreferenceManager(requireContext())
 
 
-        binding.buttonEdit.setOnClickListener {
-            val intent = Intent(requireContext(), EditLoginActivity::class.java)
-            startActivity(intent)
-        }
+
         // Load the user details after the view is fully created
         loadUserDetails()
     }

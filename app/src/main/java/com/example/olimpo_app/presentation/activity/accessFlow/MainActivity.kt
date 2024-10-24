@@ -10,9 +10,9 @@ import com.example.olimpo_app.databinding.ActivityMainBinding
 import com.example.olimpo_app.presentation.activity.BaseActivity
 import com.example.olimpo_app.presentation.activity.feedFlow.HomeActivity
 import com.example.olimpo_app.presentation.activity.messageFlow.ChatActivity
+import com.example.olimpo_app.presentation.adapters.CommunityListUniAdapter
 import com.example.olimpo_app.presentation.listeners.CommunityListener
 import com.example.olimpo_app.presentation.listeners.ConversionListener
-import com.example.olimpo_app.presentation.adapters.CommunityListUniAdapter
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.PreferenceManager
 import com.google.firebase.firestore.DocumentChange

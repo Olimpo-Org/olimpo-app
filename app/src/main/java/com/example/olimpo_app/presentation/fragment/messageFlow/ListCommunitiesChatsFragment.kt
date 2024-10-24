@@ -54,6 +54,14 @@ class ListCommunitiesChatsFragment : Fragment(), ConversionListener {
             transaction.addToBackStack(null)
             transaction.commit()
         }
+        binding.btnCreateGroup.setOnClickListener {
+            val fragment = CreateForunsFragment()
+            val fragmentManager = parentFragmentManager
+            val transaction = fragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
     }
     private fun init(){
         conversations = ArrayList()

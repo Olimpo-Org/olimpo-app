@@ -28,7 +28,7 @@ class HomeActivity : AppCompatActivity() {
         preferenceManager = PreferenceManager(applicationContext)
         setContentView(binding.root)
 
-        loadUserDetails()
+        loadCommunityDetails()
 
         supportFragmentManager.commit {
             setReorderingAllowed(true)
@@ -97,7 +97,7 @@ class HomeActivity : AppCompatActivity() {
                     finish()
         }
     }
-    private fun loadUserDetails(){
+    private fun loadCommunityDetails(){
         binding.communityName.text = preferenceManager.getString(Constants.KEY_COMMUNITY_NAME)
         val bytes = Base64.decode(preferenceManager.getString(Constants.KEY_COMMUNITY_IMAGE), Base64.DEFAULT)
         val bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)

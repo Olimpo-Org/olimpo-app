@@ -18,7 +18,8 @@
         android:paddingTop="@dimen/_10ssp"
         android:paddingBottom="@dimen/_10ssp"
         android:gravity="left"
-        android:text="           Encontrar pessoas ou fóruns"
+        android:text="               Encontrar pessoas ou fóruns"
+        android:textSize="@dimen/_10sdp"
         android:textColor="@color/White"
         />
     <TextView
@@ -33,7 +34,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recentConversationsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="460dp"
+        android:layout_height="500dp"
         android:layout_marginTop="@dimen/_90sdp"
         android:clipToPadding="false"
         android:orientation="vertical"
@@ -46,13 +47,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_470sdp"
+        android:layout_marginTop="@dimen/_330sdp"
         android:layout_marginRight="@dimen/_10sdp"
         android:background="@drawable/background_input"
         android:gravity="left"
         android:paddingTop="@dimen/_9sdp"
         android:paddingBottom="@dimen/_8sdp"
-        android:text="         Novo Grupo"
+        android:text="            Novo Grupo"
+        android:textSize="@dimen/_10sdp"
         android:textColor="@color/White"
         />
 
@@ -69,7 +71,7 @@
         android:layout_height="@dimen/_30sdp"
         android:background="@drawable/ic_add"
         android:padding="@dimen/_6sdp"
-        android:layout_marginTop="@dimen/_475sdp"
+        android:layout_marginTop="@dimen/_333sdp"
         android:layout_marginLeft="@dimen/_26sdp"/>
 
 
