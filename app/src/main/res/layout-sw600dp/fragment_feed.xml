@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Pure_White"
+    tools:context=".presentation.fragment.feedFlow.FeedFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/conversationsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:overScrollMode="never"
+        android:visibility="gone"
+        tools:listitem="@layout/item_home" />
+
+    <LinearLayout
+        android:id="@+id/layoutError"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible"
+    >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/archive_not_found"
+
+        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Essa comunidade não tem publicações... Publique você!!"
+            android:textColor="@color/Grey_Standard"
+            android:layout_marginRight="@dimen/_50ssp"
+            android:layout_marginLeft="@dimen/_50ssp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:textAlignment="center"
+            android:textSize="@dimen/_15sdp"
+            />
+    </LinearLayout>
+</FrameLayout>

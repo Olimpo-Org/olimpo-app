@@ -10,16 +10,17 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listImageRecycleView"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_245sdp"
-        android:layout_marginTop="410dp"
+        android:layout_height="@dimen/_175sdp"
+        android:layout_marginTop="455dp"
         android:textColor="@color/Pure_White"
+        android:orientation="horizontal"
         tools:listitem="@layout/item_fotos" />
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="360dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="110dp"
+        android:layout_width="580dp"
+        android:layout_height="230dp"
+        android:layout_marginTop="140dp"
         android:layout_marginLeft="15dp"
         android:background="@drawable/borda_cinza"
         android:ems="10"
@@ -36,7 +37,7 @@
         android:layout_width="130dp"
         android:layout_height="40dp"
         android:textColor="@color/Pure_White"
-        android:layout_marginStart="34dp"
+        android:layout_marginLeft="100dp"
         android:layout_marginTop="25dp"
         android:text="Publicação" />
 
@@ -45,7 +46,7 @@
         android:layout_width="130dp"
         android:layout_height="40dp"
         android:textColor="@color/Pure_White"
-        android:layout_marginLeft="220dp"
+        android:layout_marginLeft="410dp"
         android:layout_marginTop="25dp"
         android:text="Anúncio" />
 
@@ -55,8 +56,11 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_footer"
         android:orientation="horizontal"
+        android:gravity="center"
         android:layout_marginTop="70dp"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:visibility="gone"
+        >
 
 
         <Button
@@ -66,7 +70,7 @@
             android:textColor="@color/Pure_White"
             android:layout_marginLeft="@dimen/_15ssp"
             android:text="Venda"
-            android:visibility="gone"
+            android:visibility="visible"
             />
 
         <Button
@@ -76,7 +80,7 @@
             android:layout_marginLeft="@dimen/_20ssp"
             android:text="Serviço"
             android:textColor="@color/Pure_White"
-            android:visibility="gone"
+            android:visibility="visible"
             />
 
         <Button
@@ -86,7 +90,7 @@
             android:layout_marginLeft="@dimen/_20ssp"
             android:text="Doação"
             android:textColor="@color/Pure_White"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
     </LinearLayout>
 
@@ -94,17 +98,17 @@
         android:id="@+id/btnGallery"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="320dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="380dp"
         android:background="@drawable/image_"
         />
 
     <Button
         android:id="@+id/btnPublish"
         android:layout_width="290dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="320dp"
-        android:layout_marginLeft="@dimen/_70sdp"
+        android:layout_height="60dp"
+        android:layout_marginTop="380dp"
+        android:layout_marginLeft="@dimen/_140sdp"
         android:textColor="@color/Pure_White"
         android:textSize="@dimen/_13sdp"
         android:textStyle="bold"

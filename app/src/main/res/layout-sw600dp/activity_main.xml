@@ -80,7 +80,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/conversationsRecyclerView"
             android:layout_width="382dp"
-            android:layout_height="660dp"
+            android:layout_height="580dp"
             android:layout_marginLeft="@dimen/_70sdp"
             android:layout_marginTop="@dimen/_90sdp"
             android:clipToPadding="false"
@@ -89,7 +89,7 @@
             android:padding="@dimen/_5sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_comunidade"
-            android:visibility="gone"
+            android:visibility="visible"
             />
 
         <LinearLayout
@@ -98,7 +98,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -129,6 +129,7 @@
             android:background="@drawable/background_input"
             android:drawableLeft="@drawable/ic_add"
             android:paddingTop="@dimen/_5sdp"
+            android:textSize="@dimen/_10sdp"
             android:text="Criar Comunidade"
             android:textColor="@color/White" />
 
