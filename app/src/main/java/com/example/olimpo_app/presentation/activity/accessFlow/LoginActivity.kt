@@ -14,6 +14,7 @@ import com.example.olimpo_app.data.model.accessFlow.Login
 import com.example.olimpo_app.data.repository.UserRepository
 import com.example.olimpo_app.databinding.ActivityLoginBinding
 import com.example.olimpo_app.utils.Constants
+import com.example.olimpo_app.utils.JsonConverter
 import com.example.olimpo_app.utils.PreferenceManager
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -23,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var preferenceManager: PreferenceManager
     private val accessRepository = UserRepository(AccessApiInstance.service)
+    private val jsonConverter = JsonConverter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +42,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signInFirebase() {
-        loading(true)
         Log.d("LoginActivity", "Iniciando login no Firebase")
         val database = FirebaseFirestore.getInstance()
 
@@ -71,7 +72,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun signInApi() {
         try {
-            loading(true)
             Log.d("LoginActivity", "Iniciando login via API")
 
             lifecycleScope.launch {
@@ -86,13 +86,14 @@ class LoginActivity : AppCompatActivity() {
 
                     response.body()!!.id?.let {
                         preferenceManager.putLong(
-                            Constants.KEY_FIREBASE_USER_ID,
+                            Constants.KEY_API_USER_ID,
                             it
                         )
                     }
                     preferenceManager.putString(Constants.KEY_NAME, response.body()!!.name)
                     preferenceManager.putString(Constants.KEY_IMAGE, response.body()!!.profileImage)
                     preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true)
+                    jsonConverter.saveObjectToJson(this@LoginActivity, Constants.KEY_OBJ_USER, response.body()!!)
 
                     // Redireciona para a MainActivity após o login
                     val intent = Intent(applicationContext, MainActivity::class.java)
@@ -122,10 +123,12 @@ class LoginActivity : AppCompatActivity() {
 
         binding.buttonSignIn.setOnClickListener {
             if (isValidSignInDetails()) {
+                loading(true)
                 Log.d("LoginActivity", "Iniciando processo de login")
-                // Realiza login pela API e Firebase simultaneamente
                 signInFirebase()
                 signInApi()
+                loading(false)
+
             }
         }
     }
