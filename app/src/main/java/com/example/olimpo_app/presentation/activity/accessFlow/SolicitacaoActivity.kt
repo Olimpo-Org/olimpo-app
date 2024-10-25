@@ -7,12 +7,14 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.olimpo_app.AccessApiInstance
 import com.example.olimpo_app.data.model.accessFlow.User
+import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.data.repository.CommunityRepository
 import com.example.olimpo_app.databinding.ActivitySolicitacaoBinding
 import com.example.olimpo_app.presentation.activity.BaseActivity
 import com.example.olimpo_app.presentation.listeners.UserListener
 import com.example.olimpo_app.presentation.adapters.AcceptUsersAdapter
 import com.example.olimpo_app.utils.Constants
+import com.example.olimpo_app.utils.JsonConverter
 import com.example.olimpo_app.utils.PreferenceManager
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -21,6 +23,7 @@ import kotlinx.coroutines.launch
 class SolicitacaoActivity : BaseActivity(), UserListener {
     private lateinit var binding: ActivitySolicitacaoBinding
     private lateinit var preferenceManager: PreferenceManager
+    private var jsonConverter = JsonConverter()
     private val communityRepository = CommunityRepository(
         AccessApiInstance.service
     )
@@ -61,7 +64,8 @@ class SolicitacaoActivity : BaseActivity(), UserListener {
                             image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE)!!,
                             email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL)!!,
                             token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN),
-                            id = queryDocumentSnapshot.id
+                            id = queryDocumentSnapshot.id,
+                            apiId = jsonConverter.getObjectFromJson(this, Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
                         )
                         users.add(user)
                     }
