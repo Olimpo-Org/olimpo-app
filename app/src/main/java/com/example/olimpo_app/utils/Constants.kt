@@ -38,5 +38,7 @@ class Constants {
         const val KEY_OBJ_USER = "userObj"
         const val KEY_API_USER_ID = "userIdApi"
         const val KEY_USER_API_ID_IN_FIREBASE = "apiId"
+        const val KEY_COMMUNITY_API_ID = "communityApiId"
+        const val KEY_OBJ_COMMUNITY = "communityObj"
     }
 }

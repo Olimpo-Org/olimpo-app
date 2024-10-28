@@ -5,5 +5,6 @@ data class Community(
     var image: String? = null,
     var token: String? = null,
     var id: String? = null,
-    var userId: String? = null
+    var userId: String? = null,
+    var communityApiId: String? = null
 )
