@@ -5,7 +5,7 @@ import com.example.olimpo_app.data.network.FeaturesAPIService
 import retrofit2.Response
 
 class PublicationRepository(private val service: FeaturesAPIService) {
-    suspend fun getAllPosts(): Response<List<Publication>> {
+    suspend fun getAllPublication(): Response<List<Object>> {
         return service.getAllPosts()
     }
     suspend fun createPublication(publication: Publication): Response<Publication>{

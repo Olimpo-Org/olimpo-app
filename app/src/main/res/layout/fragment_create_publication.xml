@@ -55,8 +55,9 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_footer"
         android:orientation="horizontal"
-        android:layout_marginTop="70dp"
-        android:padding="10dp">
+        android:layout_marginTop="65dp"
+        android:visibility="gone"
+        >
 
 
         <Button
@@ -66,7 +67,6 @@
             android:textColor="@color/Pure_White"
             android:layout_marginLeft="@dimen/_15ssp"
             android:text="Venda"
-            android:visibility="gone"
             />
 
         <Button
@@ -76,7 +76,6 @@
             android:layout_marginLeft="@dimen/_20ssp"
             android:text="Serviço"
             android:textColor="@color/Pure_White"
-            android:visibility="gone"
             />
 
         <Button
@@ -86,7 +85,7 @@
             android:layout_marginLeft="@dimen/_20ssp"
             android:text="Doação"
             android:textColor="@color/Pure_White"
-            android:visibility="gone"/>
+            />
 
     </LinearLayout>
 

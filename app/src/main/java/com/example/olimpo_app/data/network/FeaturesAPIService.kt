@@ -15,7 +15,7 @@ import retrofit2.http.Path
 
 interface FeaturesAPIService {
     @GET("publication/")
-    suspend fun getAllPosts(): Response<List<Publication>>
+    suspend fun getAllPosts(): Response<List<Object>>
 
 
     // Comment Endpoints
