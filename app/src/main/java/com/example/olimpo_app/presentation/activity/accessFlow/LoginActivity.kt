@@ -85,9 +85,9 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("LoginActivity", "Login via API bem-sucedido")
 
                     response.body()!!.id?.let {
-                        preferenceManager.putLong(
+                        preferenceManager.putString(
                             Constants.KEY_API_USER_ID,
-                            it
+                            it.toString()
                         )
                     }
                     preferenceManager.putString(Constants.KEY_NAME, response.body()!!.name)

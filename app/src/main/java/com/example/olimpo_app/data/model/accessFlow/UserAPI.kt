@@ -1,7 +1,9 @@
 package com.example.olimpo_app.data.model.accessFlow
 
+import java.util.UUID
+
 data class UserAPI (
-    val id: Long? = null,
+    val id: UUID? = null,
     val email: String,
     val password: String,
     val name: String,

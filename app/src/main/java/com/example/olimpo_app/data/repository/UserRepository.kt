@@ -5,6 +5,7 @@ import com.example.olimpo_app.data.model.accessFlow.Login
 import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.data.network.AccessAPIService
 import retrofit2.Response
+import java.util.UUID
 
 class UserRepository(
     private val service: AccessAPIService
@@ -20,15 +21,15 @@ class UserRepository(
     suspend fun getAllUsers(): Response<List<UserAPI>> {
         return service.getAllUsers()
     }
-    suspend fun getUserById(userId: Long): Response<UserAPI> {
+    suspend fun getUserById(userId: UUID): Response<UserAPI> {
         return service.getUserById(userId)
     }
 
-    suspend fun userExists(userId: Long): Response<Boolean> {
+    suspend fun userExists(userId: UUID): Response<Boolean> {
         return service.userExists(userId)
     }
 
-    suspend fun isAdministrator(userId: String, communityId: Long): Response<Boolean> {
+    suspend fun isAdministrator(userId: UUID, communityId: UUID): Response<Boolean> {
         return service.isAdministrator(userId, communityId)
     }
 

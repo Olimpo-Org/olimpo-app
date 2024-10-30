@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide.init
 import com.example.olimpo_app.AccessApiInstance
 import com.example.olimpo_app.data.model.accessFlow.Community
 import com.example.olimpo_app.data.model.accessFlow.CommunityAPI
@@ -25,6 +24,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class MainActivity : BaseActivity(), ConversionListener, CommunityClickListener {
 
@@ -66,7 +66,7 @@ class MainActivity : BaseActivity(), ConversionListener, CommunityClickListener 
     private fun getCommunityList() {
         lifecycleScope.launch {
             apiCommunityList = communityRepository.getAllCommunitiesByUser(
-                userId = userId!!.toLong()
+                userId = UUID.fromString(userId)
             ).body()?.toMutableList() ?: mutableListOf()
 
             if (apiCommunityList.isNotEmpty()) {

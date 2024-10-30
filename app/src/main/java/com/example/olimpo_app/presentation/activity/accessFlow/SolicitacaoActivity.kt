@@ -19,6 +19,7 @@ import com.example.olimpo_app.utils.PreferenceManager
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class SolicitacaoActivity : BaseActivity(), UserListener {
     private lateinit var binding: ActivitySolicitacaoBinding
@@ -83,7 +84,7 @@ class SolicitacaoActivity : BaseActivity(), UserListener {
         try {
             lifecycleScope.launch {
                 val response = communityRepository.getAllSolicitations(
-                    preferenceManager.getString(Constants.KEY_COMMUNITY_ID)!!.toLong()
+                   UUID.fromString(preferenceManager.getString(Constants.KEY_COMMUNITY_ID))
                 )
                 val listUser = mutableListOf<User>()
 
