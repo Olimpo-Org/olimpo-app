@@ -1,20 +1,20 @@
 package com.example.olimpo_app.presentation.activity.feedFlow
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Base64
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.olimpo_app.R
 import com.example.olimpo_app.databinding.ActivityHomeBinding
 import com.example.olimpo_app.presentation.activity.accessFlow.MainActivity
+import com.example.olimpo_app.presentation.fragment.accessFlow.UserProfileFragment
 import com.example.olimpo_app.presentation.fragment.feedFlow.CreatePublicationFragment
 import com.example.olimpo_app.presentation.fragment.feedFlow.FeedFragment
 import com.example.olimpo_app.presentation.fragment.messageFlow.ListCommunitiesChatsFragment
 import com.example.olimpo_app.presentation.fragment.negotiationFlow.ShopFragment
-import com.example.olimpo_app.presentation.fragment.accessFlow.UserProfileFragment
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.PreferenceManager
 
@@ -99,8 +99,11 @@ class HomeActivity : AppCompatActivity() {
     }
     private fun loadCommunityDetails(){
         binding.communityName.text = preferenceManager.getString(Constants.KEY_COMMUNITY_NAME)
-        val bytes = Base64.decode(preferenceManager.getString(Constants.KEY_COMMUNITY_IMAGE), Base64.DEFAULT)
-        val bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
-        binding.perfilImage.setImageBitmap(bitmap)
+        Glide.with(this)
+            .load(Constants.KEY_COMMUNITY_IMAGE)
+            .override(1800, 1800)
+            .placeholder(R.drawable.placeholder_image)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(binding.perfilImage)
     }
 }

@@ -41,8 +41,9 @@ class FeedFragment : Fragment() {
     private fun fetchPublication() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
+
                 val posts = withContext(Dispatchers.IO) {
-                    publicationRepository.getAllPublication()
+                    publicationRepository.getPublicationsByCommunity("123")
                 }
                 val postsList = posts.body()
                 setupRecycler(postsList ?: emptyList())
