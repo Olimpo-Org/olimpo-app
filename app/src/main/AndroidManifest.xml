@@ -35,7 +35,7 @@
             android:screenOrientation="locked"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".presentation.activity.accessFlow.CadastroActivity"
+            android:name=".presentation.activity.accessFlow.RegisterActivity"
             android:exported="false"
             android:screenOrientation="locked"
             android:windowSoftInputMode="adjustResize" />
@@ -50,7 +50,7 @@
             android:screenOrientation="locked"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".presentation.activity.accessFlow.SolicitacaoActivity"
+            android:name=".presentation.activity.accessFlow.SolicitationActivity"
             android:exported="false"
             android:screenOrientation="locked"
             android:windowSoftInputMode="adjustResize" />

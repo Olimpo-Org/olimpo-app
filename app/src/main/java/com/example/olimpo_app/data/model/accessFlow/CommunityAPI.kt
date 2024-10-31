@@ -6,7 +6,7 @@ import java.util.UUID
 data class CommunityAPI (
     val id: UUID? = null,
     val name: String,
-    val startDate: Date,
+    val startDate: String? = null,
     val neighborhood: String,
     val imageUrl: String
 )

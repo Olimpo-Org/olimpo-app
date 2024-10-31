@@ -21,11 +21,11 @@ import com.example.olimpo_app.databinding.ActivityCriarComunidadesBinding
 import com.example.olimpo_app.presentation.activity.feedFlow.HomeActivity
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.PreferenceManager
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
 import java.sql.Date
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class CreateCommunityActivity : AppCompatActivity() {
 
@@ -59,7 +59,7 @@ class CreateCommunityActivity : AppCompatActivity() {
     }
 
     private fun navigateToSolicitationActivity() {
-        startActivity(Intent(applicationContext, SolicitacaoActivity::class.java))
+        startActivity(Intent(applicationContext, SolicitationActivity::class.java))
         finish()
     }
 
@@ -70,12 +70,11 @@ class CreateCommunityActivity : AppCompatActivity() {
                 val imageUrl = imageUpload.uploadImage(image!!)
                 imageUrl?.let {
                     createCommunityApi(it) { communityApiId ->
-                        createCommunityFirebase(it, communityApiId) {
-                            showToast("Comunidade criada com sucesso")
-                            startActivity(Intent(applicationContext, HomeActivity::class.java).apply {
-                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                            })
-                        }
+                        showToast("Comunidade criada com sucesso")
+                        saveCommunityLocally(communityApiId, it)
+                        startActivity(Intent(applicationContext, HomeActivity::class.java).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        })
                     }
                 }
             }
@@ -85,10 +84,13 @@ class CreateCommunityActivity : AppCompatActivity() {
     private fun createCommunityApi(imageUrl: String, onSuccess: (String) -> Unit) {
         lifecycleScope.launch {
             try {
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val formattedDate = dateFormat.format(Date(System.currentTimeMillis()))
+
                 val community = CommunityAPI(
                     id = null,
                     name = binding.inputName.text.toString(),
-                    startDate = Date(System.currentTimeMillis()),
+                    startDate = formattedDate,
                     neighborhood = binding.inputNeighborhood.text.toString(),
                     imageUrl = imageUrl
                 )
@@ -96,29 +98,12 @@ class CreateCommunityActivity : AppCompatActivity() {
                 if (response.isSuccessful && response.body() != null) {
                     response.body()?.let { onSuccess(it.id.toString()) }
                 } else {
-                    showError("Erro ao criar comunidade na API")
+                    showError("Erro ao criar comunidade na API: ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
-                showError("Erro ao criar comunidade. Tente novamente")
+                Log.e("CreateCommunityError", "Erro ao criar comunidade na API", e)
             }
         }
-    }
-
-    private fun createCommunityFirebase(imageUrl: String, communityApiId: String, onSuccess: () -> Unit) {
-        val community = mapOf(
-            Constants.KEY_COMMUNITY_NAME to binding.inputName.text.toString(),
-            Constants.KEY_COMMUNITY_IMAGE to image!!,
-            Constants.KEY_COMMUNITY_API_ID to communityApiId
-        )
-
-        FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_COMMUNITY)
-            .add(community)
-            .addOnSuccessListener { communityDocument ->
-                saveCommunityLocally(communityDocument.id, imageUrl)
-                addUserToCommunity(communityDocument.id)
-                onSuccess()
-            }
-            .addOnFailureListener { e -> showError(e.message ?: "Erro ao criar comunidade no Firebase") }
     }
 
     private fun saveCommunityLocally(communityId: String, imageUrl: String) {
@@ -130,41 +115,11 @@ class CreateCommunityActivity : AppCompatActivity() {
         }
     }
 
-    private fun addUserToCommunity(communityId: String) {
-        FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_USERS)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                querySnapshot.documents.find { it.id == preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID) }
-                    ?.let { userDocument ->
-                        FirebaseFirestore.getInstance().batch().apply {
-                            update(
-                                FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_COMMUNITY)
-                                    .document(communityId),
-                                mapOf(Constants.KEY_COMMUNITY_MEMBERS to FieldValue.arrayUnion(userDocument))
-                            ).commit()
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) showToast("Usuário adicionado à comunidade.")
-                                    else showToast("Falha ao adicionar usuário à comunidade.")
-                                }
-                        }
-                    } ?: showToast("Usuário não encontrado.")
-            }
-            .addOnFailureListener { e -> showError("Erro ao buscar usuários: ${e.message}") }
-    }
-
     private fun signOut() {
         showToast("Saindo...")
-        preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)?.let {
-            FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_USERS)
-                .document(it)
-                .update(mapOf(Constants.KEY_COMMUNITY_TOKEN to FieldValue.delete()))
-                .addOnSuccessListener {
-                    preferenceManager.clear()
-                    startActivity(Intent(applicationContext, LoginActivity::class.java))
-                    finish()
-                }
-                .addOnFailureListener { showToast("Não foi possível sair :/") }
-        }
+        preferenceManager.clear()
+        startActivity(Intent(applicationContext, LoginActivity::class.java))
+        finish()
     }
 
     private fun openGallery() {

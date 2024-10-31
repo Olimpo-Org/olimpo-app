@@ -12,9 +12,9 @@ import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.databinding.ItemChatsBinding
 import com.example.olimpo_app.presentation.listeners.ConversionListener
 import com.example.olimpo_app.utils.Constants
-import com.example.olimpo_app.utils.JsonConverter
+import com.example.olimpo_app.utils.ObjectsLocalStorage
 
-private val jsonConverter = JsonConverter()
+private val objectsLocalStorage = ObjectsLocalStorage()
 class RecentConversationsAdapter(
     private val chatMessages: List<ChatMessage>,
     private val conversionListener: ConversionListener
@@ -39,7 +39,7 @@ class RecentConversationsAdapter(
                     null,
                     null,
                     id = chatMessage.conversionId.toString(),
-                    apiId = jsonConverter.getObjectFromJson(it.context, Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
+                    apiId = objectsLocalStorage.getObjectFromLocalStorage(it.context, Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
                 )
                 conversionListener.onConversionClicked(user)
             }
