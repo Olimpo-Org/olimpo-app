@@ -5,192 +5,173 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.olimpo_app.AccessApiInstance
 import com.example.olimpo_app.R
+import com.example.olimpo_app.data.firebase.ImageUpload
+import com.example.olimpo_app.data.model.accessFlow.CommunityAPI
+import com.example.olimpo_app.data.repository.CommunityRepository
 import com.example.olimpo_app.databinding.ActivityCriarComunidadesBinding
 import com.example.olimpo_app.presentation.activity.feedFlow.HomeActivity
-import com.example.olimpo_app.presentation.activity.feedFlow.MainActivity
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.PreferenceManager
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
-import java.io.ByteArrayOutputStream
+import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
+import java.sql.Date
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class CreateCommunityActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityCriarComunidadesBinding
     private lateinit var preferenceManager: PreferenceManager
-    private var encodedImage: String? = null
+    private var image: Bitmap? = null
+    private val communityRepository = CommunityRepository(AccessApiInstance.service)
+    private val imageUpload = ImageUpload()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCriarComunidadesBinding.inflate(layoutInflater)
-        preferenceManager = PreferenceManager(applicationContext)
         setContentView(binding.root)
 
-        setListeners()
-
-        binding.buttonArrow.setOnClickListener {
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-        binding.imageSolicitation.setOnClickListener{
-            val intent = Intent(applicationContext, SolicitacaoActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+        preferenceManager = PreferenceManager(applicationContext)
+        initializeUI()
     }
-    private fun setListeners(){
+
+    // Configura os listeners iniciais
+    private fun initializeUI() {
+        binding.buttonArrow.setOnClickListener { navigateToMainActivity() }
+        binding.imageSolicitation.setOnClickListener { navigateToSolicitationActivity() }
         binding.buttonSignOut.setOnClickListener { signOut() }
-        binding.btnCreateCommunity.setOnClickListener{
-            if (isValidCreateDetails()) {
-                createCommunity()
-            }
-        }
+        binding.btnCreateCommunity.setOnClickListener { createCommunity() }
+        binding.fotoPerfil.setOnClickListener { openGallery() }
+    }
 
-    binding.fotoPerfil.setOnClickListener {
-        val galeriaIntent =
-            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        galeriaIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        pickImage.launch(galeriaIntent)
-        }
+    private fun navigateToMainActivity() {
+        startActivity(Intent(applicationContext, MainActivity::class.java))
+        finish()
     }
-    private fun showToast(text: String){
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+
+    private fun navigateToSolicitationActivity() {
+        startActivity(Intent(applicationContext, SolicitationActivity::class.java))
+        finish()
     }
+
+    // Processa a criação de uma nova comunidade
     private fun createCommunity() {
-        val database = FirebaseFirestore.getInstance()
-
-        // Criação da comunidade
-        val community = hashMapOf(
-            Constants.KEY_COMMUNITY_NAME to binding.inputName.text.toString(),
-            Constants.KEY_COMMUNITY_IMAGE to encodedImage!!
-        )
-
-        // Adiciona a nova comunidade no Firestore
-        database.collection(Constants.KEY_COLLECTION_COMMUNITY)
-            .add(community)
-            .addOnSuccessListener { communityDocument ->  // Retorna o documento criado
-                val communityId = communityDocument.id
-                preferenceManager.putBoolean(Constants.KEY_IS_CREATE, true)
-                preferenceManager.putString(Constants.KEY_COMMUNITY_ID, communityId)
-                preferenceManager.putString(Constants.KEY_COMMUNITY_NAME, binding.inputName.text.toString())
-                preferenceManager.putString(Constants.KEY_COMMUNITY_IMAGE, encodedImage!!)
-
-                // Chama o método para adicionar todos os usuários à comunidade recém-criada
-                addUsersToCommunity(communityId)
-
-                // Redireciona para a HomeActivity
-                val intent = Intent(applicationContext, HomeActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(intent)
-            }
-            .addOnFailureListener { e ->
-                e.message?.let { message -> showToast(message) }
-            }
-    }
-
-    private fun addUsersToCommunity(communityId: String) {
-        val database = FirebaseFirestore.getInstance()
-
-        // Busca todos os usuários da coleção de usuários
-        database.collection(Constants.KEY_COLLECTION_USERS)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                val batch = database.batch()
-
-                // Lista de IDs dos usuários
-                val userIds = mutableListOf<String>()
-
-                for (document in querySnapshot.documents) {
-                    val userId = document.id
-                    userIds.add(userId)
-                }
-
-                val communityData = hashMapOf(
-                    Constants.KEY_COMMUNITY_MEMBERS to userIds  // Lista de IDs de usuários
-                )
-
-                // Atualiza o documento da comunidade com a lista de membros
-                val communityRef = database.collection(Constants.KEY_COLLECTION_COMMUNITY).document(communityId)
-                batch.update(communityRef, communityData as Map<String, Any>)
-
-                // Executa o batch de operações
-                batch.commit().addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        showToast("Todos os usuários foram adicionados à comunidade.")
-                    } else {
-                        showToast("Falha ao adicionar usuários à comunidade.")
+        if (isValidCreateDetails()) {
+            lifecycleScope.launch {
+                val imageUrl = imageUpload.uploadImage(image!!)
+                imageUrl?.let {
+                    createCommunityApi(it) { communityApiId ->
+                        showToast("Comunidade criada com sucesso")
+                        saveCommunityLocally(communityApiId, it)
+                        startActivity(Intent(applicationContext, HomeActivity::class.java).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        })
                     }
                 }
             }
-            .addOnFailureListener { e ->
-                showToast("Erro ao buscar usuários: ${e.message}")
+        }
+    }
+
+    private fun createCommunityApi(imageUrl: String, onSuccess: (String) -> Unit) {
+        lifecycleScope.launch {
+            try {
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val formattedDate = dateFormat.format(Date(System.currentTimeMillis()))
+
+                val community = CommunityAPI(
+                    id = null,
+                    name = binding.inputName.text.toString(),
+                    startDate = formattedDate,
+                    neighborhood = binding.inputNeighborhood.text.toString(),
+                    imageUrl = imageUrl
+                )
+                val response = communityRepository.createCommunity(community)
+                if (response.isSuccessful && response.body() != null) {
+                    response.body()?.let { onSuccess(it.id.toString()) }
+                } else {
+                    showError("Erro ao criar comunidade na API: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e("CreateCommunityError", "Erro ao criar comunidade na API", e)
             }
+        }
+    }
+
+    private fun saveCommunityLocally(communityId: String, imageUrl: String) {
+        preferenceManager.apply {
+            putBoolean(Constants.KEY_IS_CREATE, true)
+            putString(Constants.KEY_COMMUNITY_ID, communityId)
+            putString(Constants.KEY_COMMUNITY_NAME, binding.inputName.text.toString())
+            putString(Constants.KEY_COMMUNITY_IMAGE, imageUrl)
+        }
     }
 
     private fun signOut() {
         showToast("Saindo...")
-        val database = FirebaseFirestore.getInstance()
-        val documentReference = preferenceManager.getString(Constants.KEY_USER_ID)?.let {
-            database.collection(Constants.KEY_COLLECTION_USERS).document(it)
-        }
-        val updates = hashMapOf<String, Any>( Constants.KEY_COMMUNITY_TOKEN to FieldValue.delete() )
-        documentReference?.update(updates)
-            ?.addOnSuccessListener {
-                preferenceManager.clear()
-                startActivity(Intent(applicationContext, LoginActivity::class.java))
-                finish()
-            }
-            ?.addOnFailureListener { showToast("Não foi possível sair :/") }
-
+        preferenceManager.clear()
+        startActivity(Intent(applicationContext, LoginActivity::class.java))
+        finish()
     }
 
-    private fun encodeImage(bitmap: Bitmap): String{
-        val previewWidth = 150
-        val previewHeight = bitmap.height * previewWidth / bitmap.width
-        val previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false)
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-        val bytes = byteArrayOutputStream.toByteArray()
-        return Base64.encodeToString(bytes, Base64.DEFAULT)
+    private fun openGallery() {
+        val galeriaIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        galeriaIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        pickImage.launch(galeriaIntent)
     }
 
     private val pickImage: ActivityResultLauncher<Intent> = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult())
-    {
-        if (it.resultCode == RESULT_OK) {
-            if (it.data != null) {
-                val imageUri = it.data?.data
-                try {
-                    val inputStream = imageUri?.let { uri -> contentResolver.openInputStream(uri) }
-                    val bitmap = BitmapFactory.decodeStream(inputStream)
-                    binding.fotoPerfil.setImageBitmap(bitmap)
-                    encodedImage = encodeImage(bitmap)
-                } catch (e: FileNotFoundException) {
-                    e.printStackTrace()
+        ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK && result.data != null) {
+            try {
+                result.data?.data?.let { uri ->
+                    contentResolver.openInputStream(uri)?.let { inputStream ->
+                        BitmapFactory.decodeStream(inputStream).also { bitmap ->
+                            binding.fotoPerfil.setImageBitmap(bitmap)
+                            image = bitmap
+                        }
+                    }
                 }
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
             }
         }
     }
-        private fun isValidCreateDetails(): Boolean {
-    if(binding.inputName.text.toString().trim().isEmpty()){
-    binding.textName.setTextColor(getColor(R.color.Red_Bad))
-    binding.errorMessage.visibility = View.VISIBLE
-    return false
-    }else if(encodedImage == null){
-    binding.errorMessage.visibility = View.VISIBLE
-    showToast("Insira uma foto de perfil")
-    return false
-    }else {
-        binding.textName.setTextColor(getColor(R.color.Blue))
-        binding.errorMessage.visibility = View.GONE
-        return true
+
+    private fun isValidCreateDetails(): Boolean {
+        return when {
+            binding.inputName.text.toString().trim().isEmpty() -> {
+                binding.textName.setTextColor(getColor(R.color.Red_Bad))
+                binding.errorMessage.visibility = View.VISIBLE
+                false
+            }
+            image == null -> {
+                binding.errorMessage.visibility = View.VISIBLE
+                showToast("Insira uma foto de perfil")
+                false
+            }
+            else -> {
+                binding.textName.setTextColor(getColor(R.color.Blue))
+                binding.errorMessage.visibility = View.GONE
+                true
+            }
         }
+    }
+
+    private fun showToast(text: String) {
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showError(message: String) {
+        Log.d("Erro", message)
+        showToast("Tente novamente")
     }
 }

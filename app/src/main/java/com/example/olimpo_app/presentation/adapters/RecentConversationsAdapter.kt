@@ -8,9 +8,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.olimpo_app.data.model.messageFlow.ChatMessage
 import com.example.olimpo_app.data.model.accessFlow.User
+import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.databinding.ItemChatsBinding
 import com.example.olimpo_app.presentation.listeners.ConversionListener
+import com.example.olimpo_app.utils.Constants
+import com.example.olimpo_app.utils.ObjectsLocalStorage
 
+private val objectsLocalStorage = ObjectsLocalStorage()
 class RecentConversationsAdapter(
     private val chatMessages: List<ChatMessage>,
     private val conversionListener: ConversionListener
@@ -34,7 +38,8 @@ class RecentConversationsAdapter(
                     image = chatMessage.conversionImage.toString(),
                     null,
                     null,
-                    id = chatMessage.conversionId.toString()
+                    id = chatMessage.conversionId.toString(),
+                    apiId = objectsLocalStorage.getObjectFromLocalStorage(it.context, Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
                 )
                 conversionListener.onConversionClicked(user)
             }

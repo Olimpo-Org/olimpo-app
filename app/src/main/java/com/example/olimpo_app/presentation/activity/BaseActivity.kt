@@ -14,6 +14,6 @@ open class BaseActivity: AppCompatActivity() {
         val preferenceManager = PreferenceManager(applicationContext)
         val database: FirebaseFirestore = FirebaseFirestore.getInstance()
         documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
-            .document(preferenceManager.getString(Constants.KEY_USER_ID).toString())
+            .document(preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID).toString())
     }
 }

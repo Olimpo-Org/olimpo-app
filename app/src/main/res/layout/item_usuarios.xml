@@ -22,32 +22,29 @@
             android:id="@+id/OlimpoFoto"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginEnd="12dp"
+            android:layout_marginStart="32dp"
             android:background="@drawable/add_foto"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/username"
-            app:layout_constraintHorizontal_bias="0.721"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.186"
+            app:layout_constraintVertical_bias="0.12"
             app:riv_oval="true" />
 
         <TextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="96dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:text="Nome do Usuário"
             android:textColor="@color/Text_Color"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.189" />
+            app:layout_constraintVertical_bias="0.187" />
 
         <Button
             android:id="@+id/button"
@@ -56,6 +53,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/background_input"
             android:text="Aceitar Usuário"
+            android:textColor="@color/Pure_White"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/username" />

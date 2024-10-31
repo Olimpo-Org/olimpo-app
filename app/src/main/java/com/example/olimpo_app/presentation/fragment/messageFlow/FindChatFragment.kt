@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.olimpo_app.data.model.accessFlow.User
+import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.databinding.FragmentFindChatBinding
 import com.example.olimpo_app.presentation.listeners.UserListener
 import com.example.olimpo_app.presentation.listeners.UsersCallback
 import com.example.olimpo_app.presentation.activity.messageFlow.ChatActivity
 import com.example.olimpo_app.presentation.adapters.UsersAdapter
 import com.example.olimpo_app.utils.Constants
+import com.example.olimpo_app.utils.ObjectsLocalStorage
 import com.example.olimpo_app.utils.PreferenceManager
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
@@ -21,6 +23,7 @@ class FindChatFragment : Fragment(), UserListener {
 
     private lateinit var binding: FragmentFindChatBinding
     private lateinit var preferenceManager: PreferenceManager
+    private var objectsLocalStorage = ObjectsLocalStorage()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,7 +92,7 @@ class FindChatFragment : Fragment(), UserListener {
 
     private fun fetchUsersDetails(memberIds: List<String>, callback: UsersCallback) {
         val database = FirebaseFirestore.getInstance()
-        val currentUserId = preferenceManager.getString(Constants.KEY_USER_ID)
+        val currentUserId = preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)
         val users = mutableListOf<User>()
 
         binding.userList.layoutManager = LinearLayoutManager(requireContext())
@@ -107,7 +110,8 @@ class FindChatFragment : Fragment(), UserListener {
                             image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE)!!,
                             email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL)!!,
                             token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN),
-                            id = queryDocumentSnapshot.id
+                            id = queryDocumentSnapshot.id,
+                            apiId = objectsLocalStorage.getObjectFromLocalStorage(requireContext(), Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
                         )
                         users.add(user)
                     }
