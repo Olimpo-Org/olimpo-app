@@ -8,6 +8,7 @@ import androidx.fragment.app.replace
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.olimpo_app.R
+import com.example.olimpo_app.data.model.accessFlow.Community
 import com.example.olimpo_app.databinding.ActivityHomeBinding
 import com.example.olimpo_app.presentation.activity.accessFlow.MainActivity
 import com.example.olimpo_app.presentation.fragment.accessFlow.UserProfileFragment
@@ -16,19 +17,21 @@ import com.example.olimpo_app.presentation.fragment.feedFlow.FeedFragment
 import com.example.olimpo_app.presentation.fragment.messageFlow.ListCommunitiesChatsFragment
 import com.example.olimpo_app.presentation.fragment.negotiationFlow.ShopFragment
 import com.example.olimpo_app.utils.Constants
+import com.example.olimpo_app.utils.ObjectsLocalStorage
 import com.example.olimpo_app.utils.PreferenceManager
 
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var preferenceManager: PreferenceManager
+    private val objectsLocalStorage = ObjectsLocalStorage()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         preferenceManager = PreferenceManager(applicationContext)
         setContentView(binding.root)
 
-        loadCommunityDetails()
+        loadCommunityDetails(Community())
 
         supportFragmentManager.commit {
             setReorderingAllowed(true)
@@ -97,8 +100,8 @@ class HomeActivity : AppCompatActivity() {
                     finish()
         }
     }
-    private fun loadCommunityDetails(){
-        binding.communityName.text = preferenceManager.getString(Constants.KEY_COMMUNITY_NAME)
+    private fun loadCommunityDetails(community: Community){
+        binding.communityName.text = objectsLocalStorage.saveObjectInLocalStorage(this, Constants.KEY_OBJ_COMMUNITY, community).toString()
         Glide.with(this)
             .load(Constants.KEY_COMMUNITY_IMAGE)
             .override(1800, 1800)

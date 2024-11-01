@@ -14,9 +14,8 @@ import com.example.olimpo_app.data.model.accessFlow.Login
 import com.example.olimpo_app.data.repository.UserRepository
 import com.example.olimpo_app.databinding.ActivityLoginBinding
 import com.example.olimpo_app.utils.Constants
-import com.example.olimpo_app.utils.JsonConverter
+import com.example.olimpo_app.utils.ObjectsLocalStorage
 import com.example.olimpo_app.utils.PreferenceManager
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -24,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var preferenceManager: PreferenceManager
     private val accessRepository = UserRepository(AccessApiInstance.service)
-    private val jsonConverter = JsonConverter()
+    private val objectsLocalStorage = ObjectsLocalStorage()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,35 +38,6 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setListeners()
-    }
-
-    private fun signInFirebase() {
-        Log.d("LoginActivity", "Iniciando login no Firebase")
-        val database = FirebaseFirestore.getInstance()
-
-        database.collection(Constants.KEY_COLLECTION_USERS)
-            .whereEqualTo(Constants.KEY_EMAIL, binding.inputEmail.text.toString())
-            .whereEqualTo(Constants.KEY_PASSWORD, binding.inputPassword.text.toString())
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful && task.result != null && task.result!!.documents.size > 0) {
-                    Log.d("LoginActivity", "Login no Firebase bem-sucedido")
-                    val documentSnapshot = task.result!!.documents[0]
-                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true)
-                    preferenceManager.putString(Constants.KEY_FIREBASE_USER_ID, documentSnapshot.id)
-                    preferenceManager.putString(Constants.KEY_NAME, documentSnapshot.getString(Constants.KEY_NAME)!!)
-                    preferenceManager.putString(Constants.KEY_IMAGE, documentSnapshot.getString(Constants.KEY_IMAGE)!!)
-                } else {
-                    Log.d("LoginActivity", "Falha no login com Firebase")
-                    loading(false)
-                    showToast("Não foi possível logar com Firebase")
-                }
-            }
-            .addOnFailureListener { e ->
-                Log.e("LoginActivity", "Erro no Firebase: ${e.message}")
-                loading(false)
-                showToast("Erro ao tentar logar no Firebase")
-            }
     }
 
     private fun signInApi() {
@@ -85,15 +55,15 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("LoginActivity", "Login via API bem-sucedido")
 
                     response.body()!!.id?.let {
-                        preferenceManager.putLong(
+                        preferenceManager.putString(
                             Constants.KEY_API_USER_ID,
-                            it
+                            it.toString()
                         )
                     }
                     preferenceManager.putString(Constants.KEY_NAME, response.body()!!.name)
                     preferenceManager.putString(Constants.KEY_IMAGE, response.body()!!.profileImage)
                     preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true)
-                    jsonConverter.saveObjectToJson(this@LoginActivity, Constants.KEY_OBJ_USER, response.body()!!)
+                    objectsLocalStorage.saveObjectInLocalStorage(this@LoginActivity, Constants.KEY_OBJ_USER, response.body()!!)
 
                     // Redireciona para a MainActivity após o login
                     val intent = Intent(applicationContext, MainActivity::class.java)
@@ -115,7 +85,7 @@ class LoginActivity : AppCompatActivity() {
     // Configura listeners dos botões
     private fun setListeners() {
         binding.textCreateNewAccount.setOnClickListener {
-            startActivity(Intent(this, CadastroActivity::class.java))
+            startActivity(Intent(this, RegisterActivity::class.java))
             binding.textEmail.setTextColor(getColor(R.color.Blue))
             binding.textSenha.setTextColor(getColor(R.color.Blue))
             binding.errorMessage.visibility = View.GONE
@@ -125,10 +95,8 @@ class LoginActivity : AppCompatActivity() {
             if (isValidSignInDetails()) {
                 loading(true)
                 Log.d("LoginActivity", "Iniciando processo de login")
-                signInFirebase()
                 signInApi()
                 loading(false)
-
             }
         }
     }

@@ -6,12 +6,12 @@ import com.example.olimpo_app.data.model.accessFlow.Community
 import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.utils.Constants
-import com.example.olimpo_app.utils.JsonConverter
+import com.example.olimpo_app.utils.ObjectsLocalStorage
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 class MessageService: FirebaseMessagingService() {
-    val jsonConverter = JsonConverter()
+    val objectsLocalStorage = ObjectsLocalStorage()
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d("FCM", "Token: $token")
@@ -26,7 +26,7 @@ class MessageService: FirebaseMessagingService() {
             name = remoteMessage.data[Constants.KEY_NAME]!!,
             id = remoteMessage.data[Constants.KEY_FIREBASE_USER_ID]!!,
             token = remoteMessage.data[Constants.KEY_FCM_TOKEN],
-            apiId = JsonConverter().getObjectFromJson(this, Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
+            apiId = ObjectsLocalStorage().getObjectFromLocalStorage(this, Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
             )
         val community = Community(
             name = remoteMessage.data[Constants.KEY_COMMUNITY_NAME]!!,

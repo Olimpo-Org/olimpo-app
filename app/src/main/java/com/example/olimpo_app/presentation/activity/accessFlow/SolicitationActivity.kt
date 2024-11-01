@@ -14,16 +14,17 @@ import com.example.olimpo_app.presentation.activity.BaseActivity
 import com.example.olimpo_app.presentation.listeners.UserListener
 import com.example.olimpo_app.presentation.adapters.AcceptUsersAdapter
 import com.example.olimpo_app.utils.Constants
-import com.example.olimpo_app.utils.JsonConverter
+import com.example.olimpo_app.utils.ObjectsLocalStorage
 import com.example.olimpo_app.utils.PreferenceManager
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
+import java.util.UUID
 
-class SolicitacaoActivity : BaseActivity(), UserListener {
+class SolicitationActivity : BaseActivity(), UserListener {
     private lateinit var binding: ActivitySolicitacaoBinding
     private lateinit var preferenceManager: PreferenceManager
-    private var jsonConverter = JsonConverter()
+    private var objectsLocalStorage = ObjectsLocalStorage()
     private val communityRepository = CommunityRepository(
         AccessApiInstance.service
     )
@@ -42,7 +43,7 @@ class SolicitacaoActivity : BaseActivity(), UserListener {
             finish()
         }
         binding.imageSolicitation.setOnClickListener{
-            val intent = Intent(applicationContext, SolicitacaoActivity::class.java)
+            val intent = Intent(applicationContext, SolicitationActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -65,7 +66,7 @@ class SolicitacaoActivity : BaseActivity(), UserListener {
                             email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL)!!,
                             token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN),
                             id = queryDocumentSnapshot.id,
-                            apiId = jsonConverter.getObjectFromJson(this, Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
+                            apiId = objectsLocalStorage.getObjectFromLocalStorage(this, Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
                         )
                         users.add(user)
                     }
@@ -83,14 +84,14 @@ class SolicitacaoActivity : BaseActivity(), UserListener {
         try {
             lifecycleScope.launch {
                 val response = communityRepository.getAllSolicitations(
-                    preferenceManager.getString(Constants.KEY_COMMUNITY_ID)!!.toLong()
+                   UUID.fromString(preferenceManager.getString(Constants.KEY_COMMUNITY_ID))
                 )
                 val listUser = mutableListOf<User>()
 
                 if (response.isSuccessful && response.body() != null){
                     val users = response.body()!!
                     if (users.isNotEmpty()){
-                        val acceptUsersAdapter = AcceptUsersAdapter(listUser, this@SolicitacaoActivity)
+                        val acceptUsersAdapter = AcceptUsersAdapter(listUser, this@SolicitationActivity)
                         binding.UsersRecyclerView.adapter = acceptUsersAdapter
                         binding.UsersRecyclerView.visibility = View.VISIBLE
                     }
