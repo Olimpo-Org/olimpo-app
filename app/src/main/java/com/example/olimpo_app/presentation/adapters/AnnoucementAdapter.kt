@@ -5,25 +5,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.olimpo_app.data.model.feedFlow.Publication
-import com.example.olimpo_app.databinding.ItemHomeBinding
+import com.example.olimpo_app.data.model.negociationFlow.AnnouncementAPI
+import com.example.olimpo_app.databinding.ItemShopBinding
 
-class PublicationAdapter : RecyclerView.Adapter<PublicationAdapter.PublicationViewHolder>() {
+class AnnoucementAdapter : RecyclerView.Adapter<AnnoucementAdapter.AnnoucementViewHolder>() {
 
-    inner class PublicationViewHolder(val binding: ItemHomeBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class AnnoucementViewHolder(val binding: ItemShopBinding) : RecyclerView.ViewHolder(binding.root)
 
     private val diffCallback = object : DiffUtil.ItemCallback<Any>() {
         override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
-            // Verificação segura para tipo Publication e igualdade de IDs
-            return if (oldItem is Publication && newItem is Publication) {
-                oldItem.publicationId == newItem.publicationId // Usar "publicationId" no lugar de "id"
+
+            return if (oldItem is AnnouncementAPI && newItem is AnnouncementAPI) {
+                oldItem.announcementId == newItem.announcementId
             } else {
                 false
             }
         }
 
         override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
-            return if (oldItem is Publication && newItem is Publication) {
+            return if (oldItem is AnnouncementAPI && newItem is AnnouncementAPI) {
                 oldItem == newItem
             } else {
                 false
@@ -39,9 +39,9 @@ class PublicationAdapter : RecyclerView.Adapter<PublicationAdapter.PublicationVi
 
     override fun getItemCount() = postsList.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PublicationViewHolder {
-        return PublicationViewHolder(
-            ItemHomeBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnnoucementViewHolder {
+        return AnnoucementViewHolder(
+            ItemShopBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -49,20 +49,15 @@ class PublicationAdapter : RecyclerView.Adapter<PublicationAdapter.PublicationVi
         )
     }
 
-    override fun onBindViewHolder(holder: PublicationViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AnnoucementViewHolder, position: Int) {
         holder.binding.apply {
             val item = postsList[position]
 
-            // Verificação se o item é uma instância de Publication antes de fazer o cast
-            if (item is Publication) {
-                // Configurando as propriedades da Publication
+            if (item is AnnouncementAPI) {
                 OlimpoFoto.alpha = 1.0f // Ajuste do alpha da imagem
                 username.text = item.senderName
-
                 // Usando o adapter de imagens com MutableList
                 recyclerView.adapter = SelectedImagesAdapter(item.images.toMutableList())
-
-                textView3.text = item.likes.size.toString()
                 description.text = item.description
             }
         }

@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object FeaturesApiInstance {
-    private const val BASE_URL = "https://olimpo-api-nosql.onrender.com/"
+    private const val BASE_URL = "https://olimpo-api-nosql.onrender.com"
 
     val service: FeaturesAPIService by lazy {
         Retrofit.Builder()

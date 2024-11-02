@@ -5,6 +5,7 @@ import com.example.olimpo_app.data.model.accessFlow.Solicitation
 import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.data.network.AccessAPIService
 import retrofit2.Response
+import java.util.UUID
 
 class CommunityRepository(
     private val service: AccessAPIService
@@ -17,11 +18,11 @@ class CommunityRepository(
         return service.getAllCommunities()
     }
 
-    suspend fun getAllUsersInCommunity(communityId: Long): Response<List<UserAPI>> {
+    suspend fun getAllUsersInCommunity(communityId: UUID): Response<List<UserAPI>> {
         return service.getAllUsersInCommunity(communityId)
     }
 
-    suspend fun getAllCommunitiesByUser(userId: Long): Response<List<CommunityAPI>> {
+    suspend fun getAllCommunitiesByUser(userId: UUID): Response<List<CommunityAPI>> {
         return service.getAllCommunitiesByUser(userId)
     }
 
@@ -29,7 +30,7 @@ class CommunityRepository(
         return service.createSolicitation(solicitation)
     }
 
-    suspend fun getAllSolicitations(communityId: Long): Response<List<Solicitation>> {
+    suspend fun getAllSolicitations(communityId: UUID): Response<List<Solicitation>> {
         return service.getAllSolicitations(communityId)
     }
 

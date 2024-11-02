@@ -43,7 +43,7 @@ class FindCommunitiesActivity : AppCompatActivity(), CommunityListener {
             finish()
         }
         binding.imageSolicitation.setOnClickListener {
-            val intent = Intent(applicationContext, SolicitacaoActivity::class.java)
+            val intent = Intent(applicationContext, SolicitationActivity::class.java)
             startActivity(intent)
             finish()
         }

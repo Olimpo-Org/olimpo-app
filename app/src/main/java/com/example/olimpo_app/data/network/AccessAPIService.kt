@@ -10,6 +10,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import java.util.UUID
 
 interface AccessAPIService {
     // ------------- Community Endpoints -------------//
@@ -23,12 +24,12 @@ interface AccessAPIService {
 
     @GET("/v1/community/getAllUsersInCommunity/{communityId}")
     suspend fun getAllUsersInCommunity(
-        @Path("communityId") communityId: Long
+        @Path("communityId") communityId: UUID
     ): Response<List<UserAPI>>
 
     @GET("/v1/community/getAllCommunitiesByUser/{userId}")
     suspend fun getAllCommunitiesByUser(
-        @Path("userId") userId: Long
+        @Path("userId") userId: UUID
     ): Response<List<CommunityAPI>>
 
     @POST("/v1/community/createSolicitation")
@@ -38,7 +39,7 @@ interface AccessAPIService {
 
     @GET("/v1/community/getAllSolicitations/{communityId}")
     suspend fun getAllSolicitations(
-        @Path("communityId") communityId: Long
+        @Path("communityId") communityId: UUID
     ): Response<List<Solicitation>>
 
     @POST("/v1/community/acceptSolicitation/{solicitationId}")
@@ -62,12 +63,12 @@ interface AccessAPIService {
 
     @GET("/v1/user/getById/{userId}")
     suspend fun getUserById(
-        @Path("userId") userId: Long
+        @Path("userId") userId: UUID
     ): Response<UserAPI>
 
     @GET("/v1/user/exists/{userId}")
     suspend fun userExists(
-        @Path("userId") userId: Long
+        @Path("userId") userId: UUID
     ): Response<Boolean>
 
     @POST("/v1/user/grantAdministrator")
@@ -77,7 +78,7 @@ interface AccessAPIService {
 
     @GET("/v1/user/isAdministrator/{userId}/{communityId}")
     suspend fun isAdministrator(
-        @Path("userId") userId: String,
-        @Path("communityId") communityId: Long
+        @Path("userId") userId: UUID,
+        @Path("communityId") communityId: UUID
     ): Response<Boolean>
 }
