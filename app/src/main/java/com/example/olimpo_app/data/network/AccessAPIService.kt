@@ -32,19 +32,24 @@ interface AccessAPIService {
         @Path("userId") userId: UUID
     ): Response<List<CommunityAPI>>
 
-    @POST("/v1/community/createSolicitation")
+    @POST("/createSolicitation")
     suspend fun createSolicitation(
         @Body solicitation: Solicitation
     ): Response<Solicitation>
 
-    @GET("/v1/community/getAllSolicitations/{communityId}")
-    suspend fun getAllSolicitations(
-        @Path("communityId") communityId: UUID
+    @GET("/getAllSolicitations/byUser/{customerId}")
+    suspend fun getAllSolicitationsByUser(
+        @Path("customerId") customerId: UUID
     ): Response<List<Solicitation>>
 
-    @POST("/v1/community/acceptSolicitation/{solicitationId}")
+    @POST("/acceptSolicitation/{solicitationId}")
     suspend fun acceptSolicitation(
-        @Path("solicitationId") solicitationId: Long
+        @Path("solicitationId") solicitationId: UUID
+    ): Response<String>
+
+    @POST("/rejectSolicitation/{solicitationId}")
+    suspend fun rejectSolicitation(
+        @Path("solicitationId") solicitationId: UUID
     ): Response<String>
 
     //------------- User Endpoints -------------//
