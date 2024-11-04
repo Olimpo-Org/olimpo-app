@@ -19,16 +19,16 @@
         android:id="@+id/editText"
         android:layout_width="360dp"
         android:layout_height="200dp"
-        android:layout_marginTop="110dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="110dp"
         android:background="@drawable/borda_cinza"
         android:ems="10"
         android:gravity="start|top"
         android:hint="O que você quer contar aos seus amigos?..."
-        android:textColorHint="@color/Grey"
         android:inputType="textMultiLine"
         android:maxLength="50"
         android:padding="16dp"
+        android:textColorHint="@color/Grey"
         android:textSize="15dp" />
 
     <Button
