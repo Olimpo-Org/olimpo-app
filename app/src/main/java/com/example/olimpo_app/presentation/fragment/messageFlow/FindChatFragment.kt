@@ -10,15 +10,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.databinding.FragmentFindChatBinding
-import com.example.olimpo_app.presentation.listeners.UserListener
-import com.example.olimpo_app.presentation.listeners.UsersCallback
 import com.example.olimpo_app.presentation.activity.messageFlow.ChatActivity
 import com.example.olimpo_app.presentation.adapters.UsersAdapter
+import com.example.olimpo_app.presentation.listeners.UserListener
+import com.example.olimpo_app.presentation.listeners.UsersCallback
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.ObjectsLocalStorage
 import com.example.olimpo_app.utils.PreferenceManager
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
+
 class FindChatFragment : Fragment(), UserListener {
 
     private lateinit var binding: FragmentFindChatBinding
@@ -50,7 +51,6 @@ class FindChatFragment : Fragment(), UserListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
-
     private fun getUsersFromCommunity(callback: UsersCallback) {
         loading(true)
         val database = FirebaseFirestore.getInstance()
@@ -100,15 +100,15 @@ class FindChatFragment : Fragment(), UserListener {
         database.collection(Constants.KEY_COLLECTION_USERS)
             .whereIn(FieldPath.documentId(), memberIds)
             .get()
-            .addOnCompleteListener {
-                if (it.isSuccessful && it.result != null) {
-                    for (queryDocumentSnapshot in it.result) {
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful && task.result != null) {
+                    for (queryDocumentSnapshot in task.result) {
                         if (currentUserId == queryDocumentSnapshot.id) continue
 
                         val user = User(
-                            name = queryDocumentSnapshot.getString(Constants.KEY_NAME)!!,
-                            image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE)!!,
-                            email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL)!!,
+                            name = queryDocumentSnapshot.getString(Constants.KEY_NAME) ?: "",
+                            image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE) ?: "",
+                            email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL) ?: "",
                             token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN),
                             id = queryDocumentSnapshot.id,
                             apiId = objectsLocalStorage.getObjectFromLocalStorage(requireContext(), Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
@@ -117,7 +117,7 @@ class FindChatFragment : Fragment(), UserListener {
                     }
 
                     if (users.isNotEmpty()) {
-                        callback.onUsersLoaded(users)
+                        callback.onUsersLoaded(users) // Chama o callback com a lista de User
                     } else {
                         callback.onError("No users found")
                     }
@@ -130,7 +130,6 @@ class FindChatFragment : Fragment(), UserListener {
             }
     }
 
-
     private fun loading(isLoading: Boolean) {
         if (isLoading) {
             binding.progressBar.visibility = View.VISIBLE
@@ -141,7 +140,7 @@ class FindChatFragment : Fragment(), UserListener {
 
     override fun onUserClicked(user: User) {
         val intent = Intent(requireContext(), ChatActivity::class.java)
-        preferenceManager.putString(Constants.KEY_RECEIVER_ID, user.id)
+        preferenceManager.putString(Constants.KEY_RECEIVER_ID, user.id.toString())
         intent.putExtra(Constants.KEY_USER, user)
         startActivity(intent)
     }
