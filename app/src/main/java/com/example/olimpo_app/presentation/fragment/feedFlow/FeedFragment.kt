@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.olimpo_app.FeaturesApiInstance
-import com.example.olimpo_app.data.model.feedFlow.Publication
 import com.example.olimpo_app.data.repository.PublicationRepository
 import com.example.olimpo_app.databinding.FragmentFeedBinding
 import com.example.olimpo_app.presentation.adapters.PublicationAdapter
@@ -36,26 +35,30 @@ class FeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fetchPosts()
+        fetchPublication()
     }
 
-    private fun fetchPosts() {
+    private fun fetchPublication() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
+
                 val posts = withContext(Dispatchers.IO) {
-                    publicationRepository.getAllPosts()
+                    publicationRepository.getPublicationsByCommunity("123")
                 }
                 val postsList = posts.body()
                 setupRecycler(postsList ?: emptyList())
+                binding.conversationsRecyclerView.visibility = View.VISIBLE
+                binding.layoutError.visibility = View.GONE
             } catch (e: Exception) {
                 Log.e("FeedFragment", "Error fetching posts | MESSAGE: ${e.message} | CAUSE: ${e.cause}")
                 Toast.makeText(requireContext(), "Error fetching posts", Toast.LENGTH_SHORT).show()
                 binding.layoutError.visibility = View.VISIBLE
+                binding.conversationsRecyclerView.visibility = View.GONE
             }
         }
     }
 
-    private fun setupRecycler(posts: List<Publication>) {
+    private fun setupRecycler(posts: List<Object>) {
         publicationAdapter = PublicationAdapter()
         publicationAdapter.postsList = posts
         binding.conversationsRecyclerView.apply {

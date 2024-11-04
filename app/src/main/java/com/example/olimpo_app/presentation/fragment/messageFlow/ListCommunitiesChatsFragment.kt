@@ -20,7 +20,6 @@ import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.messaging.FirebaseMessaging
 
 class ListCommunitiesChatsFragment : Fragment(), ConversionListener {
     private lateinit var binding: FragmentListCommunitiesChatsBinding
@@ -37,7 +36,6 @@ class ListCommunitiesChatsFragment : Fragment(), ConversionListener {
         binding = FragmentListCommunitiesChatsBinding.inflate(inflater, container, false)
         preferenceManager = PreferenceManager(requireContext())
         init()
-        getToken()
         listenConversations()
         return binding.root
 
@@ -48,6 +46,14 @@ class ListCommunitiesChatsFragment : Fragment(), ConversionListener {
 
         binding.btnEncontrarPessoas.setOnClickListener {
             val fragment = FindChatFragment()
+            val fragmentManager = parentFragmentManager
+            val transaction = fragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+        binding.btnCreateGroup.setOnClickListener {
+            val fragment = CreateForunsFragment()
             val fragmentManager = parentFragmentManager
             val transaction = fragmentManager.beginTransaction()
             transaction.replace(R.id.fragment, fragment)
@@ -113,20 +119,6 @@ class ListCommunitiesChatsFragment : Fragment(), ConversionListener {
             binding.recentConversationsRecyclerView.smoothScrollToPosition(0)
             binding.recentConversationsRecyclerView.visibility = View.VISIBLE
         }
-    }
-
-    private fun getToken(){
-        FirebaseMessaging.getInstance().token
-            .addOnSuccessListener { updateToken(it) }
-    }
-
-    private fun updateToken(token: String){
-        preferenceManager.putString(Constants.KEY_FCM_TOKEN, token)
-        val database = FirebaseFirestore.getInstance()
-        val documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
-            .document(preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)!!)
-        documentReference.update(Constants.KEY_FCM_TOKEN, token)
-            .addOnFailureListener { }
     }
     override fun onConversionClicked(user: User) {
         val intent = Intent(requireContext(), ChatActivity::class.java)

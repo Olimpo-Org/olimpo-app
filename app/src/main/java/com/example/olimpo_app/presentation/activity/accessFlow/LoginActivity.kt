@@ -60,8 +60,16 @@ class LoginActivity : AppCompatActivity() {
                             it.toString()
                         )
                     }
-                    preferenceManager.putString(Constants.KEY_NAME, response.body()!!.name)
-                    preferenceManager.putString(Constants.KEY_IMAGE, response.body()!!.profileImage)
+                    response.body()!!.name?.let {
+                        preferenceManager.putString(Constants.KEY_NAME,
+                            it
+                        )
+                    }
+                    response.body()!!.profileImage?.let {
+                        preferenceManager.putString(Constants.KEY_IMAGE,
+                            it
+                        )
+                    }
                     preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true)
                     objectsLocalStorage.saveObjectInLocalStorage(this@LoginActivity, Constants.KEY_OBJ_USER, response.body()!!)
 

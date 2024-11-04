@@ -91,7 +91,7 @@ class CreateCommunityActivity : AppCompatActivity() {
                     id = null,
                     name = binding.inputName.text.toString(),
                     startDate = formattedDate,
-                    neighborhood = binding.inputNeighborhood.text.toString(),
+                    neighborhood = binding.inputNeighborhood!!.text.toString(),
                     imageUrl = imageUrl
                 )
                 val response = communityRepository.createCommunity(community)

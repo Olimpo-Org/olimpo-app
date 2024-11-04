@@ -36,6 +36,8 @@ class Constants {
         const val KEY_COMMUNITY_IMAGE = "communityImage"
         const val KEY_COMMUNITY_TOKEN = "fcmToken"
         const val KEY_OBJ_USER = "userObj"
+        const val KEY_OBJ_USER_API = "userObjApi"
+        const val KEY_OBJ_COMMUNITY_API = "communityObjApi"
         const val KEY_API_USER_ID = "userIdApi"
         const val KEY_USER_API_ID_IN_FIREBASE = "apiId"
         const val KEY_COMMUNITY_API_ID = "communityApiId"

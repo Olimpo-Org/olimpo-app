@@ -10,7 +10,6 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
-import java.util.UUID
 
 interface AccessAPIService {
     // ------------- Community Endpoints -------------//
@@ -24,32 +23,27 @@ interface AccessAPIService {
 
     @GET("/v1/community/getAllUsersInCommunity/{communityId}")
     suspend fun getAllUsersInCommunity(
-        @Path("communityId") communityId: UUID
+        @Path("communityId") communityId: Int
     ): Response<List<UserAPI>>
 
     @GET("/v1/community/getAllCommunitiesByUser/{userId}")
     suspend fun getAllCommunitiesByUser(
-        @Path("userId") userId: UUID
+        @Path("userId") userId: Int
     ): Response<List<CommunityAPI>>
 
-    @POST("/createSolicitation")
+    @POST("/v1/community/createSolicitation")
     suspend fun createSolicitation(
         @Body solicitation: Solicitation
     ): Response<Solicitation>
 
-    @GET("/getAllSolicitations/byUser/{customerId}")
-    suspend fun getAllSolicitationsByUser(
-        @Path("customerId") customerId: UUID
+    @GET("/v1/community/getAllSolicitations/{communityId}")
+    suspend fun getAllSolicitations(
+        @Path("communityId") communityId: Int
     ): Response<List<Solicitation>>
 
-    @POST("/acceptSolicitation/{solicitationId}")
+    @POST("/v1/community/acceptSolicitation/{solicitationId}")
     suspend fun acceptSolicitation(
-        @Path("solicitationId") solicitationId: UUID
-    ): Response<String>
-
-    @POST("/rejectSolicitation/{solicitationId}")
-    suspend fun rejectSolicitation(
-        @Path("solicitationId") solicitationId: UUID
+        @Path("solicitationId") solicitationId: Long
     ): Response<String>
 
     //------------- User Endpoints -------------//
@@ -68,12 +62,12 @@ interface AccessAPIService {
 
     @GET("/v1/user/getById/{userId}")
     suspend fun getUserById(
-        @Path("userId") userId: UUID
+        @Path("userId") userId: Int
     ): Response<UserAPI>
 
     @GET("/v1/user/exists/{userId}")
     suspend fun userExists(
-        @Path("userId") userId: UUID
+        @Path("userId") userId: Int
     ): Response<Boolean>
 
     @POST("/v1/user/grantAdministrator")
@@ -83,7 +77,7 @@ interface AccessAPIService {
 
     @GET("/v1/user/isAdministrator/{userId}/{communityId}")
     suspend fun isAdministrator(
-        @Path("userId") userId: UUID,
-        @Path("communityId") communityId: UUID
+        @Path("userId") userId: Int,
+        @Path("communityId") communityId: Int
     ): Response<Boolean>
 }
