@@ -18,7 +18,6 @@ import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.ObjectsLocalStorage
 import com.example.olimpo_app.utils.PreferenceManager
 import kotlinx.coroutines.launch
-import java.util.UUID
 
 class MainActivity : BaseActivity(), CommunityClickListener {
     private lateinit var binding: ActivityMainBinding
@@ -27,7 +26,7 @@ class MainActivity : BaseActivity(), CommunityClickListener {
     private var apiCommunityList: MutableList<CommunityAPI> = mutableListOf()
     private val communityRepository = CommunityRepository(AccessApiInstance.service)
     private val objectsLocalStorage = ObjectsLocalStorage()
-    private val userId by lazy { preferenceManager.getString(Constants.KEY_API_USER_ID) }
+    private val userId by lazy { preferenceManager.getString(Constants.KEY_API_USER_ID)?.toIntOrNull() ?: 0 }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +53,7 @@ class MainActivity : BaseActivity(), CommunityClickListener {
         lifecycleScope.launch {
             try {
                 apiCommunityList = communityRepository.getAllCommunitiesByUser(
-                    userId = UUID.fromString(userId)
+                    userId = userId
                 ).body()?.toMutableList() ?: mutableListOf()
 
                 if (apiCommunityList.isNotEmpty()) {
