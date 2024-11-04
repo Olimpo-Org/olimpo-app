@@ -11,15 +11,14 @@ import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.data.repository.CommunityRepository
 import com.example.olimpo_app.databinding.ActivitySolicitacaoBinding
 import com.example.olimpo_app.presentation.activity.BaseActivity
-import com.example.olimpo_app.presentation.listeners.UserListener
 import com.example.olimpo_app.presentation.adapters.AcceptUsersAdapter
+import com.example.olimpo_app.presentation.listeners.UserListener
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.ObjectsLocalStorage
 import com.example.olimpo_app.utils.PreferenceManager
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
-import java.util.UUID
 
 class SolicitationActivity : BaseActivity(), UserListener {
     private lateinit var binding: ActivitySolicitacaoBinding
@@ -84,7 +83,7 @@ class SolicitationActivity : BaseActivity(), UserListener {
         try {
             lifecycleScope.launch {
                 val response = communityRepository.getAllSolicitations(
-                   UUID.fromString(preferenceManager.getString(Constants.KEY_COMMUNITY_ID))
+                    preferenceManager.getInt(Constants.KEY_COMMUNITY_ID)
                 )
                 val listUser = mutableListOf<User>()
 

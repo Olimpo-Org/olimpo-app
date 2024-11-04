@@ -1,10 +1,9 @@
 package com.example.olimpo_app.data.model.accessFlow
 
 import java.sql.Date
-import java.util.UUID
 
 data class CommunityAPI (
-    val id: UUID? = null,
+    val id: Int? = null,
     val name: String,
     val startDate: String? = null,
     val neighborhood: String,

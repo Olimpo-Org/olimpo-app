@@ -18,6 +18,7 @@ import com.example.olimpo_app.presentation.ui.SpaceItemDecoration
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 
 class ShopFragment : Fragment() {
     private lateinit var binding: FragmentShopBinding
@@ -32,91 +33,47 @@ class ShopFragment : Fragment() {
         binding = FragmentShopBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Inicialize o RecyclerView uma vez
+        annoucementAdapter = AnnoucementAdapter()
+        binding.conversationsRecyclerView.apply {
+            adapter = annoucementAdapter
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(SpaceItemDecoration(48))
+        }
+
+        // Configuração dos botões
         binding.btnVenda?.setOnClickListener {
-            fetchVenda()
+            fetchData { annoucementRepository.getSalesAnnouncementsByCommunity("123") }
         }
         binding.btnServico?.setOnClickListener {
-            fetchService()
+            fetchData { annoucementRepository.getServiceAnnouncementsByCommunity("123") }
         }
         binding.btnDoacao?.setOnClickListener {
-            fetchDonation()
+            fetchData { annoucementRepository.getDonationsAnnouncementsByCommunity("123") }
         }
     }
-        private fun fetchVenda() {
-            viewLifecycleOwner.lifecycleScope.launch {
-                try {
-                    val posts = withContext(Dispatchers.IO) {
-                        annoucementRepository.getSalesAnnouncementsByCommunity("123")
-                    }
-                    val postsList = posts.body()
-                    setupRecyclerVendas(postsList ?: emptyList())
-                    binding.conversationsRecyclerView.visibility = View.VISIBLE
-                } catch (e: Exception) {
-                    Log.e("FeedFragment", "Error fetching posts | MESSAGE: ${e.message} | CAUSE: ${e.cause}")
-                    Toast.makeText(requireContext(), "Error fetching posts", Toast.LENGTH_SHORT).show()
-                    binding.conversationsRecyclerView.visibility = View.GONE
-                }
-            }
-    }
-    private fun setupRecyclerVendas(posts: List<AnnouncementAPI>) {
-            annoucementAdapter = AnnoucementAdapter()
-            annoucementAdapter.postsList = posts
-            binding.conversationsRecyclerView.apply {
-                adapter = annoucementAdapter
-                layoutManager = LinearLayoutManager(context)
-                addItemDecoration(SpaceItemDecoration(48))
-            }
-    }
-    private fun fetchService() {
+
+    private fun fetchData(fetchFunction: suspend () -> Response<List<AnnouncementAPI>>) {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                val posts = withContext(Dispatchers.IO) {
-                    annoucementRepository.getServiceAnnouncementsByCommunity("123")
-                }
-                val postsList = posts.body()
-                setupRecyclerService(postsList ?: emptyList())
-                binding.conversationsRecyclerView.visibility = View.VISIBLE
+                val posts = withContext(Dispatchers.IO) { fetchFunction() }
+                val postsList = posts.body() ?: emptyList()
+                updateRecyclerView(postsList)
             } catch (e: Exception) {
-                Log.e("FeedFragment", "Error fetching posts | MESSAGE: ${e.message} | CAUSE: ${e.cause}")
+                Log.e("ShopFragment", "Error fetching posts: ${e.message}")
                 Toast.makeText(requireContext(), "Error fetching posts", Toast.LENGTH_SHORT).show()
                 binding.conversationsRecyclerView.visibility = View.GONE
             }
         }
     }
-    private fun setupRecyclerService(posts: List<AnnouncementAPI>) {
-        annoucementAdapter = AnnoucementAdapter()
+
+    private fun updateRecyclerView(posts: List<AnnouncementAPI>) {
         annoucementAdapter.postsList = posts
-        binding.conversationsRecyclerView.apply {
-            adapter = annoucementAdapter
-            layoutManager = LinearLayoutManager(context)
-            addItemDecoration(SpaceItemDecoration(48))
-        }
-    }
-    private fun fetchDonation() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                val posts = withContext(Dispatchers.IO) {
-                    annoucementRepository.getDonationsAnnouncementsByCommunity("123")
-                }
-                val postsList = posts.body()
-                setupRecyclerDonation(postsList ?: emptyList())
-                binding.conversationsRecyclerView.visibility = View.VISIBLE
-            } catch (e: Exception) {
-                Log.e("FeedFragment", "Error fetching posts | MESSAGE: ${e.message} | CAUSE: ${e.cause}")
-                Toast.makeText(requireContext(), "Error fetching posts", Toast.LENGTH_SHORT).show()
-                binding.conversationsRecyclerView.visibility = View.GONE
-            }
-        }
-    }
-    private fun setupRecyclerDonation(posts: List<AnnouncementAPI>) {
-        annoucementAdapter = AnnoucementAdapter()
-        annoucementAdapter.postsList = posts
-        binding.conversationsRecyclerView.apply {
-            adapter = annoucementAdapter
-            layoutManager = LinearLayoutManager(context)
-            addItemDecoration(SpaceItemDecoration(48))
-        }
+        annoucementAdapter.notifyDataSetChanged()
+        binding.conversationsRecyclerView.visibility = View.VISIBLE
     }
 }
