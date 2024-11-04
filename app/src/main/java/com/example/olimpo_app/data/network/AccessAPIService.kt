@@ -8,14 +8,17 @@ import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
+import java.util.UUID
 
 interface AccessAPIService {
     // ------------- Community Endpoints -------------//
     @POST("/v1/community/create")
     suspend fun createCommunity(
-        @Body community: CommunityAPI
+        @Body community: CommunityAPI,
+        @Header("UserCpf") userCpf: String
     ): Response<CommunityAPI>
 
     @GET("/v1/community/getAll")
@@ -36,14 +39,19 @@ interface AccessAPIService {
         @Body solicitation: Solicitation
     ): Response<Solicitation>
 
-    @GET("/v1/community/getAllSolicitations/{communityId}")
-    suspend fun getAllSolicitations(
-        @Path("communityId") communityId: Int
+    @GET("/v1/community/getAllSolicitations/byUser/{customerId}")
+    suspend fun getAllSolicitationsByUser(
+        @Path("customerId") customerId: Int
     ): Response<List<Solicitation>>
 
     @POST("/v1/community/acceptSolicitation/{solicitationId}")
     suspend fun acceptSolicitation(
-        @Path("solicitationId") solicitationId: Long
+        @Path("solicitationId") solicitationId: UUID
+    ): Response<String>
+
+    @POST("/v1/community/rejectSolicitation/{solicitationId}")
+    suspend fun rejectSolicitation(
+        @Path("solicitationId") solicitationId: UUID
     ): Response<String>
 
     //------------- User Endpoints -------------//

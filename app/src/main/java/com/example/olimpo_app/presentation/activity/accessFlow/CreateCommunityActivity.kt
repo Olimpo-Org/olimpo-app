@@ -16,10 +16,12 @@ import com.example.olimpo_app.AccessApiInstance
 import com.example.olimpo_app.R
 import com.example.olimpo_app.data.firebase.ImageUpload
 import com.example.olimpo_app.data.model.accessFlow.CommunityAPI
+import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.data.repository.CommunityRepository
 import com.example.olimpo_app.databinding.ActivityCriarComunidadesBinding
 import com.example.olimpo_app.presentation.activity.feedFlow.HomeActivity
 import com.example.olimpo_app.utils.Constants
+import com.example.olimpo_app.utils.ObjectsLocalStorage
 import com.example.olimpo_app.utils.PreferenceManager
 import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
@@ -31,6 +33,7 @@ class CreateCommunityActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCriarComunidadesBinding
     private lateinit var preferenceManager: PreferenceManager
+    private val objectLocalStorage = ObjectsLocalStorage()
     private var image: Bitmap? = null
     private val communityRepository = CommunityRepository(AccessApiInstance.service)
     private val imageUpload = ImageUpload()
@@ -94,11 +97,19 @@ class CreateCommunityActivity : AppCompatActivity() {
                     neighborhood = binding.inputNeighborhood!!.text.toString(),
                     imageUrl = imageUrl
                 )
-                val response = communityRepository.createCommunity(community)
-                if (response.isSuccessful && response.body() != null) {
-                    response.body()?.let { onSuccess(it.id.toString()) }
-                } else {
-                    showError("Erro ao criar comunidade na API: ${response.errorBody()?.string()}")
+                val user = objectLocalStorage.getObjectFromLocalStorage(this@CreateCommunityActivity, Constants.KEY_OBJ_USER_API, UserAPI::class.java)
+                val response = user?.cpf?.let {
+                    communityRepository.createCommunity(
+                        community,
+                        it
+                    )
+                }
+                if (response != null) {
+                    if (response.isSuccessful && response.body() != null) {
+                        response.body()?.let { onSuccess(it.id.toString()) }
+                    } else {
+                        showError("Erro ao criar comunidade na API: ${response.errorBody()?.string()}")
+                    }
                 }
             } catch (e: Exception) {
                 Log.e("CreateCommunityError", "Erro ao criar comunidade na API", e)

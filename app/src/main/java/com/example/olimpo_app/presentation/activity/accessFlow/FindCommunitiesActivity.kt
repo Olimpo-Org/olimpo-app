@@ -5,133 +5,124 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.olimpo_app.data.model.accessFlow.Community
+import androidx.lifecycle.lifecycleScope
+import com.example.olimpo_app.AccessApiInstance
+import com.example.olimpo_app.data.model.accessFlow.CommunityAPI
+import com.example.olimpo_app.data.model.accessFlow.Solicitation
+import com.example.olimpo_app.data.model.accessFlow.UserAPI
+import com.example.olimpo_app.data.repository.CommunityRepository
 import com.example.olimpo_app.databinding.ActivityFindCommunitiesBinding
-import com.example.olimpo_app.presentation.activity.feedFlow.HomeActivity
-import com.example.olimpo_app.presentation.listeners.CommunityListener
-import com.example.olimpo_app.presentation.adapters.CommunityListAdapter
+import com.example.olimpo_app.presentation.adapters.SolicitCommunityAdapter
+import com.example.olimpo_app.presentation.listeners.SolicitListener
 import com.example.olimpo_app.utils.Constants
-import com.example.olimpo_app.utils.PreferenceManager
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.messaging.FirebaseMessaging
+import com.example.olimpo_app.utils.ObjectsLocalStorage
+import kotlinx.coroutines.launch
+import java.util.UUID
 
-class FindCommunitiesActivity : AppCompatActivity(), CommunityListener {
+class FindCommunitiesActivity : AppCompatActivity(), SolicitListener {
+
     private lateinit var binding: ActivityFindCommunitiesBinding
-    private lateinit var preferenceManager: PreferenceManager
-    private lateinit var communityListAdapter: CommunityListAdapter
-    private lateinit var communities: MutableList<Community>
-    private lateinit var database: FirebaseFirestore
+    private lateinit var communityAdapter: SolicitCommunityAdapter
+    private val communityRepository = CommunityRepository(AccessApiInstance.service)
+    private var communities: List<CommunityAPI> = listOf()
+    private val objectsLocalStorage = ObjectsLocalStorage()
+    private var loggedUserAPI: UserAPI? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFindCommunitiesBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        preferenceManager = PreferenceManager(applicationContext)
+
+        loggedUserAPI = objectsLocalStorage.getObjectFromLocalStorage(
+            this,
+            Constants.KEY_OBJ_USER_API,
+            UserAPI::class.java
+        )
 
         init()
-        getToken()
+        loadCommunities()
         setListeners()
-        listenConversations()
-
-        binding.buttonArrow.setOnClickListener {
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-        binding.imageSolicitation.setOnClickListener {
-            val intent = Intent(applicationContext, SolicitationActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-    }
-
-    private fun setListeners() {
-        binding.buttonSignOut.setOnClickListener { signOut() }
     }
 
     private fun init() {
-        communities = ArrayList()
-        communityListAdapter = CommunityListAdapter(communities, this)
-        binding.conversationsRecyclerView.adapter = communityListAdapter
-        database = FirebaseFirestore.getInstance()
+        communityAdapter = SolicitCommunityAdapter(communities, this)
+        binding.conversationsRecyclerView.adapter = communityAdapter
+    }
+
+    private fun setListeners() {
+        binding.buttonArrow.setOnClickListener {
+            startActivity(Intent(applicationContext, MainActivity::class.java))
+            finish()
+        }
+        binding.imageSolicitation.setOnClickListener {
+            startActivity(Intent(applicationContext, SolicitationActivity::class.java))
+            finish()
+        }
+        binding.buttonSignOut.setOnClickListener {
+            signOut()
+        }
+    }
+
+    private fun loadCommunities() {
+        lifecycleScope.launch {
+            try {
+                val response = communityRepository.getAllCommunities()
+                if (response.isSuccessful && response.body() != null) {
+                    communities = response.body()!!
+                    communityAdapter.apply {
+                        communityAdapter = SolicitCommunityAdapter(communities, this@FindCommunitiesActivity)
+                        binding.conversationsRecyclerView.adapter = communityAdapter
+                    }
+                    binding.conversationsRecyclerView.visibility = if (communities.isNotEmpty()) View.VISIBLE else View.GONE
+                } else {
+                    showToast("Failed to load communities")
+                }
+            } catch (e: Exception) {
+
+                showToast("Error: ${e.message}")
+            }
+        }
     }
 
     private fun showToast(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 
-    private fun listenConversations() {
-        database.collection(Constants.KEY_COLLECTION_COMMUNITY)
-            .addSnapshotListener(eventListener)
+    private fun signOut() {
+        // Perform necessary actions for sign out
+        showToast("Signing out...")
+        startActivity(Intent(applicationContext, LoginActivity::class.java))
+        finish()
     }
 
-    private val eventListener = EventListener<QuerySnapshot> { value, error ->
-        if (error != null) {
-            // Log de erro ou notificação para o usuário
-            showToast("Error fetching communities: ${error.message}")
-            return@EventListener
-        }
-        if (value != null) {
-            // Limpa a lista antes de adicionar novos dados
-            communities.clear()
-            for (documentChange in value.documentChanges) {
-                if (documentChange.type == DocumentChange.Type.ADDED) {
-                    val community = Community().apply {
-                        id = documentChange.document.getString(Constants.KEY_COMMUNITY_ID) ?: ""
-                        name = documentChange.document.getString(Constants.KEY_COMMUNITY_NAME) ?: ""
-                        image = documentChange.document.getString(Constants.KEY_COMMUNITY_IMAGE) ?: ""
+    override fun onSolicitClicked(communityId: Int) {
+        lifecycleScope.launch {
+            val solicitation = loggedUserAPI?.id?.let {
+                loggedUserAPI!!.name?.let { it1 ->
+                    loggedUserAPI!!.profileImage?.let { it2 ->
+                        Solicitation(
+                            id = UUID.randomUUID(),
+                            communityId = communityId,
+                            userId = it,
+                            userName = it1,
+                            userUrlImage = it2
+
+                        )
                     }
-                    // Adiciona a comunidade na lista
-                    communities.add(community)
                 }
             }
-            // Notifica o adaptador de uma vez só
-            communityListAdapter.notifyDataSetChanged()
-            binding.conversationsRecyclerView.visibility = if (communities.isNotEmpty()) View.VISIBLE else View.GONE
-        } else {
-            // Se não houver dados, esconde o RecyclerView
-            binding.conversationsRecyclerView.visibility = View.GONE
-        }
-    }
-
-    private fun getToken() {
-        FirebaseMessaging.getInstance().token
-            .addOnSuccessListener { updateToken(it) }
-    }
-
-    private fun updateToken(token: String) {
-        preferenceManager.putString(Constants.KEY_FCM_TOKEN, token)
-        val database = FirebaseFirestore.getInstance()
-        val documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
-            .document(preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)!!)
-
-        documentReference.update(Constants.KEY_FCM_TOKEN, token)
-            .addOnFailureListener { showToast("Unable to update token") }
-    }
-
-    private fun signOut() {
-        showToast("Saindo...")
-        val database = FirebaseFirestore.getInstance()
-        val documentReference = preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)?.let {
-            database.collection(Constants.KEY_COLLECTION_USERS).document(it)
-        }
-        val updates = hashMapOf<String, Any>(Constants.KEY_FCM_TOKEN to FieldValue.delete())
-        documentReference?.update(updates)
-            ?.addOnSuccessListener {
-                preferenceManager.clear()
-                startActivity(Intent(applicationContext, LoginActivity::class.java))
-                finish()
+            try {
+                val response = solicitation?.let { communityRepository.createSolicitation(it) }
+                if (response != null) {
+                    if (response.isSuccessful) {
+                        showToast("Solicitation created successfully")
+                    } else {
+                        showToast("Failed to create solicitation")
+                    }
+                }
+            } catch (e: Exception) {
+                showToast("Error: ${e.message}")
             }
-            ?.addOnFailureListener { showToast("Não foi possível sair :/") }
-    }
-
-    override fun onCommunityClicked(community: Community) {
-        val intent = Intent(applicationContext, HomeActivity::class.java)
-        intent.putExtra(Constants.KEY_COLLECTION_COMMUNITY, community.toString())
-        startActivity(intent)
+        }
     }
 }

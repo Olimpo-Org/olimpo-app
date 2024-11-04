@@ -46,6 +46,10 @@ class MainActivity : BaseActivity(), CommunityClickListener {
             startActivity(Intent(applicationContext, CreateCommunityActivity::class.java))
             finish()
         }
+        binding.imageSolicitation.setOnClickListener {
+            startActivity(Intent(applicationContext, SolicitationActivity::class.java))
+            finish()
+        }
     }
 
     private fun getCommunityList() {

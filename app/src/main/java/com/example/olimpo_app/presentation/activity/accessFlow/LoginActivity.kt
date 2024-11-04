@@ -49,31 +49,29 @@ class LoginActivity : AppCompatActivity() {
                     binding.inputEmail.text.toString(),
                     binding.inputPassword.text.toString()
                 )
-
                 val response = accessRepository.login(login)
                 if (response.isSuccessful && response.body() != null) {
                     Log.d("LoginActivity", "Login via API bem-sucedido")
-
-                    response.body()!!.id?.let {
+                    response.body()!!.let {
+                        objectsLocalStorage.saveObjectInLocalStorage(
+                            this@LoginActivity,
+                            Constants.KEY_OBJ_USER_API,
+                            it
+                        )
                         preferenceManager.putString(
                             Constants.KEY_API_USER_ID,
-                            it.toString()
+                            it.id.toString()
                         )
-                    }
-                    response.body()!!.name?.let {
                         preferenceManager.putString(Constants.KEY_NAME,
-                            it
+                            it.name.toString()
                         )
-                    }
-                    response.body()!!.profileImage?.let {
                         preferenceManager.putString(Constants.KEY_IMAGE,
-                            it
+                            it.profileImage.toString()
                         )
                     }
                     preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true)
                     objectsLocalStorage.saveObjectInLocalStorage(this@LoginActivity, Constants.KEY_OBJ_USER, response.body()!!)
 
-                    // Redireciona para a MainActivity após o login
                     val intent = Intent(applicationContext, MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)

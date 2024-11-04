@@ -5,12 +5,13 @@ import com.example.olimpo_app.data.model.accessFlow.Solicitation
 import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.data.network.AccessAPIService
 import retrofit2.Response
+import java.util.UUID
 
 class CommunityRepository(
     private val service: AccessAPIService
 ) {
-    suspend fun createCommunity(community: CommunityAPI): Response<CommunityAPI> {
-        return service.createCommunity(community)
+    suspend fun createCommunity(community: CommunityAPI, userCpf: String): Response<CommunityAPI> {
+        return service.createCommunity(community, userCpf)
     }
 
     suspend fun getAllCommunities(): Response<List<CommunityAPI>> {
@@ -29,11 +30,15 @@ class CommunityRepository(
         return service.createSolicitation(solicitation)
     }
 
-    suspend fun getAllSolicitations(communityId: Int): Response<List<Solicitation>> {
-        return service.getAllSolicitations(communityId)
+    suspend fun getAllSolicitationsByUser(customerId: Int): Response<List<Solicitation>> {
+        return service.getAllSolicitationsByUser(customerId)
     }
 
-    suspend fun acceptSolicitation(solicitationId: Long): Response<String> {
+    suspend fun acceptSolicitation(solicitationId: UUID): Response<String> {
         return service.acceptSolicitation(solicitationId)
+    }
+
+    suspend fun rejectSolicitation(solicitationId: UUID): Response<String> {
+        return service.rejectSolicitation(solicitationId)
     }
 }
