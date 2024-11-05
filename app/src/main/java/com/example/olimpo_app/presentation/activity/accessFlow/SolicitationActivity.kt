@@ -6,27 +6,25 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.olimpo_app.AccessApiInstance
-import com.example.olimpo_app.data.model.accessFlow.User
-import com.example.olimpo_app.data.model.accessFlow.UserAPI
+import com.example.olimpo_app.data.model.accessFlow.Solicitation
 import com.example.olimpo_app.data.repository.CommunityRepository
 import com.example.olimpo_app.databinding.ActivitySolicitacaoBinding
 import com.example.olimpo_app.presentation.activity.BaseActivity
-import com.example.olimpo_app.presentation.adapters.AcceptUsersAdapter
-import com.example.olimpo_app.presentation.listeners.UserClickListener
+import com.example.olimpo_app.presentation.adapters.SolicitationAdapter
+import com.example.olimpo_app.presentation.listeners.AcceptSolicitationListener
+import com.example.olimpo_app.presentation.listeners.RejectSolicitationListener
 import com.example.olimpo_app.utils.Constants
-import com.example.olimpo_app.utils.ObjectsLocalStorage
 import com.example.olimpo_app.utils.PreferenceManager
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
+import java.util.UUID
 
-class SolicitationActivity : BaseActivity(), UserClickListener {
+class SolicitationActivity : BaseActivity(), AcceptSolicitationListener, RejectSolicitationListener {
     private lateinit var binding: ActivitySolicitacaoBinding
     private lateinit var preferenceManager: PreferenceManager
-    private var objectsLocalStorage = ObjectsLocalStorage()
-    private val communityRepository = CommunityRepository(
-        AccessApiInstance.service
-    )
+    private val communityRepository = CommunityRepository(AccessApiInstance.service)
+    private val userId by lazy { preferenceManager.getString(Constants.KEY_API_USER_ID)?.toIntOrNull() ?: 0 }
+    private var solicitationList: MutableList<Solicitation> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySolicitacaoBinding.inflate(layoutInflater)
@@ -34,93 +32,101 @@ class SolicitationActivity : BaseActivity(), UserClickListener {
         setContentView(binding.root)
 
         setListeners()
-        getUsersFirebase()
-
-        binding.buttonArrow.setOnClickListener {
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-        binding.imageSolicitation.setOnClickListener{
-            val intent = Intent(applicationContext, SolicitationActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+        getSolicitationsApi()
     }
-    private fun getUsersFirebase(){
-        val database = FirebaseFirestore.getInstance()
-        database.collection(Constants.KEY_COLLECTION_USERS)
-            .get()
-            .addOnCompleteListener {
-                val currentUserId = preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)
-                if (it.isSuccessful && it.result != null){
-                    val users = mutableListOf<User>()
-                    for(queryDocumentSnapshot in it.result){
-                        if(currentUserId.equals(queryDocumentSnapshot.id)){
-                            continue
-                        }
-                        val user = User(
-                            name = queryDocumentSnapshot.getString(Constants.KEY_NAME)!!,
-                            image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE)!!,
-                            email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL)!!,
-                            token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN),
-                            id = queryDocumentSnapshot.id,
-                            apiId = objectsLocalStorage.getObjectFromLocalStorage(this, Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
-                        )
-                        users.add(user)
-                    }
-                    if (users.size > 0){
-                        val acceptUsersAdapter = AcceptUsersAdapter(users, this)
-                        binding.UsersRecyclerView.adapter = acceptUsersAdapter
-                        binding.UsersRecyclerView.visibility = View.VISIBLE
-                    }
+
+    private fun getSolicitationsApi() {
+        lifecycleScope.launch {
+            try {
+                val response = communityRepository.getAllSolicitationsByUser(userId)
+                if (response.isSuccessful && response.body() != null) {
+                    solicitationList = response.body()!!.toMutableList()
+                    val solicitationAdapter = SolicitationAdapter(
+                        solicitationList,
+                        this@SolicitationActivity,
+                        this@SolicitationActivity
+                    )
+                    binding.UsersRecyclerView.adapter = solicitationAdapter
+                    binding.UsersRecyclerView.visibility = View.VISIBLE
+                } else {
+                    showToast("Failed to fetch users.")
                 }
+            } catch (e: Exception) {
+                showToast("An error occurred: ${e.message}")
             }
-    }
-
-
-    private fun getUsersApi(){
-        try {
-            lifecycleScope.launch {
-                val response = communityRepository.getAllSolicitations(
-                    preferenceManager.getInt(Constants.KEY_COMMUNITY_ID)
-                )
-                val listUser = mutableListOf<User>()
-
-                if (response.isSuccessful && response.body() != null){
-                    val users = response.body()!!
-                    if (users.isNotEmpty()){
-                        val acceptUsersAdapter = AcceptUsersAdapter(listUser, this@SolicitationActivity)
-                        binding.UsersRecyclerView.adapter = acceptUsersAdapter
-                        binding.UsersRecyclerView.visibility = View.VISIBLE
-                    }
-                }
-            }
-
-        } catch (e: Exception) {
-
         }
     }
-
-    private fun setListeners(){
+    private fun setListeners() {
         binding.buttonSignOut.setOnClickListener { signOut() }
+        binding.buttonArrow.setOnClickListener {
+            startActivity(Intent(applicationContext, MainActivity::class.java))
+            finish()
+        }
     }
-    private fun showToast(text: String){
+
+    private fun showToast(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
+
     private fun signOut() {
-        showToast("Saindo...")
-        val database = FirebaseFirestore.getInstance()
-        val documentReference = preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)?.let {
-            database.collection(Constants.KEY_COLLECTION_USERS).document(it)
-        }
-        val updates = hashMapOf<String, Any>( Constants.KEY_FCM_TOKEN to FieldValue.delete() )
-        documentReference?.update(updates)
-            ?.addOnSuccessListener {
-                preferenceManager.clear()
-                startActivity(Intent(applicationContext, LoginActivity::class.java))
-                finish()
+        preferenceManager.clear()
+        startActivity(Intent(applicationContext, LoginActivity::class.java))
+        finish()
+    }
+
+    override fun onAcceptSolicitationClicked(solicitationId: UUID?) {
+        lifecycleScope.launch {
+            try {
+                for (solicitation in solicitationList) {
+                    if (solicitation.id == solicitationId) {
+                        solicitationList.remove(solicitation)
+                        val solicitationAdapter = SolicitationAdapter(
+                            solicitationList,
+                            this@SolicitationActivity,
+                            this@SolicitationActivity
+                        )
+                        binding.UsersRecyclerView.adapter = solicitationAdapter
+                        binding.UsersRecyclerView.visibility = View.VISIBLE
+                    }
+                }
+                val response = solicitationId?.let { communityRepository.acceptSolicitation(it) }
+                if (response?.isSuccessful == true) {
+                    showToast("Solicitation accepted.")
+                    getSolicitationsApi()
+                } else {
+                    showToast("Failed to accept solicitation.")
+                }
+            } catch (e: Exception) {
+                showToast("An error occurred: ${e.message}")
             }
-            ?.addOnFailureListener { showToast("Não foi possível sair :/") }
+        }
+    }
+
+    override fun onRejectSolicitationClicked(solicitationId: UUID?) {
+        lifecycleScope.launch {
+            try {
+                for (solicitation in solicitationList) {
+                    if (solicitation.id == solicitationId) {
+                        solicitationList.remove(solicitation)
+                        val solicitationAdapter = SolicitationAdapter(
+                            solicitationList,
+                            this@SolicitationActivity,
+                            this@SolicitationActivity
+                        )
+                        binding.UsersRecyclerView.adapter = solicitationAdapter
+                        binding.UsersRecyclerView.visibility = View.VISIBLE
+                    }
+                }
+                val response = solicitationId?.let { communityRepository.rejectSolicitation(it) }
+                if (response?.isSuccessful == true) {
+                    showToast("Solicitation rejected.")
+                    getSolicitationsApi()
+                } else {
+                    showToast("Failed to reject solicitation.")
+                }
+            } catch (e: Exception) {
+                showToast("An error occurred: ${e.message}")
+            }
+        }
     }
 }

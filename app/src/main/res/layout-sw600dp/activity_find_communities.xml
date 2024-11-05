@@ -78,7 +78,7 @@
             android:overScrollMode="never"
             android:padding="@dimen/_5sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_comunidades"
+            tools:listitem="@layout/item_solicit_community"
             />
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
