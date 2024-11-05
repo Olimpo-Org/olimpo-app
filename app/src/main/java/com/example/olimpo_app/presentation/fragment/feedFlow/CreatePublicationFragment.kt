@@ -47,13 +47,11 @@ class CreatePublicationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Configuração do RecyclerView para mostrar as imagens
         binding.listImageRecycleView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = imageAdapter
         }
 
-        // Exibe o footer ao clicar no botão de anúncio
         binding.btnAnnouncement.setOnClickListener {
             binding.footer.visibility = View.VISIBLE
         }
@@ -65,23 +63,18 @@ class CreatePublicationFragment : Fragment() {
             notificar()
         }
 
-        // Ação para selecionar uma imagem da galeria
         binding.btnGallery.setOnClickListener {
             val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             galleryIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             pickImage.launch(galleryIntent)
         }
     }
-    // Método para mandar notificação ao publicar
     fun notificar() {
-        // Verifique se a permissão para postar notificações foi concedida
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // Solicite a permissão
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
             return
         }
 
-        // Criar a notificação
         val intentAndroid = Intent(requireContext(), NotificationReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intentAndroid, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 

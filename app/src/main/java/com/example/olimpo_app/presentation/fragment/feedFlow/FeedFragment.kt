@@ -10,43 +10,60 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.olimpo_app.FeaturesApiInstance
+import com.example.olimpo_app.R
+import com.example.olimpo_app.data.model.accessFlow.UserAPI
+import com.example.olimpo_app.data.model.feedFlow.AdvertisementAPI
+import com.example.olimpo_app.data.model.feedFlow.Publication
 import com.example.olimpo_app.data.repository.PublicationRepository
 import com.example.olimpo_app.databinding.FragmentFeedBinding
-import com.example.olimpo_app.presentation.adapters.PublicationAdapter
+import com.example.olimpo_app.presentation.adapters.FeedAdapter
+import com.example.olimpo_app.presentation.listeners.OnLikeClicked
+import com.example.olimpo_app.presentation.listeners.OnUserNameClicked
 import com.example.olimpo_app.presentation.ui.SpaceItemDecoration
+import com.example.olimpo_app.utils.Constants
+import com.example.olimpo_app.utils.ObjectsLocalStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FeedFragment : Fragment() {
+class FeedFragment : Fragment(), OnLikeClicked, OnUserNameClicked {
     private lateinit var binding: FragmentFeedBinding
-    private lateinit var publicationAdapter: PublicationAdapter
+    private lateinit var feedAdapter: FeedAdapter
 
     private val featureApi = FeaturesApiInstance.service
     private val publicationRepository = PublicationRepository(featureApi)
+    private val objectsLocalStorage = ObjectsLocalStorage()
+    private var userId: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFeedBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val userApi = objectsLocalStorage.getObjectFromLocalStorage(
+            requireContext(),
+            Constants.KEY_OBJ_USER_API,
+            UserAPI::class.java
+        )
+        userId = userApi?.id
         fetchPublication()
     }
 
     private fun fetchPublication() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-
-                val posts = withContext(Dispatchers.IO) {
+                val response = withContext(Dispatchers.IO) {
                     publicationRepository.getPublicationsByCommunity("123")
                 }
-                val postsList = posts.body()
-                setupRecycler(postsList ?: emptyList())
+
+                val postsList = response.body() ?: emptyList()
+
+                setupRecycler(postsList)
                 binding.conversationsRecyclerView.visibility = View.VISIBLE
                 binding.layoutError.visibility = View.GONE
             } catch (e: Exception) {
@@ -58,13 +75,51 @@ class FeedFragment : Fragment() {
         }
     }
 
-    private fun setupRecycler(posts: List<Object>) {
-        publicationAdapter = PublicationAdapter()
-        publicationAdapter.postsList = posts
+    private fun setupRecycler(feedItems: List<Any>) {
+        feedAdapter = userId?.let {
+            FeedAdapter(feedItems, this, this, it)
+        }!!
+
         binding.conversationsRecyclerView.apply {
-            adapter = publicationAdapter
+            adapter = feedAdapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(SpaceItemDecoration(48))
         }
+    }
+
+    override fun onLikeClicked(
+        publicationId: String,
+        userId: Int
+    ) {
+        for (item in feedAdapter.itemList) {
+            if (item is Publication) {
+                if (item.publicationId == publicationId) {
+                    if (item.likes.contains(userId.toString())) {
+                        item.likes.remove(userId.toString())
+                        lifecycleScope.launch {
+                            publicationRepository.unlikePublication(publicationId, userId.toString())
+                        }
+                    } else {
+                        item.likes.add(userId.toString())
+                        lifecycleScope.launch {
+                            publicationRepository.likePublication(publicationId, userId.toString())
+                        }
+                    }
+                }
+            }
+        }
+        feedAdapter.notifyDataSetChanged()
+    }
+
+    override fun onUserNameClicked(userId: Int, userName: String) {
+        val fragment = OtherUserProfileFragment()
+
+        val parentFragmentManager = parentFragmentManager
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment, fragment)
+            .addToBackStack(null)
+            .commit()
+
     }
 }

@@ -7,5 +7,5 @@ data class Publication(
     val senderName: String,
     val images: List<String>,
     val description: String,
-    val likes: List<String>
+    val likes: MutableList<String>
 )
