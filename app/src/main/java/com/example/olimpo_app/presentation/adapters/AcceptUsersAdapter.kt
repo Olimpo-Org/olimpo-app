@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.databinding.ItemUsuariosBinding
-import com.example.olimpo_app.presentation.listeners.UserListener
+import com.example.olimpo_app.presentation.listeners.UserClickListener
 
-class AcceptUsersAdapter(private val users: List<User>, val listener: UserListener): RecyclerView.Adapter<AcceptUsersAdapter.AcceptUserViewHolder>() {
+class AcceptUsersAdapter(private val users: List<User>, val listener: UserClickListener): RecyclerView.Adapter<AcceptUsersAdapter.AcceptUserViewHolder>() {
     inner class AcceptUserViewHolder(private val binding: ItemUsuariosBinding): RecyclerView.ViewHolder(binding.root) {
         fun setAcceptUserData(user: User) = with(binding){
             username.text = user.name

@@ -56,9 +56,13 @@ class CreatePublicationFragment : Fragment() {
         // Exibe o footer ao clicar no botão de anúncio
         binding.btnAnnouncement.setOnClickListener {
             binding.footer.visibility = View.VISIBLE
+            binding.btnAnnouncement.setBackgroundResource(R.drawable.fundo_azul)
+            binding.btnPublication.setBackgroundResource(R.drawable.fundo_branco)
         }
         binding.btnPublication.setOnClickListener {
             binding.footer.visibility = View.GONE
+            binding.btnPublication.setBackgroundResource(R.drawable.fundo_azul)
+            binding.btnAnnouncement.setBackgroundResource(R.drawable.fundo_branco)
         }
 
         binding.btnPublish.setOnClickListener {

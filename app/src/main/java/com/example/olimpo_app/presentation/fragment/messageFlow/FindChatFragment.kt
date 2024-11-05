@@ -6,25 +6,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.lifecycleScope
+import com.example.olimpo_app.AccessApiInstance
 import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.data.model.accessFlow.UserAPI
+import com.example.olimpo_app.data.repository.CommunityRepository
 import com.example.olimpo_app.databinding.FragmentFindChatBinding
 import com.example.olimpo_app.presentation.activity.messageFlow.ChatActivity
-import com.example.olimpo_app.presentation.adapters.UsersAdapter
+import com.example.olimpo_app.presentation.adapters.UserAdapter
 import com.example.olimpo_app.presentation.listeners.UserListener
-import com.example.olimpo_app.presentation.listeners.UsersCallback
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.ObjectsLocalStorage
 import com.example.olimpo_app.utils.PreferenceManager
-import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
 
 class FindChatFragment : Fragment(), UserListener {
 
     private lateinit var binding: FragmentFindChatBinding
     private lateinit var preferenceManager: PreferenceManager
+    private lateinit var userAdapter: UserAdapter
+    private var apiUserList: MutableList<UserAPI> = mutableListOf()
+    private val accessAPI = AccessApiInstance.service
+    private val communityRepository = CommunityRepository(accessAPI)
     private var objectsLocalStorage = ObjectsLocalStorage()
+    private val communityId by lazy { preferenceManager.getString(Constants.KEY_COMMUNITY_API_ID)?.toIntOrNull() ?: 0 }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,26 +38,16 @@ class FindChatFragment : Fragment(), UserListener {
     ): View {
         binding = FragmentFindChatBinding.inflate(inflater, container, false)
         preferenceManager = PreferenceManager(requireContext())
-        getUsersFromCommunity(object : UsersCallback {
-            override fun onUsersLoaded(users: List<User>) {
-                // Configurar o adapter e mostrar a lista de usuários
-                val usersAdapter = UsersAdapter(users, this@FindChatFragment)
-                binding.userList.adapter = usersAdapter
-                binding.userList.visibility = View.VISIBLE
-            }
 
-            override fun onError(message: String) {
-                // Exibir mensagem de erro ou lidar com o erro
-                binding.userList.visibility = View.GONE
-            }
-        })
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setAdapter()
+        getUsersFromCommunity()
     }
-    private fun getUsersFromCommunity(callback: UsersCallback) {
+    private fun getUsersFromCommunity() {
         loading(true)
         val database = FirebaseFirestore.getInstance()
 
@@ -60,7 +56,6 @@ class FindChatFragment : Fragment(), UserListener {
 
         if (communityId == null) {
             loading(false)
-            callback.onError("Community ID is null")
             return
         }
 
@@ -76,72 +71,57 @@ class FindChatFragment : Fragment(), UserListener {
 
                     if (!memberIds.isNullOrEmpty()) {
                         // Agora busca os detalhes dos membros a partir da coleção de usuários
-                        fetchUsersDetails(memberIds, callback)
+                        getUserList()
                     } else {
-                        callback.onError("No members found in community")
+
                     }
                 } else {
-                    callback.onError("Community not found")
+
                 }
             }
             .addOnFailureListener { e ->
                 loading(false)
-                callback.onError("Error fetching community: ${e.message}")
+
             }
     }
 
-    private fun fetchUsersDetails(memberIds: List<String>, callback: UsersCallback) {
-        val database = FirebaseFirestore.getInstance()
-        val currentUserId = preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)
-        val users = mutableListOf<User>()
+    private fun getUserList() {
+        loading(true)
+        lifecycleScope.launch {
+            try {
+                apiUserList = communityRepository.getAllUsersInCommunity(
+                    communityId = communityId
+                ).body()?.toMutableList() ?: mutableListOf()
 
-        binding.userList.layoutManager = LinearLayoutManager(requireContext())
-
-        database.collection(Constants.KEY_COLLECTION_USERS)
-            .whereIn(FieldPath.documentId(), memberIds)
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful && task.result != null) {
-                    for (queryDocumentSnapshot in task.result) {
-                        if (currentUserId == queryDocumentSnapshot.id) continue
-
-                        val user = User(
-                            name = queryDocumentSnapshot.getString(Constants.KEY_NAME) ?: "",
-                            image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE) ?: "",
-                            email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL) ?: "",
-                            token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN),
-                            id = queryDocumentSnapshot.id,
-                            apiId = objectsLocalStorage.getObjectFromLocalStorage(requireContext(), Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
-                        )
-                        users.add(user)
-                    }
-
-                    if (users.isNotEmpty()) {
-                        callback.onUsersLoaded(users) // Chama o callback com a lista de User
-                    } else {
-                        callback.onError("No users found")
-                    }
+                if (apiUserList.isNotEmpty()) {
+                    setAdapter()
+                    binding.userList.visibility = View.VISIBLE
+                    loading(false)
                 } else {
-                    callback.onError("Error fetching users")
+                    loading(false)
+                    binding.userList.visibility = View.GONE
                 }
+            } catch (e: Exception) {
+                loading(false)
+                binding.userList.visibility = View.GONE
             }
-            .addOnFailureListener { e ->
-                callback.onError("Error fetching users: ${e.message}")
-            }
+        }
     }
-
+    override fun onUserClicked(user: User, userAPI: UserAPI) {
+        objectsLocalStorage.cleanObjectFromLocalStorage(requireContext(), Constants.KEY_OBJ_USER)
+        objectsLocalStorage.saveObjectInLocalStorage(requireContext(), Constants.KEY_OBJ_USER, user)
+        val intent = Intent(context, ChatActivity::class.java)
+        startActivity(intent)
+    }
+        private fun setAdapter() {
+            userAdapter = UserAdapter(apiUserList, this@FindChatFragment)
+            binding.userList.adapter = userAdapter
+    }
     private fun loading(isLoading: Boolean) {
         if (isLoading) {
             binding.progressBar.visibility = View.VISIBLE
         } else {
             binding.progressBar.visibility = View.INVISIBLE
         }
-    }
-
-    override fun onUserClicked(user: User) {
-        val intent = Intent(requireContext(), ChatActivity::class.java)
-        preferenceManager.putString(Constants.KEY_RECEIVER_ID, user.id.toString())
-        intent.putExtra(Constants.KEY_USER, user)
-        startActivity(intent)
     }
 }

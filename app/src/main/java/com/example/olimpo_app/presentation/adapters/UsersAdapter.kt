@@ -1,6 +1,5 @@
 package com.example.olimpo_app.presentation.adapters
 
-
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
@@ -9,16 +8,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.databinding.ItemUsersBinding
-import com.example.olimpo_app.presentation.listeners.UserListener
+import com.example.olimpo_app.presentation.listeners.UserClickListener
 
+class UsersAdapter(
+    private val users: List<User>,
+    private val listener: UserClickListener
+) : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
 
-class UsersAdapter(private val users: List<User>, val listener: UserListener): RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
-    inner class UserViewHolder(private val binding: ItemUsersBinding): RecyclerView.ViewHolder(binding.root) {
-        fun setUserData(user: User) = with(binding){
+    inner class UserViewHolder(private val binding: ItemUsersBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun setUserData(user: User) = with(binding) {
             username.text = user.name
             OlimpoFoto.setImageBitmap(getUserImage(user.image.toString()))
-            root.setOnClickListener{listener.onUserClicked(user)}
+            root.setOnClickListener { listener.onUserClicked(user) }
         }
+
         private fun getUserImage(encodedString: String): Bitmap {
             val bytes = Base64.decode(encodedString, Base64.DEFAULT)
             return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)

@@ -12,7 +12,7 @@ import com.example.olimpo_app.data.repository.CommunityRepository
 import com.example.olimpo_app.databinding.ActivitySolicitacaoBinding
 import com.example.olimpo_app.presentation.activity.BaseActivity
 import com.example.olimpo_app.presentation.adapters.AcceptUsersAdapter
-import com.example.olimpo_app.presentation.listeners.UserListener
+import com.example.olimpo_app.presentation.listeners.UserClickListener
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.ObjectsLocalStorage
 import com.example.olimpo_app.utils.PreferenceManager
@@ -20,7 +20,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
-class SolicitationActivity : BaseActivity(), UserListener {
+class SolicitationActivity : BaseActivity(), UserClickListener {
     private lateinit var binding: ActivitySolicitacaoBinding
     private lateinit var preferenceManager: PreferenceManager
     private var objectsLocalStorage = ObjectsLocalStorage()

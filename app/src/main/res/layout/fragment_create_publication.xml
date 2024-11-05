@@ -20,7 +20,7 @@
         android:layout_width="360dp"
         android:layout_height="200dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="120dp"
         android:background="@drawable/borda_cinza"
         android:ems="10"
         android:gravity="start|top"
@@ -31,22 +31,24 @@
         android:textColorHint="@color/Grey"
         android:textSize="15dp" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnPublication"
         android:layout_width="130dp"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:textColor="@color/Pure_White"
         android:layout_marginStart="34dp"
         android:layout_marginTop="25dp"
+        android:background="@drawable/fundo_azul"
         android:text="Publicação" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnAnnouncement"
         android:layout_width="130dp"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:textColor="@color/Pure_White"
         android:layout_marginLeft="220dp"
         android:layout_marginTop="25dp"
+        android:background="@drawable/fundo_azul"
         android:text="Anúncio" />
 
     <LinearLayout
@@ -55,35 +57,38 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_footer"
         android:orientation="horizontal"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="70dp"
         android:visibility="gone"
         >
 
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button1"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:textColor="@color/Pure_White"
-            android:layout_marginLeft="@dimen/_15ssp"
+            android:layout_marginLeft="@dimen/_35ssp"
             android:text="Venda"
+            android:background="@drawable/fundo_azul"
             />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button2"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="@dimen/_20ssp"
             android:text="Serviço"
+            android:background="@drawable/fundo_azul"
             android:textColor="@color/Pure_White"
             />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button3"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="@dimen/_20ssp"
             android:text="Doação"
+            android:background="@drawable/fundo_azul"
             android:textColor="@color/Pure_White"
             />
 
@@ -94,7 +99,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="330dp"
         android:background="@drawable/image_"
         />
 
@@ -102,7 +107,7 @@
         android:id="@+id/btnPublish"
         android:layout_width="290dp"
         android:layout_height="50dp"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="330dp"
         android:layout_marginLeft="@dimen/_70sdp"
         android:textColor="@color/Pure_White"
         android:textSize="@dimen/_13sdp"

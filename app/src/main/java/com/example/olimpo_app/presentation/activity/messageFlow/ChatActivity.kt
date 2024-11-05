@@ -113,7 +113,7 @@ class ChatActivity : BaseActivity() {
             conversion[Constants.KEY_SENDER_ID] = preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID) ?: ""
             conversion[Constants.KEY_SENDER_NAME] = preferenceManager.getString(Constants.KEY_NAME) ?: ""
             conversion[Constants.KEY_SENDER_IMAGE] = preferenceManager.getString(Constants.KEY_IMAGE) ?: ""
-            conversion[Constants.KEY_RECEIVER_ID] = receiverUser.id
+            conversion[Constants.KEY_RECEIVER_ID] = receiverUser.apiId
             conversion[Constants.KEY_RECEIVER_NAME] = receiverUser.name ?: ""
             conversion[Constants.KEY_RECEIVER_IMAGE] = receiverUser.image ?: ""
             conversion[Constants.KEY_LAST_MESSAGE] = binding.inputMessage.text.toString()
@@ -144,7 +144,7 @@ class ChatActivity : BaseActivity() {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
     private fun listenAvailabilityOfReceiver() {
-        database.collection(Constants.KEY_COLLECTION_USERS).document(receiverUser.id)
+        database.collection(Constants.KEY_COLLECTION_USERS).document(receiverUser.apiId)
             .addSnapshotListener(this) { value, error ->
                 if (error != null) {
                     return@addSnapshotListener
@@ -224,10 +224,10 @@ class ChatActivity : BaseActivity() {
         if (chatMessages.isNotEmpty()) {
             checkForConversionRemotely(
                 preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID).toString(),
-                receiverUser.id
+                receiverUser.apiId
             )
             checkForConversionRemotely(
-                receiverUser.id,
+                receiverUser.apiId,
                 preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID).toString()
             )
         }
