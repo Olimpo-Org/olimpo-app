@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Pure_White"
+    tools:context=".presentation.fragment.feedFlow.CreatePublicationFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listImageRecycleView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_175sdp"
+        android:layout_marginTop="455dp"
+        android:textColor="@color/Pure_White"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_fotos" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="580dp"
+        android:layout_height="230dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/borda_cinza"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="O que você quer contar aos seus amigos?..."
+        android:textColorHint="@color/Grey"
+        android:inputType="textMultiLine"
+        android:maxLength="50"
+        android:padding="16dp"
+        android:textSize="15dp" />
+
+    <Button
+        android:id="@+id/btnPublication"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:textColor="@color/Pure_White"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="25dp"
+        android:text="Publicação" />
+
+    <Button
+        android:id="@+id/btnAnnouncement"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:textColor="@color/Pure_White"
+        android:layout_marginLeft="410dp"
+        android:layout_marginTop="25dp"
+        android:text="Anúncio" />
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_footer"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="70dp"
+        android:padding="10dp"
+        android:visibility="gone"
+        >
+
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textColor="@color/Pure_White"
+            android:layout_marginLeft="@dimen/_15ssp"
+            android:text="Venda"
+            android:visibility="visible"
+            />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/_20ssp"
+            android:text="Serviço"
+            android:textColor="@color/Pure_White"
+            android:visibility="visible"
+            />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/_20ssp"
+            android:text="Doação"
+            android:textColor="@color/Pure_White"
+            android:visibility="visible"/>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btnGallery"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="380dp"
+        android:background="@drawable/image_"
+        />
+
+    <Button
+        android:id="@+id/btnPublish"
+        android:layout_width="290dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="380dp"
+        android:layout_marginLeft="@dimen/_140sdp"
+        android:textColor="@color/Pure_White"
+        android:textSize="@dimen/_13sdp"
+        android:textStyle="bold"
+        android:text="Publicar" />
+</FrameLayout>

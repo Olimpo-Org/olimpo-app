@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.olimpo_app.data.model.accessFlow.Community
 import com.example.olimpo_app.databinding.ItemComunidadeBinding
 import com.example.olimpo_app.presentation.listeners.CommunityListener
@@ -35,7 +36,6 @@ class CommunityListUniAdapter (
         RecyclerView.ViewHolder(binding.root) {
 
         fun setData(community: Community) {
-            binding.OlimpoFoto.setImageBitmap(getConversionImage(community.image))
             binding.username.text = community.name
             binding.root.setOnClickListener {
                 val community = Community(
@@ -46,18 +46,9 @@ class CommunityListUniAdapter (
                 )
                 communityListener.onCommunityClicked(community)
             }
+            Glide.with(binding.root.context)
+                .load(community.image)
+                .into(binding.communityPhoto)
         }
-    }
-
-    // Método para converter a string Base64 em Bitmap
-    private fun getConversionImage(image: String?): Bitmap? {
-
-        if (image.isNullOrEmpty()) {
-            Log.e("CommunityListAdapter", "Imagem está nula ou vazia.")
-            return null
-        }
-
-        val bytes = Base64.decode(image, Base64.DEFAULT)
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
     }
 }

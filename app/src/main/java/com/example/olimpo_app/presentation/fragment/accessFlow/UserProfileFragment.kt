@@ -1,15 +1,14 @@
 package com.example.olimpo_app.presentation.fragment.accessFlow
 
-import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.olimpo_app.R
 import com.example.olimpo_app.databinding.FragmentUserProfileBinding
-import com.example.olimpo_app.presentation.activity.accessFlow.EditLoginActivity
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.PreferenceManager
 
@@ -34,10 +33,7 @@ class UserProfileFragment : Fragment() {
         preferenceManager = PreferenceManager(requireContext())
 
 
-        binding.buttonEdit.setOnClickListener {
-            val intent = Intent(requireContext(), EditLoginActivity::class.java)
-            startActivity(intent)
-        }
+
         // Load the user details after the view is fully created
         loadUserDetails()
     }
@@ -45,11 +41,11 @@ class UserProfileFragment : Fragment() {
     private fun loadUserDetails() {
         // Update UI elements using binding
         binding.username.text = preferenceManager.getString(Constants.KEY_NAME)
-        val imageString = preferenceManager.getString(Constants.KEY_IMAGE)
-        if (!imageString.isNullOrEmpty()) {
-            val bytes = Base64.decode(imageString, Base64.DEFAULT)
-            val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-            binding.userProfile.setImageBitmap(bitmap)
-        }
+        Glide.with(this)
+            .load(Constants.KEY_IMAGE)
+            .override(1800, 1800)
+            .placeholder(R.drawable.placeholder_image)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(binding.userProfile)
     }
 }

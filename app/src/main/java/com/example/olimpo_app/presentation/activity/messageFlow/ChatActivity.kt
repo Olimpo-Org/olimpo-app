@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.util.Base64
 import android.view.View
 import android.widget.Toast
-import com.example.olimpo_app.data.model.messageFlow.ChatMessage
 import com.example.olimpo_app.data.model.accessFlow.User
+import com.example.olimpo_app.data.model.messageFlow.ChatMessage
 import com.example.olimpo_app.databinding.ActivityChatMessageBinding
 import com.example.olimpo_app.presentation.activity.BaseActivity
 import com.example.olimpo_app.presentation.adapters.ChatAdapter
@@ -128,7 +128,6 @@ class ChatActivity : BaseActivity() {
                 val data = JSONObject()
                 data.put(Constants.KEY_FIREBASE_USER_ID, preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID))
                 data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME))
-                data.put(Constants.KEY_FCM_TOKEN, preferenceManager.getString(Constants.KEY_FCM_TOKEN))
                 data.put(Constants.KEY_MESSAGE, binding.inputMessage.text.toString())
 
                 val body = JSONObject()

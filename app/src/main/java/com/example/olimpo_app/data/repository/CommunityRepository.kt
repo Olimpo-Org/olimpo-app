@@ -10,19 +10,23 @@ import java.util.UUID
 class CommunityRepository(
     private val service: AccessAPIService
 ) {
-    suspend fun createCommunity(community: CommunityAPI): Response<CommunityAPI> {
-        return service.createCommunity(community)
+    suspend fun createCommunity(community: CommunityAPI, userId: Int): Response<CommunityAPI> {
+        return service.createCommunity(community, userId)
     }
 
     suspend fun getAllCommunities(): Response<List<CommunityAPI>> {
         return service.getAllCommunities()
     }
 
-    suspend fun getAllUsersInCommunity(communityId: UUID): Response<List<UserAPI>> {
+    suspend fun getAllUsersInCommunity(communityId: Int): Response<List<UserAPI>> {
         return service.getAllUsersInCommunity(communityId)
     }
 
-    suspend fun getAllCommunitiesByUser(userId: UUID): Response<List<CommunityAPI>> {
+    suspend fun getAllCommunitiesNotByUser(customerId: Int): Response<List<CommunityAPI>> {
+        return service.getAllCommunitiesNotByUser(customerId)
+    }
+
+    suspend fun getAllCommunitiesByUser(userId: Int): Response<List<CommunityAPI>> {
         return service.getAllCommunitiesByUser(userId)
     }
 
@@ -30,11 +34,15 @@ class CommunityRepository(
         return service.createSolicitation(solicitation)
     }
 
-    suspend fun getAllSolicitations(communityId: UUID): Response<List<Solicitation>> {
-        return service.getAllSolicitations(communityId)
+    suspend fun getAllSolicitationsByUser(customerId: Int): Response<List<Solicitation>> {
+        return service.getAllSolicitationsByUser(customerId)
     }
 
-    suspend fun acceptSolicitation(solicitationId: Long): Response<String> {
+    suspend fun acceptSolicitation(solicitationId: UUID): Response<String> {
         return service.acceptSolicitation(solicitationId)
+    }
+
+    suspend fun rejectSolicitation(solicitationId: UUID): Response<String> {
+        return service.rejectSolicitation(solicitationId)
     }
 }

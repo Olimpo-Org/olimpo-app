@@ -23,7 +23,6 @@ class UsersAdapter(private val users: List<User>, val listener: UserListener): R
             val bytes = Base64.decode(encodedString, Base64.DEFAULT)
             return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {

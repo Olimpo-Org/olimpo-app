@@ -12,7 +12,7 @@
         android:id="@+id/userProfile"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginLeft="160dp"
+        android:layout_marginLeft="150dp"
         android:layout_marginTop="25dp"
         app:riv_oval="true"
         android:background="@drawable/add_foto"
@@ -28,22 +28,11 @@
         android:layout_marginTop="120dp"
         android:layout_marginBottom="@dimen/_20sdp"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonEdit"
-        android:layout_width="200dp"
-        android:layout_height="45dp"
-        android:backgroundTint="@color/Blue"
-        android:text="Editar perfil"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="150dp"
-        android:textColor="@color/White"
-        android:textSize="@dimen/_13ssp"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/conversationsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="530dp"
-        android:layout_marginTop="200dp"
+        android:layout_height="560dp"
+        android:layout_marginTop="160dp"
         android:clipToPadding="false"
         android:orientation="vertical"
         android:overScrollMode="never"

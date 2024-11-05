@@ -55,8 +55,9 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_footer"
         android:orientation="horizontal"
-        android:layout_marginTop="70dp"
-        android:padding="10dp">
+        android:layout_marginTop="65dp"
+        android:visibility="gone"
+        >
 
 
         <Button
@@ -66,7 +67,6 @@
             android:textColor="@color/Pure_White"
             android:layout_marginLeft="@dimen/_15ssp"
             android:text="Venda"
-            android:visibility="gone"
             />
 
         <Button
@@ -76,7 +76,6 @@
             android:layout_marginLeft="@dimen/_20ssp"
             android:text="Serviço"
             android:textColor="@color/Pure_White"
-            android:visibility="gone"
             />
 
         <Button
@@ -86,7 +85,7 @@
             android:layout_marginLeft="@dimen/_20ssp"
             android:text="Doação"
             android:textColor="@color/Pure_White"
-            android:visibility="gone"/>
+            />
 
     </LinearLayout>
 
@@ -100,25 +99,12 @@
         />
 
     <Button
-        android:id="@+id/btnTag"
-        android:layout_width="280dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="90dp"
-        android:layout_marginTop="320dp"
-        android:textColor="@color/Blue"
-        android:text="Tag"
-        android:textAlignment="textStart"
-        android:background="@drawable/borda_azul"
-        android:textSize="@dimen/_15sdp"
-        android:drawableRight="@drawable/arrow_up" />
-
-    <Button
         android:id="@+id/btnPublish"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="370dp"
+        android:layout_width="290dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="320dp"
+        android:layout_marginLeft="@dimen/_70sdp"
         android:textColor="@color/Pure_White"
-        android:background="@color/Blue"
         android:textSize="@dimen/_13sdp"
         android:textStyle="bold"
         android:text="Publicar" />
