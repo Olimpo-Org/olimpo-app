@@ -18,7 +18,7 @@ interface AccessAPIService {
     @POST("/v1/community/create")
     suspend fun createCommunity(
         @Body community: CommunityAPI,
-        @Header("UserCpf") userCpf: String
+        @Header("UserId") userId: Int
     ): Response<CommunityAPI>
 
     @GET("/v1/community/getAll")
@@ -32,6 +32,11 @@ interface AccessAPIService {
     @GET("/v1/community/getAllCommunitiesByUser/{userId}")
     suspend fun getAllCommunitiesByUser(
         @Path("userId") userId: Int
+    ): Response<List<CommunityAPI>>
+
+    @GET("/v1/community/getAllCommunitiesNotByUser/{userId}")
+    suspend fun getAllCommunitiesNotByUser(
+        @Path("userId") customerId: Int
     ): Response<List<CommunityAPI>>
 
     @POST("/v1/community/createSolicitation")

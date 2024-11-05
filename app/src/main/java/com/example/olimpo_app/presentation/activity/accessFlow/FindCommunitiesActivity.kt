@@ -66,19 +66,24 @@ class FindCommunitiesActivity : AppCompatActivity(), SolicitListener {
     private fun loadCommunities() {
         lifecycleScope.launch {
             try {
-                val response = communityRepository.getAllCommunities()
-                if (response.isSuccessful && response.body() != null) {
-                    communities = response.body()!!
-                    communityAdapter.apply {
-                        communityAdapter = SolicitCommunityAdapter(communities, this@FindCommunitiesActivity)
-                        binding.conversationsRecyclerView.adapter = communityAdapter
+                val response = loggedUserAPI?.id?.let {
+                    communityRepository.getAllCommunitiesNotByUser(
+                        it
+                    )
+                }
+                if (response != null) {
+                    if (response.isSuccessful && response.body() != null) {
+                        communities = response.body()!!
+                        communityAdapter.apply {
+                            communityAdapter = SolicitCommunityAdapter(communities, this@FindCommunitiesActivity)
+                            binding.conversationsRecyclerView.adapter = communityAdapter
+                        }
+                        binding.conversationsRecyclerView.visibility = if (communities.isNotEmpty()) View.VISIBLE else View.GONE
+                    } else {
+                        showToast("Failed to load communities")
                     }
-                    binding.conversationsRecyclerView.visibility = if (communities.isNotEmpty()) View.VISIBLE else View.GONE
-                } else {
-                    showToast("Failed to load communities")
                 }
             } catch (e: Exception) {
-
                 showToast("Error: ${e.message}")
             }
         }

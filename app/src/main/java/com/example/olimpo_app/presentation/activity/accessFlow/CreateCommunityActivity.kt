@@ -89,7 +89,6 @@ class CreateCommunityActivity : AppCompatActivity() {
             try {
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 val formattedDate = dateFormat.format(Date(System.currentTimeMillis()))
-
                 val community = CommunityAPI(
                     id = null,
                     name = binding.inputName.text.toString(),
@@ -98,7 +97,7 @@ class CreateCommunityActivity : AppCompatActivity() {
                     imageUrl = imageUrl
                 )
                 val user = objectLocalStorage.getObjectFromLocalStorage(this@CreateCommunityActivity, Constants.KEY_OBJ_USER_API, UserAPI::class.java)
-                val response = user?.cpf?.let {
+                val response = user?.id?.let {
                     communityRepository.createCommunity(
                         community,
                         it

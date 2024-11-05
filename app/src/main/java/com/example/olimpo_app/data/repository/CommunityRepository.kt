@@ -10,8 +10,8 @@ import java.util.UUID
 class CommunityRepository(
     private val service: AccessAPIService
 ) {
-    suspend fun createCommunity(community: CommunityAPI, userCpf: String): Response<CommunityAPI> {
-        return service.createCommunity(community, userCpf)
+    suspend fun createCommunity(community: CommunityAPI, userId: Int): Response<CommunityAPI> {
+        return service.createCommunity(community, userId)
     }
 
     suspend fun getAllCommunities(): Response<List<CommunityAPI>> {
@@ -20,6 +20,10 @@ class CommunityRepository(
 
     suspend fun getAllUsersInCommunity(communityId: Int): Response<List<UserAPI>> {
         return service.getAllUsersInCommunity(communityId)
+    }
+
+    suspend fun getAllCommunitiesNotByUser(customerId: Int): Response<List<CommunityAPI>> {
+        return service.getAllCommunitiesNotByUser(customerId)
     }
 
     suspend fun getAllCommunitiesByUser(userId: Int): Response<List<CommunityAPI>> {
