@@ -7,14 +7,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.olimpo_app.R
 import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.presentation.listeners.UserListener
 
-class UserAdapter
-    (private val users: MutableList<UserAPI>,
-                  private val userClickListener: UserListener
+class UserAdapter(
+    private val users: MutableList<UserAPI>,
+    private val userClickListener: UserListener
 ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -34,12 +35,21 @@ class UserAdapter
         private val userImage: ImageView = itemView.findViewById(R.id.OlimpoFoto)
 
         fun bind(user: UserAPI) {
-            username.text = user.name
+            // Exibe o nome do usuário ou um texto padrão caso esteja vazio
+            username.text = user.name ?: "Usuário desconhecido"
+
+            // Define opções de carregamento de imagem com Glide
+            val requestOptions = RequestOptions()
+                .placeholder(R.drawable.placeholder_image) // Placeholder enquanto carrega
+                // Imagem padrão em caso de erro
+
+            // Carrega a imagem do usuário (se disponível) ou aplica a imagem de erro
             Glide.with(itemView.context)
-                .load(user.profileImage) // Considerando que user.image é uma URL ou URI
-                .placeholder(R.drawable.placeholder_image)
+                .load(user.profileImage.takeIf { !it.isNullOrEmpty() }) // Carrega se não for nulo ou vazio
+                .apply(requestOptions)
                 .into(userImage)
 
+            // Configura o clique no item para acionar o listener
             itemView.setOnClickListener {
                 userClickListener.onUserClicked(
                     User(

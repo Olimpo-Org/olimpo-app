@@ -1,10 +1,7 @@
 package com.example.olimpo_app.presentation.activity.messageFlow
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
-import android.util.Base64
 import android.view.View
 import android.widget.Toast
 import com.example.olimpo_app.data.model.accessFlow.User
@@ -48,12 +45,12 @@ class ChatActivity : BaseActivity() {
 
     private fun listenMessages(){
         database.collection(Constants.KEY_COLLECTION_CHAT)
-            .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID))
+            .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_OBJ_USER_API))
             .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.id)
             .addSnapshotListener(eventListener)
         database.collection(Constants.KEY_COLLECTION_CHAT)
             .whereEqualTo(Constants.KEY_SENDER_ID, receiverUser.id)
-            .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID))
+            .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_OBJ_USER_API))
             .addSnapshotListener(eventListener)
     }
 
@@ -66,12 +63,12 @@ class ChatActivity : BaseActivity() {
             for (document in value.documentChanges){
                 if(document.type == DocumentChange.Type.ADDED){
                     val chatMessage = ChatMessage(
-                        document.document.getString(Constants.KEY_SENDER_ID)!!,
+                        document.document.getString(Constants.KEY_OBJ_USER_API)!!,
                         document.document.getString(Constants.KEY_RECEIVER_ID)!!,
                         document.document.getString(Constants.KEY_MESSAGE)!!,
                         getReadableDateTime(document.document.getDate(Constants.KEY_TIMESTAMP)!!),
                         document.document.getDate(Constants.KEY_TIMESTAMP)!!,
-                        document.document.getString(Constants.KEY_FIREBASE_USER_ID)?: "",
+                        document.document.getString(Constants.KEY_COMMUNITY_API_ID)?: "",
                         document.document.getString(Constants.KEY_NAME)?: "",
                         document.document.getString(Constants.KEY_IMAGE)?: ""
                     )
@@ -100,7 +97,7 @@ class ChatActivity : BaseActivity() {
 
     private fun sendMessage(){
         val message = hashMapOf(
-            Constants.KEY_SENDER_ID to preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID),
+            Constants.KEY_SENDER_ID to preferenceManager.getString(Constants.KEY_OBJ_USER_API),
             Constants.KEY_RECEIVER_ID to preferenceManager.getString(Constants.KEY_RECEIVER_ID),
             Constants.KEY_MESSAGE to binding.inputMessage.text.toString(),
             Constants.KEY_TIMESTAMP to Date()
@@ -110,7 +107,7 @@ class ChatActivity : BaseActivity() {
             updateConversion(binding.inputMessage.text.toString())
         }else{
             val conversion: HashMap<String, Any> = HashMap()
-            conversion[Constants.KEY_SENDER_ID] = preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID) ?: ""
+            conversion[Constants.KEY_SENDER_ID] = preferenceManager.getString(Constants.KEY_OBJ_USER_API) ?: ""
             conversion[Constants.KEY_SENDER_NAME] = preferenceManager.getString(Constants.KEY_NAME) ?: ""
             conversion[Constants.KEY_SENDER_IMAGE] = preferenceManager.getString(Constants.KEY_IMAGE) ?: ""
             conversion[Constants.KEY_RECEIVER_ID] = receiverUser.apiId
@@ -126,7 +123,7 @@ class ChatActivity : BaseActivity() {
                 tokens.put(receiverUser.token)
 
                 val data = JSONObject()
-                data.put(Constants.KEY_FIREBASE_USER_ID, preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID))
+                data.put(Constants.KEY_FIREBASE_USER_ID, preferenceManager.getString(Constants.KEY_OBJ_USER_API))
                 data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME))
                 data.put(Constants.KEY_MESSAGE, binding.inputMessage.text.toString())
 
@@ -157,7 +154,7 @@ class ChatActivity : BaseActivity() {
                     receiverUser.token = value.getString(Constants.KEY_FCM_TOKEN)
                     if(receiverUser.image == null){
                         receiverUser.image = value.getString(Constants.KEY_IMAGE)
-                        chatAdapter.setReceiverProfileImage(getBitmapFromEncodedString(receiverUser.image!!))
+                        chatAdapter.setReceiverProfileImage(receiverUser.image!!)
                         chatAdapter.notifyItemRangeChanged(0, chatMessages.size)
                     }
                 }
@@ -174,21 +171,21 @@ class ChatActivity : BaseActivity() {
         chatMessages = emptyList<ChatMessage>().toMutableList()
         chatAdapter = ChatAdapter(
             chatMessages,
-            getBitmapFromEncodedString(receiverUser.image!!),
-            preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID)!!
+            receiverUser.image!!,
+            preferenceManager.getString(Constants.KEY_OBJ_USER_API)!!
         )
         binding.chatRecyclerView.adapter = chatAdapter
         database = FirebaseFirestore.getInstance()
     }
 
-    private fun getBitmapFromEncodedString(encodedImage: String): Bitmap {
-        return if(encodedImage != null){
-            val bytes = Base64.decode(encodedImage, Base64.DEFAULT)
-            BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-        } else{
-            null!!
-        }
-    }
+//    private fun getBitmapFromEncodedString(encodedImage: String): Bitmap {
+//        return if(encodedImage != null){
+//            val bytes = Base64.decode(encodedImage, Base64.DEFAULT)
+//            BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+//        } else{
+//            null!!
+//        }
+//    }
 
     private fun loadReceiverDetails() = with(binding){
         receiverUser = intent.getSerializableExtra(Constants.KEY_USER) as User
