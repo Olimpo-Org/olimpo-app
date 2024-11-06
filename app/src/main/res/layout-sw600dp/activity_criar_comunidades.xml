@@ -94,8 +94,8 @@
                 android:layout_height="19dp"
                 android:text="@string/nome"
                 android:textColor="@color/Blue"
-            app:layout_constraintBottom_toTopOf="@+id/inputName"
-            app:layout_constraintStart_toStartOf="@+id/inputName" />
+                app:layout_constraintBottom_toTopOf="@+id/inputName"
+                app:layout_constraintStart_toStartOf="@+id/inputName" />
 
             <EditText
                 android:id="@+id/inputName"
@@ -115,6 +115,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.487"
                 app:layout_constraintStart_toStartOf="parent" />
+
             <TextView
                 android:id="@+id/textNeighborhood"
                 android:layout_width="38dp"
@@ -123,6 +124,7 @@
                 android:textColor="@color/Blue"
                 app:layout_constraintBottom_toTopOf="@+id/inputNeighborhood"
                 app:layout_constraintStart_toStartOf="@+id/inputNeighborhood" />
+
             <EditText
                 android:id="@+id/inputNeighborhood"
                 android:layout_width="370dp"
@@ -164,6 +166,7 @@
                 android:textColor="@color/Pure_White"
                 android:paddingTop="@dimen/_9sdp"
                 android:paddingBottom="@dimen/_8sdp"
+
                 android:text="Criar Comunidade"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -180,6 +183,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

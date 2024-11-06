@@ -8,35 +8,45 @@
     tools:context=".presentation.fragment.accessFlow.UserProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/userProfile"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginLeft="150dp"
-        android:layout_marginTop="25dp"
-        app:riv_oval="true"
-        android:background="@drawable/add_foto"
-        android:scaleType="centerCrop" />
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Username"
-        android:textColor="@color/Black"
-        android:textSize="@dimen/_14ssp"
-        android:gravity="center"
-        android:layout_marginTop="120dp"
-        android:layout_marginBottom="@dimen/_20sdp"/>
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/userProfile"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/_110sdp"
+            android:background="@drawable/add_foto"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/username"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_oval="true" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_105sdp"
+            android:gravity="center"
+            android:text="Username"
+            android:textColor="@color/Black"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintBottom_toTopOf="@+id/conversationsRecyclerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/conversationsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="560dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="@dimen/_155sdp"
         android:clipToPadding="false"
         android:orientation="vertical"
         android:overScrollMode="never"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         tools:listitem="@layout/item_profile" />
-
-
 </FrameLayout>
