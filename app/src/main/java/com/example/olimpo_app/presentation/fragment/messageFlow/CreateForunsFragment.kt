@@ -19,7 +19,7 @@ import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.databinding.FragmentCreateForunsBinding
 import com.example.olimpo_app.presentation.activity.messageFlow.ChatActivity
 import com.example.olimpo_app.presentation.adapters.UsersAdapter
-import com.example.olimpo_app.presentation.listeners.UserListener
+import com.example.olimpo_app.presentation.listeners.UserClickListener
 import com.example.olimpo_app.presentation.listeners.UsersCallback
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.ObjectsLocalStorage
@@ -30,7 +30,7 @@ import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 
 
-class CreateForunsFragment : Fragment(), UserListener{
+class CreateForunsFragment : Fragment(), UserClickListener{
     private lateinit var binding: FragmentCreateForunsBinding
     private lateinit var preferenceManager: PreferenceManager
     private var encodedImage: String? = null
@@ -169,7 +169,7 @@ class CreateForunsFragment : Fragment(), UserListener{
     }
     override fun onUserClicked(user: User) {
         val intent = Intent(requireContext(), ChatActivity::class.java)
-        preferenceManager.putString(Constants.KEY_RECEIVER_ID, user.id)
+        preferenceManager.putString(Constants.KEY_RECEIVER_ID, user.apiId)
         intent.putExtra(Constants.KEY_USER, user)
         startActivity(intent)
     }
