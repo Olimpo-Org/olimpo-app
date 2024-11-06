@@ -10,12 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.olimpo_app.FeaturesApiInstance
+import com.example.olimpo_app.data.model.accessFlow.CommunityAPI
 import com.example.olimpo_app.data.model.negociationFlow.AnnouncementAPI
 import com.example.olimpo_app.data.repository.AnnoucementRepository
 import com.example.olimpo_app.databinding.FragmentShopBinding
 import com.example.olimpo_app.presentation.adapters.AnnouncementAdapter
 import com.example.olimpo_app.presentation.listeners.GoToConversationClicked
 import com.example.olimpo_app.presentation.ui.SpaceItemDecoration
+import com.example.olimpo_app.utils.Constants
+import com.example.olimpo_app.utils.ObjectsLocalStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,11 +29,13 @@ class ShopFragment : Fragment(), GoToConversationClicked {
     private lateinit var annoucementAdapter: AnnouncementAdapter
     private val featureApi = FeaturesApiInstance.service
     private val annoucementRepository = AnnoucementRepository(featureApi)
+    private var community: CommunityAPI? = null
+    private val objectsLocalStorage = ObjectsLocalStorage()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentShopBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -38,9 +43,17 @@ class ShopFragment : Fragment(), GoToConversationClicked {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        community = objectsLocalStorage.getObjectFromLocalStorage(
+            requireActivity(),
+            Constants.KEY_OBJ_COMMUNITY,
+            CommunityAPI::class.java
+        )
+
         // Inicialize o RecyclerView uma vez
         annoucementAdapter = AnnouncementAdapter(
+            requireContext(),
             this
+
         )
         binding.conversationsRecyclerView.apply {
             adapter = annoucementAdapter
@@ -50,13 +63,19 @@ class ShopFragment : Fragment(), GoToConversationClicked {
 
         // Configuração dos botões
         binding.btnVenda?.setOnClickListener {
-            fetchData { annoucementRepository.getSalesAnnouncementsByCommunity("123") }
+            fetchData { annoucementRepository.getSalesAnnouncementsByCommunity(
+                community?.id.toString()
+            ) }
         }
         binding.btnServico?.setOnClickListener {
-            fetchData { annoucementRepository.getServiceAnnouncementsByCommunity("123") }
+            fetchData { annoucementRepository.getServiceAnnouncementsByCommunity(
+                community?.id.toString()
+            ) }
         }
         binding.btnDoacao?.setOnClickListener {
-            fetchData { annoucementRepository.getDonationsAnnouncementsByCommunity("123") }
+            fetchData { annoucementRepository.getDonationsAnnouncementsByCommunity(
+                community?.id.toString()
+            ) }
         }
     }
 

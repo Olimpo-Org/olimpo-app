@@ -202,6 +202,7 @@ class CreatePublicationFragment : Fragment() {
                 community?.id.toString(),
                 user?.id.toString(),
                 user?.name.toString(),
+                user?.profileImage.toString(),
                 imageList,
                 binding.editText.text.toString(),
                 mutableListOf()
@@ -231,6 +232,7 @@ class CreatePublicationFragment : Fragment() {
                 community?.id.toString(),
                 user?.id.toString(),
                 user?.name.toString(),
+                user?.profileImage.toString(),
                 imageList,
                 binding.editText.text.toString(),
                 announcementType,

@@ -1,9 +1,12 @@
 package com.example.olimpo_app.presentation.adapters
 
+import ImageUrlAdapter
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.olimpo_app.data.model.negociationFlow.AnnouncementAPI
@@ -11,6 +14,7 @@ import com.example.olimpo_app.databinding.ItemShopBinding
 import com.example.olimpo_app.presentation.listeners.GoToConversationClicked
 
 class AnnouncementAdapter(
+    private val context: Context,
     private val goToConversationClicked: GoToConversationClicked
 ) : RecyclerView.Adapter<AnnouncementAdapter.AnnouncementViewHolder>() {
 
@@ -44,15 +48,22 @@ class AnnouncementAdapter(
         holder.binding.apply {
             description.text = item.description
             username.text = item.senderName
-            recyclerView.adapter = ImageUrlAdapter(item.images)
-            Glide.with(root)
-                .load(item.images[0])
-                .into(userPhoto)
 
+            // Configura o ImageUrlAdapter para o RecyclerView de imagens
+            val imageUrlAdapter = ImageUrlAdapter(item.images)
+            recyclerView.adapter = imageUrlAdapter
+            recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+            // Carrega a primeira imagem usando Glide
+            if (item.images.isNotEmpty()) {
+                Glide.with(root)
+                    .load(item.senderImage)
+                    .into(userPhoto)
+            }
+
+            // Define o clique para ir à conversa
             root.setOnClickListener {
-                goToConversationClicked.onGoToConversationClicked(
-                    item.senderId.toInt()
-                )
+                goToConversationClicked.onGoToConversationClicked(item.senderId.toInt())
             }
         }
     }

@@ -7,6 +7,7 @@ data class AnnouncementAPI(
     val communityId: String,
     val senderId: String,
     val senderName: String,
+    val senderImage: String,
     val images: List<String>,
     val description: String,
     val type: String,

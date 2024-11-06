@@ -1,9 +1,11 @@
 package com.example.olimpo_app.presentation.adapters
 
+import ImageUrlAdapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.olimpo_app.data.model.feedFlow.Publication
@@ -15,7 +17,7 @@ class PublicationAdapter : RecyclerView.Adapter<PublicationAdapter.PublicationVi
 
     private val diffCallback = object : DiffUtil.ItemCallback<Publication>() {
         override fun areItemsTheSame(oldItem: Publication, newItem: Publication): Boolean {
-            return oldItem.publicationId == newItem.publicationId // Use "publicationId" to compare items
+            return oldItem.publicationId == newItem.publicationId
         }
 
         override fun areContentsTheSame(oldItem: Publication, newItem: Publication): Boolean {
@@ -25,35 +27,36 @@ class PublicationAdapter : RecyclerView.Adapter<PublicationAdapter.PublicationVi
 
     private val differ = AsyncListDiffer(this, diffCallback)
 
-    var postsList: List<Publication>
+    var publicationList: List<Publication>
         get() = differ.currentList
         set(value) { differ.submitList(value) }
 
-    override fun getItemCount() = postsList.size
+    override fun getItemCount() = publicationList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PublicationViewHolder {
-        return PublicationViewHolder(
-            ItemPublicationBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+        val binding = ItemPublicationBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
+        return PublicationViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PublicationViewHolder, position: Int) {
+        val item = publicationList[position]
         holder.binding.apply {
-            val item = postsList[position]
-//            Glide.with(holder.itemView.context)
-//                .load(item.userPhoto)
-//                .into(userPhoto)
-            username.text = item.senderName
+            Glide.with(holder.itemView.context)
+                .load(item.senderImage)
+                .into(userPhoto)
 
-            // Using the adapter for images with MutableList
-            recyclerView.adapter = SelectedImagesAdapter(item.images.toMutableList())
+            username.text = item.senderName
+            description.text = item.description
 
             textView3.text = item.likes?.size.toString()
-            description.text = item.description
+
+            val imageUrlAdapter = ImageUrlAdapter(item.images)
+            recyclerView.adapter = imageUrlAdapter
+            recyclerView.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
         }
     }
 }
