@@ -13,8 +13,6 @@ import com.example.olimpo_app.FeaturesApiInstance
 import com.example.olimpo_app.R
 import com.example.olimpo_app.data.model.accessFlow.CommunityAPI
 import com.example.olimpo_app.data.model.accessFlow.UserAPI
-import com.example.olimpo_app.data.model.feedFlow.AdvertisementAPI
-import com.example.olimpo_app.data.model.feedFlow.Publication
 import com.example.olimpo_app.data.repository.PublicationRepository
 import com.example.olimpo_app.databinding.FragmentFeedBinding
 import com.example.olimpo_app.presentation.adapters.FeedAdapter
@@ -129,7 +127,10 @@ class FeedFragment : Fragment(), OnLikeClicked, OnUserNameClicked {
 
     override fun onUserNameClicked(userId: Int, userName: String) {
         val fragment = OtherUserProfileFragment()
-
+        val bundle = Bundle()
+        bundle.putInt("userId", userId)
+        bundle.putString("userName", userName)
+        fragment.arguments = bundle
         val parentFragmentManager = parentFragmentManager
 
         parentFragmentManager.beginTransaction()

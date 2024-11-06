@@ -21,6 +21,6 @@ class SplashScreen : AppCompatActivity() {
     private fun abrirtela() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
-
+        finish()
     }
 }

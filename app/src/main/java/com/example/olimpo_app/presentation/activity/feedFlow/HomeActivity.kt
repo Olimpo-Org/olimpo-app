@@ -108,9 +108,9 @@ class HomeActivity : AppCompatActivity() {
         }
     }
     private fun loadCommunityDetails(community: CommunityAPI) {
-        binding.communityName.text = objectsLocalStorage.saveObjectInLocalStorage(this, Constants.KEY_OBJ_COMMUNITY, community).toString()
+        binding.communityName.text = community.name
         Glide.with(this)
-            .load(Constants.KEY_COMMUNITY_IMAGE)
+            .load(community.imageUrl)
             .override(1800, 1800)
             .placeholder(R.drawable.placeholder_image)
             .transition(DrawableTransitionOptions.withCrossFade())

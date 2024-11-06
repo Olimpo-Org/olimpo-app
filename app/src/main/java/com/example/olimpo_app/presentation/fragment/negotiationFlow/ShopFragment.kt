@@ -13,16 +13,17 @@ import com.example.olimpo_app.FeaturesApiInstance
 import com.example.olimpo_app.data.model.negociationFlow.AnnouncementAPI
 import com.example.olimpo_app.data.repository.AnnoucementRepository
 import com.example.olimpo_app.databinding.FragmentShopBinding
-import com.example.olimpo_app.presentation.adapters.AnnoucementAdapter
+import com.example.olimpo_app.presentation.adapters.AnnouncementAdapter
+import com.example.olimpo_app.presentation.listeners.GoToConversationClicked
 import com.example.olimpo_app.presentation.ui.SpaceItemDecoration
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
-class ShopFragment : Fragment() {
+class ShopFragment : Fragment(), GoToConversationClicked {
     private lateinit var binding: FragmentShopBinding
-    private lateinit var annoucementAdapter: AnnoucementAdapter
+    private lateinit var annoucementAdapter: AnnouncementAdapter
     private val featureApi = FeaturesApiInstance.service
     private val annoucementRepository = AnnoucementRepository(featureApi)
 
@@ -38,7 +39,9 @@ class ShopFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Inicialize o RecyclerView uma vez
-        annoucementAdapter = AnnoucementAdapter()
+        annoucementAdapter = AnnouncementAdapter(
+            this
+        )
         binding.conversationsRecyclerView.apply {
             adapter = annoucementAdapter
             layoutManager = LinearLayoutManager(context)
@@ -75,5 +78,9 @@ class ShopFragment : Fragment() {
         annoucementAdapter.postsList = posts
         annoucementAdapter.notifyDataSetChanged()
         binding.conversationsRecyclerView.visibility = View.VISIBLE
+    }
+
+    override fun onGoToConversationClicked(userId: Int) {
+        TODO("Not yet implemented")
     }
 }

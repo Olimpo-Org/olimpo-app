@@ -74,6 +74,7 @@ class FeedAdapter(
                     publication.senderName,
                 )
             }
+            binding.recyclerView.adapter = ImageUrlAdapter(publication.images)
         }
     }
 
