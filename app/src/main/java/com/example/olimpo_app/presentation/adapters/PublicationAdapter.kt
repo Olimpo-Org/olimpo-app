@@ -52,7 +52,7 @@ class PublicationAdapter : RecyclerView.Adapter<PublicationAdapter.PublicationVi
             // Using the adapter for images with MutableList
             recyclerView.adapter = SelectedImagesAdapter(item.images.toMutableList())
 
-            textView3.text = item.likes.size.toString()
+            textView3.text = item.likes?.size.toString()
             description.text = item.description
         }
     }

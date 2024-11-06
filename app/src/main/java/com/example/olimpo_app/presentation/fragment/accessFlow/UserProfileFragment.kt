@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.olimpo_app.FeaturesApiInstance
 import com.example.olimpo_app.R
+import com.example.olimpo_app.data.model.feedFlow.Publication
 import com.example.olimpo_app.data.repository.PublicationRepository
 import com.example.olimpo_app.databinding.FragmentUserProfileBinding
 import com.example.olimpo_app.presentation.adapters.PublicationAdapter
@@ -59,7 +60,7 @@ class UserProfileFragment : Fragment() {
             try {
 
                 val posts = withContext(Dispatchers.IO) {
-                    publicationRepository.getPublicationsByCommunity("123")
+                    publicationRepository.getPublicationsByCommunityAndUser("123", "123")
                 }
                 val postsList = posts.body()
                 setupRecycler(postsList ?: emptyList())
@@ -72,7 +73,7 @@ class UserProfileFragment : Fragment() {
         }
     }
 
-    private fun setupRecycler(posts: List<Object>) {
+    private fun setupRecycler(posts: List<Publication>) {
         publicationAdapter = PublicationAdapter()
         publicationAdapter.postsList = posts
         binding.conversationsRecyclerView.apply {

@@ -11,11 +11,11 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -23,23 +23,59 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.olimpo_app.FeaturesApiInstance
 import com.example.olimpo_app.R
+import com.example.olimpo_app.data.firebase.ImageUpload
+import com.example.olimpo_app.data.model.accessFlow.CommunityAPI
+import com.example.olimpo_app.data.model.accessFlow.UserAPI
+import com.example.olimpo_app.data.model.feedFlow.Publication
+import com.example.olimpo_app.data.model.negociationFlow.AnnouncementAPI
+import com.example.olimpo_app.data.repository.AnnoucementRepository
+import com.example.olimpo_app.data.repository.PublicationRepository
 import com.example.olimpo_app.databinding.FragmentCreatePublicationBinding
+import com.example.olimpo_app.presentation.adapters.ImageAdapter
+import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.NotificationReceiver
-import java.io.ByteArrayOutputStream
-import java.io.FileNotFoundException
+import com.example.olimpo_app.utils.ObjectsLocalStorage
+import com.example.olimpo_app.utils.PreferenceManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CreatePublicationFragment : Fragment() {
+
     private lateinit var binding: FragmentCreatePublicationBinding
-    private var encodedImage: String? = null
     private val imageAdapter = ImageAdapter()
+    private var counterType = 0
+    private var counterAnnouncementType = 1
+    private var bitmapList = mutableListOf<Bitmap>()
+    private val objectsLocalStorage = ObjectsLocalStorage()
+    private var user: UserAPI? = null
+    private var community: CommunityAPI? = null
+    private var imageUpload = ImageUpload()
+
+    private val announcementRepository = AnnoucementRepository(FeaturesApiInstance.service)
+    private val publicationRepository = PublicationRepository(FeaturesApiInstance.service)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        user = objectsLocalStorage.getObjectFromLocalStorage(
+            requireActivity(),
+            Constants.KEY_OBJ_USER,
+            UserAPI::class.java
+        )
+        Log.d("CreatePublicationFragment", user.toString())
+        community = objectsLocalStorage.getObjectFromLocalStorage(
+            requireActivity(),
+            Constants.KEY_OBJ_COMMUNITY,
+            CommunityAPI::class.java
+        )
+        Log.d("CreatePublicationFragment", community.toString())
         binding = FragmentCreatePublicationBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -52,24 +88,59 @@ class CreatePublicationFragment : Fragment() {
             adapter = imageAdapter
         }
 
-        binding.btnAnnouncement.setOnClickListener {
-            binding.footer.visibility = View.VISIBLE
+        binding.btnGallery.setOnClickListener {
+            val galleryIntent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                type = "image/*"
+                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            pickImages.launch(galleryIntent)
         }
+
         binding.btnPublication.setOnClickListener {
-            binding.footer.visibility = View.GONE
+            counterType = 0
+            binding.typeSelection?.visibility  = View.GONE
+        }
+
+        binding.btnAnnouncement.setOnClickListener {
+            counterType = 1
+            binding.typeSelection?.visibility  = View.VISIBLE
+            binding.btnSale?.setOnClickListener {
+                counterAnnouncementType = 1
+            }
+            binding.btnService?.setOnClickListener {
+                counterAnnouncementType = 2
+            }
+            binding.btnDonation?.setOnClickListener {
+                counterAnnouncementType = 3
+            }
         }
 
         binding.btnPublish.setOnClickListener {
-            notificar()
-        }
-
-        binding.btnGallery.setOnClickListener {
-            val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            galleryIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            pickImage.launch(galleryIntent)
+            if (counterType == 0) {
+                createPublication{
+                    showNotification(
+                        "Publicação criada com sucesso",
+                        "Sua publicação foi criada com sucesso"
+                    )
+                }
+            } else if (counterType == 1) {
+                val announcementType = when (counterAnnouncementType) {
+                    1 -> "sale"
+                    2 -> "service"
+                    3 -> "donation"
+                    else -> "unknown"
+                }
+                createAnnouncement(announcementType){
+                    showNotification(
+                        "Anuncio criado com sucesso",
+                        "Seu anuncio foi criado com sucesso"
+                    )
+                }
+            }
         }
     }
-    fun notificar() {
+    private fun showNotification(title: String, body: String) {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
             return
@@ -80,8 +151,8 @@ class CreatePublicationFragment : Fragment() {
 
         val builder = NotificationCompat.Builder(requireContext(), "channel_id")
             .setSmallIcon(R.drawable.olimpo_logo)
-            .setContentTitle("Parabéns, publicação criada com sucesso🎉")  // Título da notificação
-            .setContentText("publicação quentinha saindo🥳")  // Subtítulo da notificação
+            .setContentTitle(title)  // Título da notificação
+            .setContentText(body)  // Subtítulo da notificação
             .setPriority(NotificationCompat.PRIORITY_HIGH)  // Prioridade da notificação
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
@@ -109,33 +180,113 @@ class CreatePublicationFragment : Fragment() {
         notificationManagerCompat.notify(1, builder.build())
     }
 
+    private fun createPublication(
+        onSuccess: () -> Unit
+    ) {
+        lifecycleScope.launch {
+            if (binding.editText.text.toString().isEmpty()) {
+                Toast.makeText(requireContext(), "Preencha o campo de descrição", Toast.LENGTH_SHORT).show()
+                return@launch
+            } else if (bitmapList.isEmpty()) {
+                Toast.makeText(requireContext(), "Selecione pelo menos uma imagem", Toast.LENGTH_SHORT).show()
+                return@launch
+            } else if (user == null || community == null) {
+                Toast.makeText(requireContext(), "Erro ao criar publicação", Toast.LENGTH_SHORT).show()
+                Log.e("CreatePublicationFragment", "Erro ao criar publicação: Usuário ou comunidade nulos $user ------- $community")
+                return@launch
+            }
 
-    // Método para codificar a imagem em base64
-    private fun encodeImage(bitmap: Bitmap): String {
-        val previewWidth = 150
-        val previewHeight = bitmap.height * previewWidth / bitmap.width
-        val previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false)
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream)
-        val bytes = byteArrayOutputStream.toByteArray()
-        return Base64.encodeToString(bytes, Base64.DEFAULT)
+            val imageList = getImageList()
+            val publication = Publication(
+                null,
+                community?.id.toString(),
+                user?.id.toString(),
+                user?.name.toString(),
+                imageList,
+                binding.editText.text.toString(),
+                mutableListOf()
+            )
+            val response = publicationRepository.createPublication(publication)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else  {
+                Toast.makeText(requireContext(), "Erro ao criar publicação", Toast.LENGTH_SHORT).show()
+                Log.e(
+                    "CreatePublicationFragment",
+                    "Erro ao criar publicação: ${response.code()} - ${response.message()}"
+                )
+            }
+
+        }
     }
 
-    // Launcher para abrir a galeria e selecionar uma imagem
-    private val pickImage: ActivityResultLauncher<Intent> = registerForActivityResult(
+    private fun createAnnouncement(
+        announcementType: String,
+        onSuccess: () -> Unit
+    ) {
+        lifecycleScope.launch {
+            val imageList = getImageList()
+            val announcement = AnnouncementAPI(
+                null,
+                community?.id.toString(),
+                user?.id.toString(),
+                user?.name.toString(),
+                imageList,
+                binding.editText.text.toString(),
+                announcementType,
+                null
+            )
+            val response = announcementRepository.createAnnouncement(announcement)
+
+            if (response.isSuccessful) {
+                Toast.makeText(requireContext(), "Anuncio criado com sucesso", Toast.LENGTH_SHORT).show()
+                onSuccess()
+            } else  {
+                Toast.makeText(requireContext(), "Erro ao criar anuncio", Toast.LENGTH_SHORT).show()
+                Log.e(
+                    "CreateAnnouncementFragment",
+                    "Erro ao criar anuncio: ${response.code()} - ${response.message()}"
+                )
+            }
+        }
+    }
+
+    private suspend fun getImageList(): List<String> {
+        return withContext(Dispatchers.IO) {
+            imageUpload.uploadImageList(bitmapList)
+        }
+    }
+
+    private val pickImages: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
-            val imageUri = result.data?.data
-            try {
-                val inputStream = imageUri?.let { uri -> context?.contentResolver?.openInputStream(uri) }
+            bitmapList.clear()  // Limpa a lista atual para substituir pela nova seleção
+
+            val clipData = result.data?.clipData
+            if (clipData != null) {
+                // Limita a seleção a no máximo 5 imagens
+                for (i in 0 until minOf(clipData.itemCount, 5)) {
+                    val imageUri = clipData.getItemAt(i).uri
+                    val inputStream = imageUri.let { context?.contentResolver?.openInputStream(it) }
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+                    if (bitmap != null) {
+                        bitmapList.add(bitmap)
+                    }
+                }
+            } else {
+                // Caso uma única imagem tenha sido selecionada
+                val imageUri = result.data?.data
+                val inputStream = imageUri?.let { context?.contentResolver?.openInputStream(it) }
                 val bitmap = BitmapFactory.decodeStream(inputStream)
-                encodedImage = encodeImage(bitmap)
-                // Adiciona a imagem ao adaptador e atualiza o RecyclerView
-                imageAdapter.addImage(bitmap)
-            } catch (e: FileNotFoundException) {
-                e.printStackTrace()
+                if (bitmap != null) {
+                    bitmapList.add(bitmap)
+                }
             }
+
+            // Atualiza a RecyclerView com a nova lista de imagens selecionadas
+            imageAdapter.images = bitmapList.toList().toMutableList()
+            imageAdapter.notifyDataSetChanged()
         }
     }
 }

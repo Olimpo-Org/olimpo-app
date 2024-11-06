@@ -2,11 +2,11 @@ package com.example.olimpo_app.presentation.activity.accessFlow
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.olimpo_app.AccessApiInstance
-import com.example.olimpo_app.data.model.accessFlow.Community
 import com.example.olimpo_app.data.model.accessFlow.CommunityAPI
 import com.example.olimpo_app.data.repository.CommunityRepository
 import com.example.olimpo_app.databinding.ActivityMainBinding
@@ -52,19 +52,21 @@ class MainActivity : BaseActivity(), CommunityClickListener {
         loading(true)
         lifecycleScope.launch {
             try {
+                loading(true)
                 apiCommunityList = communityRepository.getAllCommunitiesByUser(
                     userId = userId
                 ).body()?.toMutableList() ?: mutableListOf()
-
                 if (apiCommunityList.isNotEmpty()) {
                     setAdapter()
                     binding.conversationsRecyclerView.visibility = View.VISIBLE
                     binding.LinearLayout.visibility = View.GONE
                     loading(false)
+
                 } else {
                     loading(false)
                     binding.conversationsRecyclerView.visibility = View.GONE
                     binding.LinearLayout.visibility = View.VISIBLE
+
                 }
             } catch (e: Exception) {
                 loading(false)
@@ -82,15 +84,24 @@ class MainActivity : BaseActivity(), CommunityClickListener {
         finish()
     }
 
-    override fun onCommunityClicked(community: Community, communityAPI: CommunityAPI) {
+    override fun onCommunityClicked(communityAPI: CommunityAPI) {
+        Log.d("MainActivity", "onCommunityClicked: $communityAPI")
         objectsLocalStorage.cleanObjectFromLocalStorage(this, Constants.KEY_OBJ_COMMUNITY)
-        objectsLocalStorage.saveObjectInLocalStorage(this, Constants.KEY_OBJ_COMMUNITY, community)
+        objectsLocalStorage.saveObjectInLocalStorage(this, Constants.KEY_OBJ_COMMUNITY, communityAPI)
+        Log.d("MainActivity", "onCommunityClicked: ${objectsLocalStorage.getObjectFromLocalStorage(
+            this,
+            Constants.KEY_OBJ_COMMUNITY,
+            CommunityAPI::class.java
+        )}")
         val intent = Intent(applicationContext, HomeActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun setAdapter() {
-        communityAdapter = CommunityAdapter(apiCommunityList, this)
+        communityAdapter = CommunityAdapter(apiCommunityList,
+            this
+        )
         binding.conversationsRecyclerView.adapter = communityAdapter
     }
 

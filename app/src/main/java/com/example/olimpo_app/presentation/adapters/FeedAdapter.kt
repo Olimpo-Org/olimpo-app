@@ -12,20 +12,19 @@ import com.example.olimpo_app.presentation.listeners.OnLikeClicked
 import com.example.olimpo_app.presentation.listeners.OnUserNameClicked
 
 class FeedAdapter(
-    val itemList: List<Any>,
+    val itemList: List<FeedItem>,
     private val onLikeClicked: OnLikeClicked,
     private val onUserNameClicked: OnUserNameClicked,
-    private val userId : Int
-    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val userId: Int
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val VIEW_TYPE_PUBLICATION = 1
     private val VIEW_TYPE_ADVERTISEMENT = 2
 
     override fun getItemViewType(position: Int): Int {
         return when (itemList[position]) {
-            is Publication -> VIEW_TYPE_PUBLICATION
-            is AdvertisementAPI -> VIEW_TYPE_ADVERTISEMENT
-            else -> throw IllegalArgumentException("Tipo desconhecido")
+            is FeedItem.PublicationItem -> VIEW_TYPE_PUBLICATION
+            is FeedItem.AdvertisementItem -> VIEW_TYPE_ADVERTISEMENT
         }
     }
 
@@ -39,14 +38,14 @@ class FeedAdapter(
                 val binding = ItemAdvertisementBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 AdvertisementViewHolder(binding)
             }
-            else -> throw IllegalArgumentException("Tipo desconhecido")
+            else -> throw IllegalArgumentException("Tipo de visualização desconhecido.")
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is PublicationViewHolder -> holder.bind(itemList[position] as Publication)
-            is AdvertisementViewHolder -> holder.bind(itemList[position] as AdvertisementAPI)
+            is PublicationViewHolder -> holder.bind((itemList[position] as FeedItem.PublicationItem).publication)
+            is AdvertisementViewHolder -> holder.bind((itemList[position] as FeedItem.AdvertisementItem).advertisement)
         }
     }
 
@@ -57,16 +56,16 @@ class FeedAdapter(
             binding.apply {
                 username.text = publication.senderName
                 description.text = publication.description
-                textView3.text = publication.likes.size.toString()
+                textView3.text = publication.likes?.size.toString()
                 recyclerView.adapter = SelectedImagesAdapter(publication.images.toMutableList())
             }
-            if(publication.likes.contains(userId.toString())) {
+            if (publication.likes?.contains(userId.toString()) == true) {
                 binding.likeBtn.setImageResource(com.example.olimpo_app.R.drawable.heartp)
-            } else  {
+            } else {
                 binding.likeBtn.setImageResource(com.example.olimpo_app.R.drawable.heartl)
             }
-            binding.likeBtn .setOnClickListener {
-                onLikeClicked.onLikeClicked(publication.publicationId, userId)
+            binding.likeBtn.setOnClickListener {
+                publication.publicationId?.let { it1 -> onLikeClicked.onLikeClicked(it1, userId) }
             }
 
             binding.username.setOnClickListener {
@@ -90,3 +89,5 @@ class FeedAdapter(
         }
     }
 }
+
+

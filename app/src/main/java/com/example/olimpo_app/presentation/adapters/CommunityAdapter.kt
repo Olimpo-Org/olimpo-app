@@ -1,5 +1,6 @@
 package com.example.olimpo_app.presentation.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,16 +41,12 @@ class CommunityAdapter(
                 .placeholder(R.drawable.placeholder_image)
                 .into(communityImage)
 
+            Log.d(
+                "CommunityAdapter",
+                "Community: ${community.toString()}"
+            )
             itemView.setOnClickListener {
                 communityClickListener.onCommunityClicked(
-                    Community(
-                        name = community.name,
-                        image = community.imageUrl,
-                        token = null,
-                        id = null,
-                        userId = null,
-                        communityApiId = community.id.toString()
-                    ),
                     community
                 )
             }

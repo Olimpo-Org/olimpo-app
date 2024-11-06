@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.olimpo_app.R
 import com.example.olimpo_app.data.model.accessFlow.Community
+import com.example.olimpo_app.data.model.accessFlow.CommunityAPI
 import com.example.olimpo_app.databinding.ActivityHomeBinding
 import com.example.olimpo_app.presentation.activity.accessFlow.MainActivity
 import com.example.olimpo_app.presentation.fragment.accessFlow.UserProfileFragment
@@ -23,15 +24,20 @@ import com.example.olimpo_app.utils.PreferenceManager
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var preferenceManager: PreferenceManager
     private val objectsLocalStorage = ObjectsLocalStorage()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
-        preferenceManager = PreferenceManager(applicationContext)
         setContentView(binding.root)
+        val community = objectsLocalStorage.getObjectFromLocalStorage(
+            this,
+            Constants.KEY_OBJ_COMMUNITY,
+            CommunityAPI::class.java
+        )
 
-        loadCommunityDetails(Community())
+        if (community != null) {
+            loadCommunityDetails(community)
+        }
 
         supportFragmentManager.commit {
             setReorderingAllowed(true)
@@ -95,12 +101,13 @@ class HomeActivity : AppCompatActivity() {
         }
 
         binding.btnVoltar.setOnClickListener {
-                    val intent = Intent(applicationContext, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
-    private fun loadCommunityDetails(community: Community){
+    private fun loadCommunityDetails(community: CommunityAPI) {
         binding.communityName.text = objectsLocalStorage.saveObjectInLocalStorage(this, Constants.KEY_OBJ_COMMUNITY, community).toString()
         Glide.with(this)
             .load(Constants.KEY_COMMUNITY_IMAGE)
