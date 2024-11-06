@@ -20,7 +20,7 @@
         android:layout_width="360dp"
         android:layout_height="200dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="110dp"
         android:background="@drawable/borda_cinza"
         android:ems="10"
         android:gravity="start|top"
@@ -31,67 +31,54 @@
         android:textColorHint="@color/Grey"
         android:textSize="15dp" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/btnPublication"
         android:layout_width="130dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:textColor="@color/Pure_White"
         android:layout_marginStart="34dp"
         android:layout_marginTop="25dp"
-        android:background="@drawable/fundo_azul"
         android:text="Publicação" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/btnAnnouncement"
         android:layout_width="130dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:textColor="@color/Pure_White"
         android:layout_marginLeft="220dp"
         android:layout_marginTop="25dp"
-        android:background="@drawable/fundo_azul"
         android:text="Anúncio" />
 
     <LinearLayout
-        android:id="@+id/footer"
+        android:id="@+id/typeSelection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_footer"
         android:orientation="horizontal"
-        android:layout_marginTop="70dp"
-        android:visibility="gone"
-        >
+        android:layout_marginTop="65dp"
+        android:visibility="gone">
 
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button1"
+        <Button
+            android:id="@+id/btnSale"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:textColor="@color/Pure_White"
-            android:layout_marginLeft="@dimen/_35ssp"
-            android:text="Venda"
-            android:background="@drawable/fundo_azul"
-            />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button2"
+            android:layout_marginLeft="@dimen/_15ssp"
+            android:text="Venda" />
+        <Button
+            android:id="@+id/btnService"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="@dimen/_20ssp"
             android:text="Serviço"
-            android:background="@drawable/fundo_azul"
-            android:textColor="@color/Pure_White"
-            />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button3"
+            android:textColor="@color/Pure_White" />
+        <Button
+            android:id="@+id/btnDonation"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="@dimen/_20ssp"
             android:text="Doação"
-            android:background="@drawable/fundo_azul"
-            android:textColor="@color/Pure_White"
-            />
-
+            android:textColor="@color/Pure_White" />
     </LinearLayout>
 
     <ImageButton
@@ -99,7 +86,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="330dp"
+        android:layout_marginTop="320dp"
         android:background="@drawable/image_"
         />
 
@@ -107,7 +94,7 @@
         android:id="@+id/btnPublish"
         android:layout_width="290dp"
         android:layout_height="50dp"
-        android:layout_marginTop="330dp"
+        android:layout_marginTop="320dp"
         android:layout_marginLeft="@dimen/_70sdp"
         android:textColor="@color/Pure_White"
         android:textSize="@dimen/_13sdp"

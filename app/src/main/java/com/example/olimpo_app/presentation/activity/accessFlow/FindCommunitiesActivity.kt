@@ -35,7 +35,7 @@ class FindCommunitiesActivity : AppCompatActivity(), SolicitListener {
 
         loggedUserAPI = objectsLocalStorage.getObjectFromLocalStorage(
             this,
-            Constants.KEY_OBJ_USER_API,
+            Constants.KEY_OBJ_USER,
             UserAPI::class.java
         )
 

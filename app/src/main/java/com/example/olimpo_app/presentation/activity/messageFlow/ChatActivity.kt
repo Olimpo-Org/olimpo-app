@@ -2,7 +2,6 @@ package com.example.olimpo_app.presentation.activity.messageFlow
 
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.olimpo_app.data.model.accessFlow.User
@@ -41,27 +40,14 @@ class ChatActivity : BaseActivity() {
     }
 
     private fun listenMessages() {
-        val senderId = preferenceManager.getString(Constants.KEY_SENDER_ID)
-        val receiverId = receiverUser.apiId
-
-        // Verifique se os IDs não são nulos antes de continuar
-        if (senderId.isNullOrEmpty() || receiverId.isNullOrEmpty()) {
-            showToast("Erro: IDs de remetente ou destinatário são nulos.")
-            return
-        }
-
-        // Adiciona logs para ajudar na depuração
-        Log.d("ChatActivity", "Sender ID: $senderId")
-        Log.d("ChatActivity", "Receiver ID: $receiverId")
-
         database.collection(Constants.KEY_COLLECTION_CHAT)
-            .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
-            .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
+            .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_OBJ_USER))
+            .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.id)
             .addSnapshotListener(eventListener)
 
         database.collection(Constants.KEY_COLLECTION_CHAT)
-            .whereEqualTo(Constants.KEY_SENDER_ID, receiverId)
-            .whereEqualTo(Constants.KEY_RECEIVER_ID, senderId)
+            .whereEqualTo(Constants.KEY_SENDER_ID, receiverUser.id)
+            .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_OBJ_USER))
             .addSnapshotListener(eventListener)
     }
 
@@ -71,31 +57,21 @@ class ChatActivity : BaseActivity() {
             return@EventListener
         }
 
-        value?.let { querySnapshot ->
+        if (value != null) {
             val count = chatMessages.size
-            for (document in querySnapshot.documentChanges) {
+            for (document in value.documentChanges) {
                 if (document.type == DocumentChange.Type.ADDED) {
-                    val senderId = document.document.getString(Constants.KEY_SENDER_ID)
-                    val receiverId = document.document.getString(Constants.KEY_OBJ_USER)
-                    val message = document.document.getString(Constants.KEY_MESSAGE)
-                    val timestamp = document.document.getDate(Constants.KEY_TIMESTAMP)
-                    val userId = document.document.getString(Constants.KEY_OBJ_USER_API)
-                    val name = document.document.getString(Constants.KEY_NAME)
-                    val image = document.document.getString(Constants.KEY_IMAGE)
-
-                    if (senderId != null && receiverId != null && message != null && timestamp != null) {
-                        val chatMessage = ChatMessage(
-                            senderId,
-                            receiverId,
-                            message,
-                            getReadableDateTime(timestamp),
-                            timestamp,
-                            userId ?: "",
-                            name ?: "",
-                            image ?: ""
-                        )
-                        chatMessages.add(chatMessage)
-                    }
+                    val chatMessage = ChatMessage(
+                        document.document.getString(Constants.KEY_SENDER_ID)!!,
+                        document.document.getString(Constants.KEY_RECEIVER_ID)!!,
+                        document.document.getString(Constants.KEY_MESSAGE)!!,
+                        getReadableDateTime(document.document.getDate(Constants.KEY_TIMESTAMP)!!),
+                        document.document.getDate(Constants.KEY_TIMESTAMP)!!,
+                        document.document.getString(Constants.KEY_OBJ_USER) ?: "",
+                        document.document.getString(Constants.KEY_NAME) ?: "",
+                        document.document.getString(Constants.KEY_IMAGE) ?: ""
+                    )
+                    chatMessages.add(chatMessage)
                 }
             }
 
@@ -107,7 +83,6 @@ class ChatActivity : BaseActivity() {
                 chatAdapter.notifyItemRangeInserted(chatMessages.size, chatMessages.size)
                 binding.chatRecyclerView.smoothScrollToPosition(chatMessages.size - 1)
             }
-
             binding.chatRecyclerView.visibility = View.VISIBLE
         }
         binding.progressBar.visibility = View.GONE
@@ -117,17 +92,9 @@ class ChatActivity : BaseActivity() {
     }
 
     private fun sendMessage() {
-        val senderId = preferenceManager.getString(Constants.KEY_SENDER_ID)
-        val receiverId = receiverUser.apiId
-
-        if (senderId.isNullOrEmpty() || receiverId.isNullOrEmpty()) {
-            showToast("Erro: IDs de remetente ou destinatário são nulos.")
-            return
-        }
-
         val message = hashMapOf(
-            Constants.KEY_SENDER_ID to senderId,
-            Constants.KEY_RECEIVER_ID to receiverId,
+            Constants.KEY_SENDER_ID to preferenceManager.getString(Constants.KEY_OBJ_USER),
+            Constants.KEY_RECEIVER_ID to receiverUser.id,
             Constants.KEY_MESSAGE to binding.inputMessage.text.toString(),
             Constants.KEY_TIMESTAMP to Date()
         )
@@ -137,10 +104,10 @@ class ChatActivity : BaseActivity() {
             updateConversion(binding.inputMessage.text.toString())
         } else {
             val conversion: HashMap<String, Any> = HashMap()
-            conversion[Constants.KEY_SENDER_ID] = senderId
+            conversion[Constants.KEY_SENDER_ID] = preferenceManager.getString(Constants.KEY_OBJ_USER) ?: ""
             conversion[Constants.KEY_SENDER_NAME] = preferenceManager.getString(Constants.KEY_NAME) ?: ""
             conversion[Constants.KEY_SENDER_IMAGE] = preferenceManager.getString(Constants.KEY_IMAGE) ?: ""
-            conversion[Constants.KEY_RECEIVER_ID] = receiverId
+            conversion[Constants.KEY_RECEIVER_ID] = receiverUser.apiId
             conversion[Constants.KEY_RECEIVER_NAME] = receiverUser.name ?: ""
             conversion[Constants.KEY_RECEIVER_IMAGE] = receiverUser.image ?: ""
             conversion[Constants.KEY_LAST_MESSAGE] = binding.inputMessage.text.toString()
@@ -149,48 +116,29 @@ class ChatActivity : BaseActivity() {
         }
 
         if (!isReceiverAvailable) {
-            binding.inputMessage.text.toString()
+           binding.inputMessage.text.toString()
         }
 
         binding.inputMessage.text = null
     }
-
     private fun showToast(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun listenAvailabilityOfReceiver() {
-        database.collection(Constants.KEY_COLLECTION_USERS).document(receiverUser.apiId)
-            .addSnapshotListener { value, error ->
-                if (error != null) {
-                    return@addSnapshotListener
-                }
 
-                value?.let {
-                    it.getLong(Constants.KEY_AVAILABILITY)?.let { availability ->
-                        isReceiverAvailable
-                    }
-                    receiverUser.token = it.getString(Constants.KEY_FCM_TOKEN)
-                    if (receiverUser.image == null) {
-                        receiverUser.image = it.getString(Constants.KEY_IMAGE)
-                        chatAdapter.setReceiverProfileImage(receiverUser.image!!)
-                        chatAdapter.notifyItemRangeChanged(0, chatMessages.size)
-                    }
-                }
-            }
-    }
 
     private fun init() {
         preferenceManager = PreferenceManager(applicationContext)
         chatMessages = mutableListOf()
         chatAdapter = ChatAdapter(
             chatMessages,
-            receiverUser.image ?: "",
-            preferenceManager.getString(Constants.KEY_OBJ_USER_API)!!
+           receiverUser.image ?: "",
+            preferenceManager.getString(Constants.KEY_OBJ_USER)!!
         )
         binding.chatRecyclerView.adapter = chatAdapter
         database = FirebaseFirestore.getInstance()
     }
+
 
     private fun loadReceiverDetails() {
         receiverUser = intent.getSerializableExtra(Constants.KEY_OBJ_USER) as User
@@ -252,6 +200,5 @@ class ChatActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        listenAvailabilityOfReceiver()
     }
 }

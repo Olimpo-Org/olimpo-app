@@ -75,6 +75,7 @@ class LoginActivity : AppCompatActivity() {
                     val intent = Intent(applicationContext, MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
+                    finish()
                 } else {
                     Log.d("LoginActivity", "Falha ao logar via API: ${response.code()}")
                     loading(false)
@@ -98,8 +99,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.buttonSignIn.setOnClickListener {
+            loading(true)
             if (isValidSignInDetails()) {
-                loading(true)
                 Log.d("LoginActivity", "Iniciando processo de login")
                 signInApi()
                 loading(false)

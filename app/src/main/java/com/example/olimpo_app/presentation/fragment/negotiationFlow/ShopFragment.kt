@@ -1,6 +1,5 @@
 package com.example.olimpo_app.presentation.fragment.negotiationFlow
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,26 +10,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.olimpo_app.FeaturesApiInstance
-import com.example.olimpo_app.data.model.accessFlow.User
-import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.data.model.negociationFlow.AnnouncementAPI
 import com.example.olimpo_app.data.repository.AnnoucementRepository
 import com.example.olimpo_app.databinding.FragmentShopBinding
-import com.example.olimpo_app.presentation.activity.messageFlow.ChatActivity
-import com.example.olimpo_app.presentation.adapters.AnnoucementAdapter
-import com.example.olimpo_app.presentation.listeners.UserListener
+import com.example.olimpo_app.presentation.adapters.AnnouncementAdapter
+import com.example.olimpo_app.presentation.listeners.GoToConversationClicked
 import com.example.olimpo_app.presentation.ui.SpaceItemDecoration
-import com.example.olimpo_app.utils.Constants
-import com.example.olimpo_app.utils.PreferenceManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
-class ShopFragment : Fragment(), UserListener {
+class ShopFragment : Fragment(), GoToConversationClicked {
     private lateinit var binding: FragmentShopBinding
-    private lateinit var annoucementAdapter: AnnoucementAdapter
-    private lateinit var preferenceManager: PreferenceManager
+    private lateinit var annoucementAdapter: AnnouncementAdapter
     private val featureApi = FeaturesApiInstance.service
     private val annoucementRepository = AnnoucementRepository(featureApi)
 
@@ -39,7 +32,6 @@ class ShopFragment : Fragment(), UserListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentShopBinding.inflate(inflater, container, false)
-        preferenceManager = PreferenceManager(requireContext())
         return binding.root
     }
 
@@ -47,7 +39,9 @@ class ShopFragment : Fragment(), UserListener {
         super.onViewCreated(view, savedInstanceState)
 
         // Inicialize o RecyclerView uma vez
-        annoucementAdapter = AnnoucementAdapter()
+        annoucementAdapter = AnnouncementAdapter(
+            this
+        )
         binding.conversationsRecyclerView.apply {
             adapter = annoucementAdapter
             layoutManager = LinearLayoutManager(context)
@@ -85,10 +79,8 @@ class ShopFragment : Fragment(), UserListener {
         annoucementAdapter.notifyDataSetChanged()
         binding.conversationsRecyclerView.visibility = View.VISIBLE
     }
-    override fun onUserClicked(user: User, userAPI: UserAPI) {
-        val intent = Intent(requireContext(), ChatActivity::class.java)
-        preferenceManager.putString(Constants.KEY_RECEIVER_ID, user.apiId)
-        intent.putExtra(Constants.KEY_USER, user)
-        startActivity(intent)
+
+    override fun onGoToConversationClicked(userId: Int) {
+        TODO("Not yet implemented")
     }
 }

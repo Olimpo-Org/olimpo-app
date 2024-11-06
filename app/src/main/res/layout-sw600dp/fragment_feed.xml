@@ -15,7 +15,7 @@
         android:orientation="vertical"
         android:overScrollMode="never"
         android:visibility="gone"
-        tools:listitem="@layout/item_home" />
+        tools:listitem="@layout/item_publication" />
 
     <LinearLayout
         android:id="@+id/layoutError"

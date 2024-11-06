@@ -45,10 +45,12 @@ class RegisterActivity : AppCompatActivity() {
     private fun setListeners() {
         binding.textLogin.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         binding.buttonSignIn.setOnClickListener {
+            loading(true)
             if (isValidSignUpDetails()) {
                 signUpApi()
             } else {
                 showToast("Preencha todos os campos corretamente")
+                loading(false)
             }
         }
         binding.fotoPerfil.setOnClickListener { openGallery() }
@@ -120,6 +122,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
             } catch (e: FileNotFoundException) {
                 handleFailure(e, "Imagem não encontrada")
+                loading(false)
             }
         }
     }

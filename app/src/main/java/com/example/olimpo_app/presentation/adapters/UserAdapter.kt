@@ -57,7 +57,7 @@ class UserAdapter(
                         image = user.profileImage,
                         email = null,
                         token = null,
-                        id = null,
+                        id = user.id.toString(),
                         apiId = user.id.toString()
                     ),
                     user

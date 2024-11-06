@@ -42,5 +42,7 @@ class Constants {
         const val KEY_USER_API_ID_IN_FIREBASE = "apiId"
         const val KEY_COMMUNITY_API_ID = "communityApiId"
         const val KEY_OBJ_COMMUNITY = "communityObj"
+        const val anotherUserProfileId = "anotherUserProfileId"
+        const val anotherUserProfileName = "anotherUserProfileName"
     }
 }
