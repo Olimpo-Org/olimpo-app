@@ -1,59 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Pure_White"
     tools:context=".presentation.fragment.negotiationFlow.ShopFragment">
-
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <!-- TODO: Update blank fragment layout -->
+
+
     <LinearLayout
         android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_footer"
         android:gravity="center"
+        android:orientation="horizontal"
         android:padding="20dp"
-        android:background="@drawable/background_footer">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <Button
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:textColor="@color/Pure_White"
             android:layout_marginLeft="@dimen/_10ssp"
             android:text="Venda"
-            />
+            android:textColor="@color/Pure_White" />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="@dimen/_20ssp"
-            android:textColor="@color/Pure_White"
-            android:text="Serviço" />
+            android:text="Serviço"
+            android:textColor="@color/Pure_White" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="@dimen/_20ssp"
-            android:textColor="@color/Pure_White"
             android:text="Doação"
-            />
+            android:textColor="@color/Pure_White" />
 
 
     </LinearLayout>
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/conversationsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="660dp"
-        android:layout_marginTop="70dp"
         android:clipToPadding="false"
         android:orientation="vertical"
         android:overScrollMode="never"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/footer"
+        app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/item_shop" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

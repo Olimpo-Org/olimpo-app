@@ -52,7 +52,9 @@ class CreateCommunityActivity : AppCompatActivity() {
         binding.buttonArrow.setOnClickListener { navigateToMainActivity() }
         binding.imageSolicitation.setOnClickListener { navigateToSolicitationActivity() }
         binding.buttonSignOut.setOnClickListener { signOut() }
-        binding.btnCreateCommunity.setOnClickListener { createCommunity() }
+        binding.btnCreateCommunity.setOnClickListener {
+            binding.progressBar.visibility = View.VISIBLE
+            createCommunity() }
         binding.fotoPerfil.setOnClickListener { openGallery() }
     }
 
