@@ -26,6 +26,12 @@ class PreferenceManager(context: Context) {
     fun getString(key: String): String? {
         return sharedPreferences.getString(key, null)
     }
+
+    fun cleanString (key: String) {
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.remove(key)
+        editor.apply()
+    }
     fun putInt(key: String, value: Int) {
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
         editor.putInt(key, value)

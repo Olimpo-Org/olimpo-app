@@ -17,7 +17,7 @@ class PublicationAdapter : RecyclerView.Adapter<PublicationAdapter.PublicationVi
 
     private val diffCallback = object : DiffUtil.ItemCallback<Publication>() {
         override fun areItemsTheSame(oldItem: Publication, newItem: Publication): Boolean {
-            return oldItem.publicationId == newItem.publicationId // Compare using "publicationId"
+            return oldItem.publicationId == newItem.publicationId
         }
 
         override fun areContentsTheSame(oldItem: Publication, newItem: Publication): Boolean {
@@ -27,38 +27,33 @@ class PublicationAdapter : RecyclerView.Adapter<PublicationAdapter.PublicationVi
 
     private val differ = AsyncListDiffer(this, diffCallback)
 
-    var postsList: List<Publication>
+    var publicationList: List<Publication>
         get() = differ.currentList
         set(value) { differ.submitList(value) }
 
-    override fun getItemCount() = postsList.size
+    override fun getItemCount() = publicationList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PublicationViewHolder {
-        return PublicationViewHolder(
-            ItemPublicationBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+        val binding = ItemPublicationBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
+        return PublicationViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PublicationViewHolder, position: Int) {
-        val item = postsList[position]
+        val item = publicationList[position]
         holder.binding.apply {
-            // Set user photo
             Glide.with(holder.itemView.context)
-                .load(item.images[0])
+                .load(item.senderImage)
                 .into(userPhoto)
 
-            // Set username and description
             username.text = item.senderName
             description.text = item.description
 
-            // Set likes count
             textView3.text = item.likes?.size.toString()
 
-            // Initialize ImageUrlAdapter for horizontal image list
             val imageUrlAdapter = ImageUrlAdapter(item.images)
             recyclerView.adapter = imageUrlAdapter
             recyclerView.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)

@@ -95,9 +95,9 @@ class UserProfileFragment : Fragment() {
     }
 
 
-    private fun setupRecycler(posts: List<Publication>) {
+    private fun setupRecycler(publications: List<Publication>) {
         publicationAdapter = PublicationAdapter()
-        publicationAdapter.postsList = posts
+        publicationAdapter.publicationList = publications
         binding.conversationsRecyclerView.apply {
             adapter = publicationAdapter
             layoutManager = LinearLayoutManager(context)

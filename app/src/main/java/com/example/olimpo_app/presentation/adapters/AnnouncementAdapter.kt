@@ -57,7 +57,7 @@ class AnnouncementAdapter(
             // Carrega a primeira imagem usando Glide
             if (item.images.isNotEmpty()) {
                 Glide.with(root)
-                    .load(item.images[0])
+                    .load(item.senderImage)
                     .into(userPhoto)
             }
 

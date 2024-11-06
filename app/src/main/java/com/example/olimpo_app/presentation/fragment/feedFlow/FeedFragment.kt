@@ -23,6 +23,7 @@ import com.example.olimpo_app.presentation.listeners.OnUserNameClicked
 import com.example.olimpo_app.presentation.ui.SpaceItemDecoration
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.ObjectsLocalStorage
+import com.example.olimpo_app.utils.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
@@ -36,6 +37,7 @@ class FeedFragment : Fragment(), OnLikeClicked, OnUserNameClicked {
 
     private val featureApi = FeaturesApiInstance.service
     private val publicationRepository = PublicationRepository(featureApi)
+    private lateinit var  preferenceManager: PreferenceManager
     private val objectsLocalStorage = ObjectsLocalStorage()
     private var userId: Int? = null
     private var communityId: Int? = null
@@ -44,6 +46,7 @@ class FeedFragment : Fragment(), OnLikeClicked, OnUserNameClicked {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        preferenceManager = PreferenceManager(requireActivity())
         binding = FragmentFeedBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -163,17 +166,15 @@ class FeedFragment : Fragment(), OnLikeClicked, OnUserNameClicked {
     }
 
     override fun onUserNameClicked(userId: Int, userName: String) {
+        preferenceManager.cleanString(Constants.anotherUserProfileId)
+        preferenceManager.cleanString(Constants.anotherUserProfileName)
+        preferenceManager.putString(Constants.anotherUserProfileId, userId.toString())
+        preferenceManager.putString(Constants.anotherUserProfileName, userName)
         val fragment = OtherUserProfileFragment()
-        val bundle = Bundle()
-        bundle.putInt("userId", userId)
-        bundle.putString("userName", userName)
-        fragment.arguments = bundle
         val parentFragmentManager = parentFragmentManager
-
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragment, fragment)
             .addToBackStack(null)
             .commit()
-
     }
 }

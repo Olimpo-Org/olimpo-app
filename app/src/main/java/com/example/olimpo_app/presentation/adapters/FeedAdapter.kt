@@ -64,7 +64,9 @@ class FeedAdapter(
                     "FeedAdapter",
                     "PublicationViewHolder: $publication"
                 )
-
+                Glide.with(root)
+                    .load(publication.senderImage)
+                    .into(userPhoto)
                 val imageUrlAdapter = ImageUrlAdapter(publication.images)
                 recyclerView.adapter = imageUrlAdapter
                 recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
