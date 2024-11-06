@@ -50,43 +50,35 @@
         android:text="Anúncio" />
 
     <LinearLayout
-        android:id="@+id/footer"
+        android:id="@+id/typeSelection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_footer"
         android:orientation="horizontal"
         android:layout_marginTop="65dp"
-        android:visibility="gone"
-        >
-
+        android:visibility="gone">
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/btnSale"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:textColor="@color/Pure_White"
             android:layout_marginLeft="@dimen/_15ssp"
-            android:text="Venda"
-            />
-
+            android:text="Venda" />
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btnService"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="@dimen/_20ssp"
             android:text="Serviço"
-            android:textColor="@color/Pure_White"
-            />
-
+            android:textColor="@color/Pure_White" />
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnDonation"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="@dimen/_20ssp"
             android:text="Doação"
-            android:textColor="@color/Pure_White"
-            />
-
+            android:textColor="@color/Pure_White" />
     </LinearLayout>
 
     <ImageButton

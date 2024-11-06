@@ -1,4 +1,4 @@
-package com.example.olimpo_app.presentation.fragment.feedFlow
+package com.example.olimpo_app.presentation.adapters
 
 import android.graphics.Bitmap
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import com.example.olimpo_app.databinding.ItemFotosBinding
 
 class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
-    private val images = mutableListOf<Bitmap>()
+    var images = mutableListOf<Bitmap>()
 
     fun addImage(image: Bitmap) {
         images.add(image)

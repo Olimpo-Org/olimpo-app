@@ -2,12 +2,13 @@ package com.example.olimpo_app.presentation.activity.accessFlow
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.olimpo_app.AccessApiInstance
-import com.example.olimpo_app.data.model.accessFlow.Community
 import com.example.olimpo_app.data.model.accessFlow.CommunityAPI
+import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.data.repository.CommunityRepository
 import com.example.olimpo_app.databinding.ActivityMainBinding
 import com.example.olimpo_app.presentation.activity.BaseActivity
@@ -26,17 +27,26 @@ class MainActivity : BaseActivity(), CommunityClickListener {
     private var apiCommunityList: MutableList<CommunityAPI> = mutableListOf()
     private val communityRepository = CommunityRepository(AccessApiInstance.service)
     private val objectsLocalStorage = ObjectsLocalStorage()
-    private val userId by lazy { preferenceManager.getString(Constants.KEY_API_USER_ID)?.toIntOrNull() ?: 0 }
+    private var loggedUser: UserAPI? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         preferenceManager = PreferenceManager(applicationContext)
+        loggedUser = objectsLocalStorage.getObjectFromLocalStorage(
+            this,
+            Constants.KEY_OBJ_USER,
+            UserAPI::class.java
+        )
+        Log.d(
+            "Caralho",
+            "onCreate: ${loggedUser?.id} ${loggedUser?.name} ${loggedUser?.email} ${loggedUser?.profileImage}"
+        )
 
-        setAdapter()
         setListeners()
         getCommunityList()
+        setAdapter()
 
         binding.encontrarComunidade.setOnClickListener {
             startActivity(Intent(applicationContext, FindCommunitiesActivity::class.java))
@@ -56,19 +66,23 @@ class MainActivity : BaseActivity(), CommunityClickListener {
         loading(true)
         lifecycleScope.launch {
             try {
-                apiCommunityList = communityRepository.getAllCommunitiesByUser(
-                    userId = userId
-                ).body()?.toMutableList() ?: mutableListOf()
-
+                loading(true)
+                apiCommunityList = loggedUser?.id?.let {
+                    communityRepository.getAllCommunitiesByUser(
+                        it
+                    ).body()?.toMutableList()
+                } ?: mutableListOf()
                 if (apiCommunityList.isNotEmpty()) {
                     setAdapter()
                     binding.conversationsRecyclerView.visibility = View.VISIBLE
                     binding.LinearLayout.visibility = View.GONE
                     loading(false)
+
                 } else {
                     loading(false)
                     binding.conversationsRecyclerView.visibility = View.GONE
                     binding.LinearLayout.visibility = View.VISIBLE
+
                 }
             } catch (e: Exception) {
                 loading(false)
@@ -86,15 +100,24 @@ class MainActivity : BaseActivity(), CommunityClickListener {
         finish()
     }
 
-    override fun onCommunityClicked(community: Community, communityAPI: CommunityAPI) {
+    override fun onCommunityClicked(communityAPI: CommunityAPI) {
+        Log.d("MainActivity", "onCommunityClicked: $communityAPI")
         objectsLocalStorage.cleanObjectFromLocalStorage(this, Constants.KEY_OBJ_COMMUNITY)
-        objectsLocalStorage.saveObjectInLocalStorage(this, Constants.KEY_OBJ_COMMUNITY, community)
+        objectsLocalStorage.saveObjectInLocalStorage(this, Constants.KEY_OBJ_COMMUNITY, communityAPI)
+        Log.d("MainActivity", "onCommunityClicked: ${objectsLocalStorage.getObjectFromLocalStorage(
+            this,
+            Constants.KEY_OBJ_COMMUNITY,
+            CommunityAPI::class.java
+        )}")
         val intent = Intent(applicationContext, HomeActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun setAdapter() {
-        communityAdapter = CommunityAdapter(apiCommunityList, this)
+        communityAdapter = CommunityAdapter(apiCommunityList,
+            this
+        )
         binding.conversationsRecyclerView.adapter = communityAdapter
     }
 
