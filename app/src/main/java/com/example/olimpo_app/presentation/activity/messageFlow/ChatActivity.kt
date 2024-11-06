@@ -2,6 +2,7 @@ package com.example.olimpo_app.presentation.activity.messageFlow
 
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.olimpo_app.data.model.accessFlow.User
@@ -13,12 +14,9 @@ import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.PreferenceManager
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import org.json.JSONArray
-import org.json.JSONObject
 import java.util.Date
 import java.util.Locale
 
@@ -36,170 +34,178 @@ class ChatActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChatMessageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setListners()
+        setListeners()
         loadReceiverDetails()
         init()
         listenMessages()
-
     }
 
-    private fun listenMessages(){
-        database.collection(Constants.KEY_COLLECTION_CHAT)
-            .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_OBJ_USER_API))
-            .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.id)
-            .addSnapshotListener(eventListener)
-        database.collection(Constants.KEY_COLLECTION_CHAT)
-            .whereEqualTo(Constants.KEY_SENDER_ID, receiverUser.id)
-            .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_OBJ_USER_API))
-            .addSnapshotListener(eventListener)
-    }
+    private fun listenMessages() {
+        val senderId = preferenceManager.getString(Constants.KEY_SENDER_ID)
+        val receiverId = receiverUser.apiId
 
-    private val eventListener  = EventListener<QuerySnapshot>{ value: QuerySnapshot?, error:Throwable? ->
-        if(error != null){
-
+        // Verifique se os IDs não são nulos antes de continuar
+        if (senderId.isNullOrEmpty() || receiverId.isNullOrEmpty()) {
+            showToast("Erro: IDs de remetente ou destinatário são nulos.")
+            return
         }
-        if(value != null){
+
+        // Adiciona logs para ajudar na depuração
+        Log.d("ChatActivity", "Sender ID: $senderId")
+        Log.d("ChatActivity", "Receiver ID: $receiverId")
+
+        database.collection(Constants.KEY_COLLECTION_CHAT)
+            .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
+            .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
+            .addSnapshotListener(eventListener)
+
+        database.collection(Constants.KEY_COLLECTION_CHAT)
+            .whereEqualTo(Constants.KEY_SENDER_ID, receiverId)
+            .whereEqualTo(Constants.KEY_RECEIVER_ID, senderId)
+            .addSnapshotListener(eventListener)
+    }
+
+    private val eventListener = EventListener<QuerySnapshot> { value, error ->
+        if (error != null) {
+            showToast("Erro ao carregar mensagens: ${error.message}")
+            return@EventListener
+        }
+
+        value?.let { querySnapshot ->
             val count = chatMessages.size
-            for (document in value.documentChanges){
-                if(document.type == DocumentChange.Type.ADDED){
-                    val chatMessage = ChatMessage(
-                        document.document.getString(Constants.KEY_OBJ_USER_API)!!,
-                        document.document.getString(Constants.KEY_RECEIVER_ID)!!,
-                        document.document.getString(Constants.KEY_MESSAGE)!!,
-                        getReadableDateTime(document.document.getDate(Constants.KEY_TIMESTAMP)!!),
-                        document.document.getDate(Constants.KEY_TIMESTAMP)!!,
-                        document.document.getString(Constants.KEY_COMMUNITY_API_ID)?: "",
-                        document.document.getString(Constants.KEY_NAME)?: "",
-                        document.document.getString(Constants.KEY_IMAGE)?: ""
-                    )
-                    chatMessages.add(chatMessage)
+            for (document in querySnapshot.documentChanges) {
+                if (document.type == DocumentChange.Type.ADDED) {
+                    val senderId = document.document.getString(Constants.KEY_SENDER_ID)
+                    val receiverId = document.document.getString(Constants.KEY_RECEIVER_ID)
+                    val message = document.document.getString(Constants.KEY_MESSAGE)
+                    val timestamp = document.document.getDate(Constants.KEY_TIMESTAMP)
+                    val userId = document.document.getString(Constants.KEY_OBJ_USER_API)
+                    val name = document.document.getString(Constants.KEY_NAME)
+                    val image = document.document.getString(Constants.KEY_IMAGE)
+
+                    if (senderId != null && receiverId != null && message != null && timestamp != null) {
+                        val chatMessage = ChatMessage(
+                            senderId,
+                            receiverId,
+                            message,
+                            getReadableDateTime(timestamp),
+                            timestamp,
+                            userId ?: "",
+                            name ?: "",
+                            image ?: ""
+                        )
+                        chatMessages.add(chatMessage)
+                    }
                 }
             }
-            chatMessages.sortWith { obj1: ChatMessage, obj2: ChatMessage ->
-                obj1.dataObject!!.compareTo(
-                    obj2.dataObject
-                )
-            }
 
-            if (count == 0){
+            chatMessages.sortWith { obj1, obj2 -> obj1.dataObject!!.compareTo(obj2.dataObject) }
+
+            if (count == 0) {
                 chatAdapter.notifyDataSetChanged()
-            }else{
+            } else {
                 chatAdapter.notifyItemRangeInserted(chatMessages.size, chatMessages.size)
                 binding.chatRecyclerView.smoothScrollToPosition(chatMessages.size - 1)
             }
+
             binding.chatRecyclerView.visibility = View.VISIBLE
         }
         binding.progressBar.visibility = View.GONE
-        if(conversionId == null){
+        if (conversionId == null) {
             checkForConversion()
         }
     }
 
-    private fun sendMessage(){
+    private fun sendMessage() {
+        val senderId = preferenceManager.getString(Constants.KEY_SENDER_ID)
+        val receiverId = receiverUser.apiId
+
+        if (senderId.isNullOrEmpty() || receiverId.isNullOrEmpty()) {
+            showToast("Erro: IDs de remetente ou destinatário são nulos.")
+            return
+        }
+
         val message = hashMapOf(
-            Constants.KEY_SENDER_ID to preferenceManager.getString(Constants.KEY_OBJ_USER_API),
-            Constants.KEY_RECEIVER_ID to preferenceManager.getString(Constants.KEY_RECEIVER_ID),
+            Constants.KEY_SENDER_ID to senderId,
+            Constants.KEY_RECEIVER_ID to receiverId,
             Constants.KEY_MESSAGE to binding.inputMessage.text.toString(),
             Constants.KEY_TIMESTAMP to Date()
         )
+
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message)
-        if(conversionId != null) {
+        if (conversionId != null) {
             updateConversion(binding.inputMessage.text.toString())
-        }else{
+        } else {
             val conversion: HashMap<String, Any> = HashMap()
-            conversion[Constants.KEY_SENDER_ID] = preferenceManager.getString(Constants.KEY_OBJ_USER_API) ?: ""
+            conversion[Constants.KEY_SENDER_ID] = senderId
             conversion[Constants.KEY_SENDER_NAME] = preferenceManager.getString(Constants.KEY_NAME) ?: ""
             conversion[Constants.KEY_SENDER_IMAGE] = preferenceManager.getString(Constants.KEY_IMAGE) ?: ""
-            conversion[Constants.KEY_RECEIVER_ID] = receiverUser.apiId
+            conversion[Constants.KEY_RECEIVER_ID] = receiverId
             conversion[Constants.KEY_RECEIVER_NAME] = receiverUser.name ?: ""
             conversion[Constants.KEY_RECEIVER_IMAGE] = receiverUser.image ?: ""
             conversion[Constants.KEY_LAST_MESSAGE] = binding.inputMessage.text.toString()
             conversion[Constants.KEY_TIMESTAMP] = Date()
             addConversion(conversion)
         }
-        if(!isReceiverAvailable){
-            try{
-                val tokens = JSONArray()
-                tokens.put(receiverUser.token)
 
-                val data = JSONObject()
-                data.put(Constants.KEY_FIREBASE_USER_ID, preferenceManager.getString(Constants.KEY_OBJ_USER_API))
-                data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME))
-                data.put(Constants.KEY_MESSAGE, binding.inputMessage.text.toString())
-
-                val body = JSONObject()
-                body.put(Constants.REMOTE_MSG_DATA, data)
-                body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens)
-            }catch (e: Exception){
-                showToast(e.message.toString())
-            }
+        if (!isReceiverAvailable) {
+            binding.inputMessage.text.toString()
         }
+
         binding.inputMessage.text = null
     }
 
-    private fun showToast(message: String){
+    private fun showToast(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
+
     private fun listenAvailabilityOfReceiver() {
         database.collection(Constants.KEY_COLLECTION_USERS).document(receiverUser.apiId)
-            .addSnapshotListener(this) { value, error ->
+            .addSnapshotListener { value, error ->
                 if (error != null) {
                     return@addSnapshotListener
                 }
-                if (value != null) {
-                    value.getLong(Constants.KEY_AVAILABILITY)?.let {
-                        val availability = it.toInt()
-                        isReceiverAvailable = availability == 1
+
+                value?.let {
+                    it.getLong(Constants.KEY_AVAILABILITY)?.let { availability ->
+                        isReceiverAvailable
                     }
-                    receiverUser.token = value.getString(Constants.KEY_FCM_TOKEN)
-                    if(receiverUser.image == null){
-                        receiverUser.image = value.getString(Constants.KEY_IMAGE)
+                    receiverUser.token = it.getString(Constants.KEY_FCM_TOKEN)
+                    if (receiverUser.image == null) {
+                        receiverUser.image = it.getString(Constants.KEY_IMAGE)
                         chatAdapter.setReceiverProfileImage(receiverUser.image!!)
                         chatAdapter.notifyItemRangeChanged(0, chatMessages.size)
                     }
-                }
-                if(isReceiverAvailable){
-                    binding.textAvailability.visibility = View.VISIBLE
-                }else{
-                    binding.textAvailability.visibility = View.GONE
                 }
             }
     }
 
     private fun init() {
         preferenceManager = PreferenceManager(applicationContext)
-        chatMessages = emptyList<ChatMessage>().toMutableList()
+        chatMessages = mutableListOf()
         chatAdapter = ChatAdapter(
             chatMessages,
-            receiverUser.image!!,
+            receiverUser.image ?: "",
             preferenceManager.getString(Constants.KEY_OBJ_USER_API)!!
         )
         binding.chatRecyclerView.adapter = chatAdapter
         database = FirebaseFirestore.getInstance()
     }
 
-//    private fun getBitmapFromEncodedString(encodedImage: String): Bitmap {
-//        return if(encodedImage != null){
-//            val bytes = Base64.decode(encodedImage, Base64.DEFAULT)
-//            BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-//        } else{
-//            null!!
-//        }
-//    }
-
-    private fun loadReceiverDetails() = with(binding){
+    private fun loadReceiverDetails() {
         receiverUser = intent.getSerializableExtra(Constants.KEY_USER) as User
-        textName.text = receiverUser.name
+        binding.textName.text = receiverUser.name
     }
 
-    private fun setListners() = with(binding){
-        imageBack.setOnClickListener{ onBackPressedDispatcher.onBackPressed() }
-        layoutSend.setOnClickListener{ sendMessage() }
+    private fun setListeners() {
+        binding.imageBack.setOnClickListener { onBackPressed() }
+        binding.layoutSend.setOnClickListener { sendMessage() }
     }
 
-    private fun getReadableDateTime(date: Date): String{
+    private fun getReadableDateTime(date: Date): String {
         return SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date)
     }
+
     private fun addConversion(conversion: HashMap<String, Any>) {
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
             .add(conversion)
@@ -207,8 +213,7 @@ class ChatActivity : BaseActivity() {
     }
 
     private fun updateConversion(message: String) {
-        val documentReference: DocumentReference =
-            database.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId.toString())
+        val documentReference = database.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId.toString())
         documentReference.update(
             mapOf(
                 Constants.KEY_LAST_MESSAGE to message,
@@ -220,12 +225,12 @@ class ChatActivity : BaseActivity() {
     private fun checkForConversion() {
         if (chatMessages.isNotEmpty()) {
             checkForConversionRemotely(
-                preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID).toString(),
+                preferenceManager.getString(Constants.KEY_OBJ_USER_API).toString(),
                 receiverUser.apiId
             )
             checkForConversionRemotely(
                 receiverUser.apiId,
-                preferenceManager.getString(Constants.KEY_FIREBASE_USER_ID).toString()
+                preferenceManager.getString(Constants.KEY_OBJ_USER_API).toString()
             )
         }
     }

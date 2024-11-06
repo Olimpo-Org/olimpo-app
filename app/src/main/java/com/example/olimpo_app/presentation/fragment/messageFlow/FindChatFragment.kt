@@ -88,7 +88,7 @@ class FindChatFragment : Fragment(), UserListener {
 
     override fun onUserClicked(user: User, userAPI: UserAPI) {
         val intent = Intent(requireContext(), ChatActivity::class.java)
-        preferenceManager.putString(Constants.KEY_RECEIVER_ID, user.id.toString())
+        preferenceManager.putString(Constants.KEY_USER, user.id.toString())
         intent.putExtra(Constants.KEY_USER, user)
         startActivity(intent)
     }
