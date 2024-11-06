@@ -2,15 +2,12 @@ package com.example.olimpo_app.presentation.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.olimpo_app.R
-import com.example.olimpo_app.data.model.accessFlow.Community
 import com.example.olimpo_app.data.model.accessFlow.CommunityAPI
+import com.example.olimpo_app.databinding.ItemComunidadeBinding
 import com.example.olimpo_app.presentation.listeners.CommunityClickListener
 
 class CommunityAdapter(
@@ -19,9 +16,8 @@ class CommunityAdapter(
 ) : RecyclerView.Adapter<CommunityAdapter.CommunityViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_comunidade, parent, false)
-        return CommunityViewHolder(view)
+        val binding = ItemComunidadeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return CommunityViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CommunityViewHolder, position: Int) {
@@ -30,25 +26,18 @@ class CommunityAdapter(
 
     override fun getItemCount() = communityList.size
 
-    inner class CommunityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val communityName: TextView = itemView.findViewById(R.id.username)
-        private val communityImage: ImageView = itemView.findViewById(R.id.OlimpoFoto)
-
+    inner class CommunityViewHolder(private val binding: ItemComunidadeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(community: CommunityAPI) {
-            communityName.text = community.name
-            Glide.with(itemView.context)
+            binding.username.text = community.name
+            Glide.with(binding.root.context)
                 .load(community.imageUrl)
                 .placeholder(R.drawable.placeholder_image)
-                .into(communityImage)
+                .into(binding.communityPhoto) // Certifique-se de que communityImage é o ID correto no XML
 
-            Log.d(
-                "CommunityAdapter",
-                "Community: ${community.toString()}"
-            )
-            itemView.setOnClickListener {
-                communityClickListener.onCommunityClicked(
-                    community
-                )
+            Log.d("CommunityAdapter", "Community: ${community}")
+
+            binding.root.setOnClickListener {
+                communityClickListener.onCommunityClicked(community)
             }
         }
     }
