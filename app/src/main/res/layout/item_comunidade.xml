@@ -12,12 +12,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/borda_azul"
-        >
-
+        android:background="@drawable/borda_azul">
 
         <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/OlimpoFoto"
+            android:id="@+id/communityPhoto"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="16dp"

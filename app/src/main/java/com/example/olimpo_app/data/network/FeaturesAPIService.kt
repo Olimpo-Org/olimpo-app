@@ -5,6 +5,7 @@ import com.example.olimpo_app.data.model.feedFlow.Publication
 import com.example.olimpo_app.data.model.messageFlow.ChatAPI
 import com.example.olimpo_app.data.model.messageFlow.MessageAPI
 import com.example.olimpo_app.data.model.negociationFlow.AnnouncementAPI
+import com.example.olimpo_app.presentation.adapters.FeedItem
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -30,7 +31,7 @@ interface FeaturesAPIService {
     suspend fun createPublication(@Body publication: Publication): Response<Publication>
 
     @GET("/v1/publication/get/{communityId}")
-    suspend fun getPublicationsByCommunity(@Path("communityId") communityId: String): Response<List<Object>>
+    suspend fun getPublicationsByCommunity(@Path("communityId") communityId: String): Response<List<FeedItem>>
 
     @GET("/v1/publication/get/{communityId}/{userId}")
     suspend fun getPublicationsByCommunityAndUser(
