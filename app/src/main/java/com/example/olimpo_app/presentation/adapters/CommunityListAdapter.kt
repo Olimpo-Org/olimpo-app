@@ -1,14 +1,11 @@
 package com.example.olimpo_app.presentation.adapters
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.olimpo_app.data.model.accessFlow.Community
-import com.example.olimpo_app.databinding.ItemComunidadesBinding
+import com.example.olimpo_app.databinding.ItemComunidadeBinding
 import com.example.olimpo_app.presentation.listeners.CommunityListener
 
 class CommunityListAdapter(
@@ -17,7 +14,7 @@ class CommunityListAdapter(
 ) : RecyclerView.Adapter<CommunityListAdapter.ConversionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversionViewHolder {
-        val binding = ItemComunidadesBinding.inflate(
+        val binding = ItemComunidadeBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return ConversionViewHolder(binding)
@@ -31,11 +28,10 @@ class CommunityListAdapter(
         return communities.size
     }
 
-    inner class ConversionViewHolder(private val binding: ItemComunidadesBinding) :
+    inner class ConversionViewHolder(private val binding: ItemComunidadeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun setData(community: Community) {
-            binding.OlimpoFoto.setImageBitmap(getConversionImage(community.image))
             binding.username.text = community.name
             binding.root.setOnClickListener {
                 val community = Community(
@@ -46,18 +42,9 @@ class CommunityListAdapter(
                 )
                 communityListener.onCommunityClicked(community)
             }
+            Glide.with(binding.root.context)
+                .load(community.image)
+                .into(binding.communityPhoto)
         }
-    }
-
-    // Método para converter a string Base64 em Bitmap
-    private fun getConversionImage(image: String?): Bitmap? {
-
-        if (image.isNullOrEmpty()) {
-            Log.e("CommunityListAdapter", "Imagem está nula ou vazia.")
-            return null
-        }
-
-        val bytes = Base64.decode(image, Base64.DEFAULT)
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
     }
 }
