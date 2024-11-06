@@ -35,7 +35,7 @@ class FindChatFragment : Fragment(), UserListener {
     private val objectsLocalStorage = ObjectsLocalStorage()
 
     private val communityId: Int
-        get() = 1
+        get() = 4
             // preferenceManager.getString(Constants.KEY_COMMUNITY_API_ID)?.toIntOrNull() ?: 0
 
     override fun onCreateView(
