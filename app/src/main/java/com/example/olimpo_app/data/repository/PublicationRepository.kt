@@ -12,7 +12,7 @@ class PublicationRepository(private val service: FeaturesAPIService) {
     suspend fun createPublication(publication: Publication): Response<Publication>{
         return service.createPublication(publication)
     }
-    suspend fun getPublicationsByCommunity(communityId: String): Response<List<FeedItem>>{
+    suspend fun getPublicationsByCommunity(communityId: String): Response<List<Object>>{
         return service.getPublicationsByCommunity(communityId)
     }
     suspend fun getPublicationsByCommunityAndUser(communityId: String, userId: String): Response<List<Publication>>{

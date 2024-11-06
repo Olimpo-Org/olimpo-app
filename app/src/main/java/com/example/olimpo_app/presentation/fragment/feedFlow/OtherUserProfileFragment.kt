@@ -45,6 +45,7 @@ class OtherUserProfileFragment : Fragment() {
             id = it.getInt("id")
         }
         binding.username.text = name
+        getPublication()
     }
 
     private fun getPublication() {

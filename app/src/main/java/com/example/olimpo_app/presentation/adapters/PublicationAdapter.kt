@@ -1,9 +1,11 @@
 package com.example.olimpo_app.presentation.adapters
 
+import ImageUrlAdapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.olimpo_app.data.model.feedFlow.Publication
@@ -15,7 +17,7 @@ class PublicationAdapter : RecyclerView.Adapter<PublicationAdapter.PublicationVi
 
     private val diffCallback = object : DiffUtil.ItemCallback<Publication>() {
         override fun areItemsTheSame(oldItem: Publication, newItem: Publication): Boolean {
-            return oldItem.publicationId == newItem.publicationId // Use "publicationId" to compare items
+            return oldItem.publicationId == newItem.publicationId // Compare using "publicationId"
         }
 
         override fun areContentsTheSame(oldItem: Publication, newItem: Publication): Boolean {
@@ -42,18 +44,24 @@ class PublicationAdapter : RecyclerView.Adapter<PublicationAdapter.PublicationVi
     }
 
     override fun onBindViewHolder(holder: PublicationViewHolder, position: Int) {
+        val item = postsList[position]
         holder.binding.apply {
-            val item = postsList[position]
-//            Glide.with(holder.itemView.context)
-//                .load(item.userPhoto)
-//                .into(userPhoto)
+            // Set user photo
+            Glide.with(holder.itemView.context)
+                .load(item.images[0])
+                .into(userPhoto)
+
+            // Set username and description
             username.text = item.senderName
-
-            // Using the adapter for images with MutableList
-            recyclerView.adapter = SelectedImagesAdapter(item.images.toMutableList())
-
-            textView3.text = item.likes?.size.toString()
             description.text = item.description
+
+            // Set likes count
+            textView3.text = item.likes?.size.toString()
+
+            // Initialize ImageUrlAdapter for horizontal image list
+            val imageUrlAdapter = ImageUrlAdapter(item.images)
+            recyclerView.adapter = imageUrlAdapter
+            recyclerView.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
         }
     }
 }

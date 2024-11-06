@@ -1,5 +1,6 @@
 package com.example.olimpo_app.presentation.fragment.feedFlow
 
+import FeedAdapter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,13 +16,16 @@ import com.example.olimpo_app.data.model.accessFlow.CommunityAPI
 import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.data.repository.PublicationRepository
 import com.example.olimpo_app.databinding.FragmentFeedBinding
-import com.example.olimpo_app.presentation.adapters.FeedAdapter
 import com.example.olimpo_app.presentation.adapters.FeedItem
+import com.example.olimpo_app.presentation.adapters.FeedItemAdapter
 import com.example.olimpo_app.presentation.listeners.OnLikeClicked
 import com.example.olimpo_app.presentation.listeners.OnUserNameClicked
 import com.example.olimpo_app.presentation.ui.SpaceItemDecoration
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.ObjectsLocalStorage
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -66,18 +70,37 @@ class FeedFragment : Fragment(), OnLikeClicked, OnUserNameClicked {
             try {
                 Log.d("FeedFragment", "Fetching posts, communityId: $communityId")
                 val response = withContext(Dispatchers.IO) {
-                    publicationRepository.getPublicationsByCommunity(
-                        communityId.toString()
-                    )
+                    publicationRepository.getPublicationsByCommunity(communityId.toString())
                 }
                 Log.d("FeedFragment", "Response: $response")
-                val postsList = response.body() ?: emptyList()
 
-                setupRecycler(postsList)
-                binding.conversationsRecyclerView.visibility = View.VISIBLE
-                binding.layoutError.visibility = View.GONE
+                if (response.isSuccessful && response.body() != null) {
+                    val gson: Gson = GsonBuilder()
+                        .registerTypeAdapter(FeedItem::class.java, FeedItemAdapter())
+                        .create()
+
+                    val jsonElement = gson.toJson(
+                        response.body()!!
+                    )
+
+                    val feedItems: List<FeedItem> =
+                        gson.fromJson(jsonElement, Array<FeedItem>::class.java).toList()
+
+                    setupRecycler(feedItems)
+                    binding.conversationsRecyclerView.visibility = View.VISIBLE
+                    binding.layoutError.visibility = View.GONE
+                } else {
+                    Log.e("FeedFragment", "Error: ${response.message()}")
+                    Toast.makeText(requireContext(), "Error fetching posts", Toast.LENGTH_SHORT)
+                        .show()
+                    binding.layoutError.visibility = View.VISIBLE
+                    binding.conversationsRecyclerView.visibility = View.GONE
+                }
             } catch (e: Exception) {
-                Log.e("FeedFragment", "Error fetching posts | MESSAGE: ${e.message} | CAUSE: ${e.cause}")
+                Log.e(
+                    "FeedFragment",
+                    "Error fetching posts | MESSAGE: ${e.message} | CAUSE: ${e.cause}"
+                )
                 Toast.makeText(requireContext(), "Error fetching posts", Toast.LENGTH_SHORT).show()
                 binding.layoutError.visibility = View.VISIBLE
                 binding.conversationsRecyclerView.visibility = View.GONE
@@ -85,10 +108,17 @@ class FeedFragment : Fragment(), OnLikeClicked, OnUserNameClicked {
         }
     }
 
+
     private fun setupRecycler(feedItems: List<FeedItem>) {
         try {
             feedAdapter = userId?.let {
-                FeedAdapter(feedItems, this, this, it)
+                FeedAdapter(
+                    requireContext(),
+                    feedItems,
+                    this,
+                    this,
+                    it
+                )
             }!!
 
             binding.conversationsRecyclerView.apply {
@@ -97,9 +127,13 @@ class FeedFragment : Fragment(), OnLikeClicked, OnUserNameClicked {
                 addItemDecoration(SpaceItemDecoration(48))
             }
         } catch (e: Exception) {
-            Log.e("FeedFragment", "Error setting up recycler | MESSAGE: ${e.message} | CAUSE: ${e.cause}")
+            Log.e(
+                "FeedFragment",
+                "Error setting up recycler | MESSAGE: ${e.message} | CAUSE: ${e.cause}"
+            )
         }
     }
+
 
     override fun onLikeClicked(
         publicationId: String,
@@ -111,7 +145,10 @@ class FeedFragment : Fragment(), OnLikeClicked, OnUserNameClicked {
                     if (item.publication.likes?.contains(userId.toString()) == true) {
                         item.publication.likes.remove(userId.toString())
                         lifecycleScope.launch {
-                            publicationRepository.unlikePublication(publicationId, userId.toString())
+                            publicationRepository.unlikePublication(
+                                publicationId,
+                                userId.toString()
+                            )
                         }
                     } else {
                         item.publication.likes?.add(userId.toString())

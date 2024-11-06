@@ -31,7 +31,7 @@ interface FeaturesAPIService {
     suspend fun createPublication(@Body publication: Publication): Response<Publication>
 
     @GET("/v1/publication/get/{communityId}")
-    suspend fun getPublicationsByCommunity(@Path("communityId") communityId: String): Response<List<FeedItem>>
+    suspend fun getPublicationsByCommunity(@Path("communityId") communityId: String): Response<List<Object>>
 
     @GET("/v1/publication/get/{communityId}/{userId}")
     suspend fun getPublicationsByCommunityAndUser(
