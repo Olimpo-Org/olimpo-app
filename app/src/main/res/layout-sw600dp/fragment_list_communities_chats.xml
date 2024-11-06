@@ -1,78 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Pure_White"
     tools:context=".presentation.fragment.messageFlow.ListCommunitiesChatsFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <!-- TODO: Update blank fragment layout -->
-    <Button
-        android:id="@+id/btnEncontrarPessoas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:background="@drawable/background_input"
-        android:paddingTop="@dimen/_10ssp"
-        android:paddingBottom="@dimen/_10ssp"
-        android:gravity="left"
-        android:text="               Encontrar pessoas ou fóruns"
-        android:textSize="@dimen/_10sdp"
-        android:textColor="@color/White"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_60sdp"
-        android:text="Meus chats"
-        android:textColor="@color/Blue"
-        android:textSize="@dimen/_15sdp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recentConversationsRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_marginTop="@dimen/_90sdp"
-        android:clipToPadding="false"
-        android:orientation="vertical"
-        android:overScrollMode="never"
-        android:padding="@dimen/_5sdp"
-        tools:listitem="@layout/item_chats" />
+        <Button
+            android:id="@+id/btnEncontrarPessoas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/background_input"
+            android:gravity="left"
+            android:paddingTop="@dimen/_10ssp"
+            android:paddingBottom="@dimen/_10ssp"
+            android:text="               Encontrar pessoas ou fóruns"
+            android:textColor="@color/White"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnCreateGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_330sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:background="@drawable/background_input"
-        android:gravity="left"
-        android:paddingTop="@dimen/_9sdp"
-        android:paddingBottom="@dimen/_8sdp"
-        android:text="            Novo Grupo"
-        android:textSize="@dimen/_10sdp"
-        android:textColor="@color/White"
-        />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="9dp"
+            android:background="@drawable/users_alt"
+            android:padding="@dimen/_6sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnEncontrarPessoas"
+            app:layout_constraintStart_toStartOf="@+id/btnEncontrarPessoas"
+            app:layout_constraintTop_toTopOf="@+id/btnEncontrarPessoas"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:background="@drawable/users_alt"
-        android:padding="@dimen/_6sdp"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:layout_marginLeft="@dimen/_20sdp"/>
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Meus chats"
+            android:textColor="@color/Blue"
+            android:textSize="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.031"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnEncontrarPessoas" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:background="@drawable/ic_add"
-        android:padding="@dimen/_6sdp"
-        android:layout_marginTop="@dimen/_333sdp"
-        android:layout_marginLeft="@dimen/_26sdp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recentConversationsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:padding="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            tools:listitem="@layout/item_chats" />
 
+        <Button
+            android:id="@+id/btnCreateGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/background_input"
+            android:gravity="left"
+            android:paddingTop="@dimen/_9sdp"
+            android:paddingBottom="@dimen/_8sdp"
+            android:text="            Novo Grupo"
+            android:textColor="@color/White"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recentConversationsRecyclerView" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:background="@drawable/ic_add"
+            android:padding="@dimen/_6sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnCreateGroup"
+            app:layout_constraintEnd_toEndOf="@+id/btnCreateGroup"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/btnCreateGroup" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,97 +8,121 @@
     tools:context=".presentation.fragment.feedFlow.CreatePublicationFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listImageRecycleView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_245sdp"
-        android:layout_marginTop="410dp"
-        android:textColor="@color/Pure_White"
-        tools:listitem="@layout/item_fotos" />
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="360dp"
-        android:layout_height="200dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="110dp"
-        android:background="@drawable/borda_cinza"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="O que você quer contar aos seus amigos?..."
-        android:inputType="textMultiLine"
-        android:maxLength="50"
-        android:padding="16dp"
-        android:textColorHint="@color/Grey"
-        android:textSize="15dp" />
-
-    <Button
-        android:id="@+id/btnPublication"
-        android:layout_width="130dp"
-        android:layout_height="40dp"
-        android:textColor="@color/Pure_White"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="25dp"
-        android:text="Publicação" />
-
-    <Button
-        android:id="@+id/btnAnnouncement"
-        android:layout_width="130dp"
-        android:layout_height="40dp"
-        android:textColor="@color/Pure_White"
-        android:layout_marginLeft="220dp"
-        android:layout_marginTop="25dp"
-        android:text="Anúncio" />
-
-    <LinearLayout
-        android:id="@+id/typeSelection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background_footer"
-        android:orientation="horizontal"
-        android:layout_marginTop="65dp"
-        android:visibility="gone">
-
-        <Button
-            android:id="@+id/btnSale"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listImageRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_245sdp"
             android:textColor="@color/Pure_White"
-            android:layout_marginLeft="@dimen/_15ssp"
-            android:text="Venda" />
-        <Button
-            android:id="@+id/btnService"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="@dimen/_20ssp"
-            android:text="Serviço"
-            android:textColor="@color/Pure_White" />
-        <Button
-            android:id="@+id/btnDonation"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="@dimen/_20ssp"
-            android:text="Doação"
-            android:textColor="@color/Pure_White" />
-    </LinearLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/item_fotos" />
 
-    <ImageButton
-        android:id="@+id/btnGallery"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="320dp"
-        android:background="@drawable/image_"
-        />
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="360dp"
+            android:layout_height="200dp"
+            android:layout_marginBottom="34dp"
+            android:background="@drawable/borda_cinza"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="O que você quer contar aos seus amigos?..."
+            android:inputType="textMultiLine"
+            android:maxLength="50"
+            android:padding="16dp"
+            android:textColorHint="@color/Grey"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnPublish"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.484"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/btnPublish"
-        android:layout_width="290dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="320dp"
-        android:layout_marginLeft="@dimen/_70sdp"
-        android:textColor="@color/Pure_White"
-        android:textSize="@dimen/_13sdp"
-        android:textStyle="bold"
-        android:text="Publicar" />
+        <Button
+            android:id="@+id/btnPublication"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="Publicação"
+            android:textColor="@color/Pure_White"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnAnnouncement"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="28dp"
+            android:text="Anúncio"
+            android:textColor="@color/Pure_White"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/typeSelection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="19dp"
+            android:background="@drawable/background_footer"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/editText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.904">
+
+            <Button
+                android:id="@+id/btnSale"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/_15ssp"
+                android:text="Venda"
+                android:textColor="@color/Pure_White" />
+
+            <Button
+                android:id="@+id/btnService"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/_20ssp"
+                android:text="Serviço"
+                android:textColor="@color/Pure_White" />
+
+            <Button
+                android:id="@+id/btnDonation"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/_20ssp"
+                android:text="Doação"
+                android:textColor="@color/Pure_White" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnGallery"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="61dp"
+            android:background="@drawable/image_"
+            app:layout_constraintBottom_toTopOf="@+id/listImageRecycleView"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btnPublish"
+            android:layout_width="290dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="61dp"
+            android:text="Publicar"
+            android:textColor="@color/Pure_White"
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/listImageRecycleView"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
