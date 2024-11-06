@@ -76,7 +76,7 @@ class ChatActivity : BaseActivity() {
             for (document in querySnapshot.documentChanges) {
                 if (document.type == DocumentChange.Type.ADDED) {
                     val senderId = document.document.getString(Constants.KEY_SENDER_ID)
-                    val receiverId = document.document.getString(Constants.KEY_RECEIVER_ID)
+                    val receiverId = document.document.getString(Constants.KEY_OBJ_USER)
                     val message = document.document.getString(Constants.KEY_MESSAGE)
                     val timestamp = document.document.getDate(Constants.KEY_TIMESTAMP)
                     val userId = document.document.getString(Constants.KEY_OBJ_USER_API)
@@ -193,7 +193,7 @@ class ChatActivity : BaseActivity() {
     }
 
     private fun loadReceiverDetails() {
-        receiverUser = intent.getSerializableExtra(Constants.KEY_USER) as User
+        receiverUser = intent.getSerializableExtra(Constants.KEY_OBJ_USER) as User
         binding.textName.text = receiverUser.name
     }
 
@@ -225,12 +225,12 @@ class ChatActivity : BaseActivity() {
     private fun checkForConversion() {
         if (chatMessages.isNotEmpty()) {
             checkForConversionRemotely(
-                preferenceManager.getString(Constants.KEY_OBJ_USER_API).toString(),
+                preferenceManager.getString(Constants.KEY_OBJ_USER).toString(),
                 receiverUser.apiId
             )
             checkForConversionRemotely(
                 receiverUser.apiId,
-                preferenceManager.getString(Constants.KEY_OBJ_USER_API).toString()
+                preferenceManager.getString(Constants.KEY_OBJ_USER).toString()
             )
         }
     }

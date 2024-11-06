@@ -19,6 +19,7 @@ import com.example.olimpo_app.presentation.activity.messageFlow.ChatActivity
 import com.example.olimpo_app.presentation.adapters.UserAdapter
 import com.example.olimpo_app.presentation.listeners.UserListener
 import com.example.olimpo_app.utils.Constants
+import com.example.olimpo_app.utils.ObjectsLocalStorage
 import com.example.olimpo_app.utils.PreferenceManager
 import kotlinx.coroutines.launch
 
@@ -30,6 +31,8 @@ class FindChatFragment : Fragment(), UserListener {
     private val apiUserList = mutableListOf<UserAPI>()
     private val accessAPI = AccessApiInstance.service
     private val communityRepository = CommunityRepository(accessAPI)
+    private var myUser: UserAPI? = null
+    private val objectsLocalStorage = ObjectsLocalStorage()
 
     private val communityId: Int
         get() = 1
@@ -40,7 +43,14 @@ class FindChatFragment : Fragment(), UserListener {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFindChatBinding.inflate(inflater, container, false)
-        preferenceManager = PreferenceManager(requireContext())
+        myUser = objectsLocalStorage.getObjectFromLocalStorage(
+            requireActivity(),
+            Constants.KEY_OBJ_USER,
+            UserAPI::class.java
+        )
+
+        myUser?.id
+        preferenceManager = PreferenceManager(requireActivity())
         return binding.root
     }
 
@@ -88,8 +98,8 @@ class FindChatFragment : Fragment(), UserListener {
 
     override fun onUserClicked(user: User, userAPI: UserAPI) {
         val intent = Intent(requireContext(), ChatActivity::class.java)
-        preferenceManager.putString(Constants.KEY_USER, user.id.toString())
-        intent.putExtra(Constants.KEY_USER, user)
+        preferenceManager.putString(Constants.KEY_RECEIVER_ID, user.id.toString())
+        intent.putExtra(Constants.KEY_OBJ_USER, user)
         startActivity(intent)
     }
 
