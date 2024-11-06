@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.olimpo_app.AccessApiInstance
+import com.example.olimpo_app.data.model.accessFlow.CommunityAPI
 import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.data.repository.CommunityRepository
@@ -32,17 +33,22 @@ class FindChatFragment : Fragment(), UserListener {
     private val accessAPI = AccessApiInstance.service
     private val communityRepository = CommunityRepository(accessAPI)
     private var myUser: UserAPI? = null
+    private var myCommuntiy: CommunityAPI? = null
     private val objectsLocalStorage = ObjectsLocalStorage()
 
     private val communityId: Int
-        get() = 4
-            // preferenceManager.getString(Constants.KEY_COMMUNITY_API_ID)?.toIntOrNull() ?: 0
+        get() = myCommuntiy?.id!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFindChatBinding.inflate(inflater, container, false)
+        myCommuntiy = objectsLocalStorage.getObjectFromLocalStorage(
+            requireActivity(),
+            Constants.KEY_OBJ_COMMUNITY,
+            CommunityAPI::class.java
+        )
         myUser = objectsLocalStorage.getObjectFromLocalStorage(
             requireActivity(),
             Constants.KEY_OBJ_USER,

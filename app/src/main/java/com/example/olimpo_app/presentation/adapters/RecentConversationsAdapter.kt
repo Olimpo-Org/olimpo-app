@@ -1,66 +1,78 @@
 package com.example.olimpo_app.presentation.adapters
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Base64
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.olimpo_app.data.model.messageFlow.ChatMessage
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.olimpo_app.R
 import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.data.model.accessFlow.UserAPI
-import com.example.olimpo_app.databinding.ItemChatsBinding
+import com.example.olimpo_app.data.model.messageFlow.ChatMessage
 import com.example.olimpo_app.presentation.listeners.ConversionListener
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.ObjectsLocalStorage
+import com.google.firebase.storage.FirebaseStorage
 
 private val objectsLocalStorage = ObjectsLocalStorage()
+
 class RecentConversationsAdapter(
     private val chatMessages: List<ChatMessage>,
     private val conversionListener: ConversionListener
 ) : RecyclerView.Adapter<RecentConversationsAdapter.ConversionViewHolder>() {
 
-//    class RecentConversationsAdapter(
-//        private val chatMessages: List<ChatMessage>,
-//        private val conversionListener: ConversionListener
-//    )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversionViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_chats, parent, false)
+        return ConversionViewHolder(view)
+    }
 
+    override fun onBindViewHolder(holder: ConversionViewHolder, position: Int) {
+        holder.bind(chatMessages[position])
+    }
 
-    inner class ConversionViewHolder(private val binding: ItemChatsBinding) : RecyclerView.ViewHolder(binding.root) {
+    override fun getItemCount(): Int = chatMessages.size
 
-        fun setData(chatMessage: ChatMessage) {
-            binding.OlimpoFoto.setImageBitmap(getConversionImage(chatMessage.conversionImage))
-            binding.textView.text = chatMessage.conversionName
-            binding.textView2.text = chatMessage.message
-            binding.root.setOnClickListener {
+    inner class ConversionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val username: TextView = itemView.findViewById(R.id.textView)
+        private val lastMessage: TextView = itemView.findViewById(R.id.textView2)
+        private val userImage: ImageView = itemView.findViewById(R.id.OlimpoFoto)
+
+        fun bind(chatMessage: ChatMessage) {
+            // Set username and last message
+            username.text = chatMessage.conversionName ?: "Usuário"
+            lastMessage.text = chatMessage.message ?: ""
+
+            // Set Glide request options with placeholder and error images
+            val requestOptions = RequestOptions()
+                .placeholder(R.drawable.placeholder_image)
+
+            // Load image from Firebase Storage
+            val imageRef = FirebaseStorage.getInstance().reference.child(chatMessage.conversionImage ?: "")
+            Glide.with(itemView.context)
+                .load(chatMessage.conversionImage.takeIf { !it.isNullOrEmpty() }) // Carrega se não for nulo ou vazio
+                .apply(requestOptions)
+                .into(userImage)
+
+            // Set click listener to trigger conversionListener
+            itemView.setOnClickListener {
                 val user = User(
                     name = chatMessage.conversionName.toString(),
                     image = chatMessage.conversionImage.toString(),
-                    null,
-                    null,
+                    email = null,
+                    token = null,
                     id = chatMessage.conversionId.toString(),
-                    apiId = objectsLocalStorage.getObjectFromLocalStorage(it.context, Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
+                    apiId = objectsLocalStorage.getObjectFromLocalStorage(
+                        it.context,
+                        Constants.KEY_OBJ_USER,
+                        UserAPI::class.java
+                    )?.id.toString()
                 )
                 conversionListener.onConversionClicked(user)
             }
         }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversionViewHolder {
-        val binding = ItemChatsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ConversionViewHolder(binding)
-    }
-
-    override fun getItemCount(): Int {
-        return chatMessages.size
-    }
-
-    override fun onBindViewHolder(holder: ConversionViewHolder, position: Int) {
-        holder.setData(chatMessages[position])
-    }
-
-    private fun getConversionImage(encodedImage: String?): Bitmap {
-        val bytes = Base64.decode(encodedImage, Base64.DEFAULT)
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
     }
 }

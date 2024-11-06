@@ -14,7 +14,7 @@
             android:id="@+id/listImageRecycleView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_245sdp"
-            android:layout_marginTop="@dimen/_370sdp"
+            android:layout_marginTop="@dimen/_350sdp"
             android:textColor="@color/Pure_White"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
