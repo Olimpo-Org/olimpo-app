@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,40 +8,49 @@
     tools:context=".presentation.fragment.feedFlow.FeedFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/conversationsRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:orientation="vertical"
-        android:overScrollMode="never"
-        android:visibility="gone"
-        tools:listitem="@layout/item_publication" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/conversationsRecyclerView"
+            android:layout_width="480dp"
+            android:layout_height="820dp"
+            android:clipToPadding="false"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_publication" />
 
-    <LinearLayout
-        android:id="@+id/layoutError"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="visible"
-    >
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/archive_not_found"
-
-        />
-        <TextView
+        <LinearLayout
+            android:id="@+id/layoutError"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Essa comunidade não tem publicações... Publique você!!"
-            android:textColor="@color/Grey_Standard"
-            android:layout_marginRight="@dimen/_50ssp"
-            android:layout_marginLeft="@dimen/_50ssp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:textAlignment="center"
-            android:textSize="@dimen/_15sdp"
-            />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/archive_not_found"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_50ssp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_50ssp"
+                android:text="Essa comunidade não tem publicações... Publique você!!"
+                android:textAlignment="center"
+                android:textColor="@color/Grey_Standard"
+                android:textSize="@dimen/_15sdp" />
+        </LinearLayout>
 </FrameLayout>

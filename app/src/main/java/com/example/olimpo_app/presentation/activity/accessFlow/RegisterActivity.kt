@@ -132,6 +132,13 @@ class RegisterActivity : AppCompatActivity() {
             binding.inputName.text.isNullOrEmpty() ||
                     binding.inputEmail.text.isNullOrEmpty() ||
                     binding.inputPassword.text.isNullOrEmpty() -> {
+
+                binding.inputName.setBackgroundResource(R.drawable.borda_vermelha)
+                binding.inputSurname.setBackgroundResource(R.drawable.borda_vermelha)
+                binding.inputEmail.setBackgroundResource(R.drawable.borda_vermelha)
+                binding.inputPassword.setBackgroundResource(R.drawable.borda_vermelha)
+                binding.inputCpf.setBackgroundResource(R.drawable.borda_vermelha)
+                binding.inputGenero.setBackgroundResource(R.drawable.borda_vermelha)
                 showErrorMessage(R.color.Red_Bad, "Preencha todos os campos")
                 false
             }
@@ -144,7 +151,6 @@ class RegisterActivity : AppCompatActivity() {
                 false
             }
             else -> {
-                binding.errorMessage.visibility = View.GONE
                 true
             }
         }
@@ -152,10 +158,12 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun showErrorMessage(color: Int, message: String) {
         binding.textNome.setTextColor(getColor(color))
+        binding.textSobrenome.setTextColor(getColor(color))
         binding.textEmail.setTextColor(getColor(color))
         binding.textSenha.setTextColor(getColor(color))
-        binding.errorMessage.text = message
-        binding.errorMessage.visibility = View.VISIBLE
+        binding.cpf.setTextColor(getColor(color))
+        binding.genero.setTextColor(getColor(color))
+
     }
 
     private fun loading(isLoading: Boolean) {

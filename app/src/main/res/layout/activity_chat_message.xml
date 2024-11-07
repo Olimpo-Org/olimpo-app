@@ -106,16 +106,18 @@
         android:layout_height="@dimen/_40sdp"
         android:layout_marginEnd="@dimen/_16sdp"
         android:layout_marginBottom="@dimen/_12sdp"
-        android:background="@color/Blue"
+        android:background="@drawable/fundo_azul"
+        app:riv_oval="true"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         >
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="41dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/_4sdp"
-            android:layout_marginLeft="@dimen/_4sdp"
+            android:layout_width="35dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginLeft="@dimen/_7sdp"
             android:background="@drawable/left_arrow"
             android:padding="@dimen/_8sdp" />
 

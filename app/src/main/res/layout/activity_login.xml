@@ -126,7 +126,7 @@ tools:context=".presentation.activity.accessFlow.LoginActivity">
             android:layout_height="@dimen/_25sdp"
             android:layout_gravity="center"
             android:visibility="invisible"
-            android:indeterminateTint="@color/Blue"/>
+            android:indeterminateTint="@color/Pure_White"/>
     </FrameLayout>
 
     <TextView

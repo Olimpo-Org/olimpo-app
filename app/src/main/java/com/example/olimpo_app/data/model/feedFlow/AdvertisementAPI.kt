@@ -6,7 +6,7 @@ data class AdvertisementAPI(
     val id: Long? = null,
     val title: String,
     val description: String,
-    val divulgationDate: LocalDate,
+    val divulgationDate: String,
     val category: Int? = null,
     val imageUrl: String? = null,
     val userId: Long? = null,

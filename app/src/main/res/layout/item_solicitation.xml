@@ -15,7 +15,6 @@
         android:background="@drawable/borda_azul"
         android:paddingBottom="30px">
 
-
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/OlimpoFoto"
             android:layout_width="50dp"
@@ -46,30 +45,28 @@
 
         <Button
             android:id="@+id/btnAccept"
-            android:layout_width="160dp"
+            android:layout_width="136dp"
             android:layout_height="40dp"
+            android:layout_marginStart="48dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="32dp"
             android:background="@drawable/background_input"
             android:backgroundTint="@color/Blue"
             android:text="Aceitar"
             android:textColor="@color/Pure_White"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/username" />
 
         <Button
             android:id="@+id/btnReject"
-            android:layout_width="160dp"
+            android:layout_width="136dp"
             android:layout_height="40dp"
-            android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
-            android:background="@drawable/borda_azul"
-            android:backgroundTint="@color/Pure_White"
+            android:layout_marginEnd="24dp"
             android:text="Rejeitar"
-            android:textColor="@color/Blue"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/White"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/username" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

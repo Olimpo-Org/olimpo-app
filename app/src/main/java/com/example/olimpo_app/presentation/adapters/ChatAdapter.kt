@@ -1,19 +1,21 @@
 package com.example.olimpo_app.presentation.adapters
 
 
-import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.olimpo_app.R
 import com.example.olimpo_app.data.model.messageFlow.ChatMessage
 import com.example.olimpo_app.databinding.ItemMessageReceiveBinding
 import com.example.olimpo_app.databinding.ItemMessageSendBinding
 
-class ChatAdapter(private val chatMessages: List<ChatMessage>, private var receiverProfileImage: Bitmap, private val senderId: String ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatAdapter(private val chatMessages: List<ChatMessage>, private var receiverProfileImage: String, private val senderId: String ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val VIEW_TYPE_SENT = 1
     private val VIEW_TYPE_RECEIVED = 2
 
-    fun setReceiverProfileImage(bitmap: Bitmap){
+    fun setReceiverProfileImage(bitmap: String){
         receiverProfileImage = bitmap
     }
 
@@ -29,9 +31,15 @@ class ChatAdapter(private val chatMessages: List<ChatMessage>, private var recei
         fun setData(message: ChatMessage) = with(binding){
             textMessage.text = message.message
             textDateTime.text = message.dateTime
-            if(receiverProfileImage != null) {
-                imageProfile.setImageBitmap(receiverProfileImage)
-            }
+            Glide.with(this.imageProfile)
+                .load(receiverProfileImage)
+                .override(1800, 1800)
+                .placeholder(R.drawable.placeholder_image)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(binding.imageProfile)
+//            if(receiverProfileImage != null) {
+//                imageProfile.setImage(receiverProfileImage)
+
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

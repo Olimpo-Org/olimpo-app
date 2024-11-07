@@ -39,7 +39,6 @@ import com.example.olimpo_app.presentation.adapters.ImageAdapter
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.NotificationReceiver
 import com.example.olimpo_app.utils.ObjectsLocalStorage
-import com.example.olimpo_app.utils.PreferenceManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -98,25 +97,51 @@ class CreatePublicationFragment : Fragment() {
         }
 
         binding.btnPublication.setOnClickListener {
+            binding.btnPublication.setBackgroundResource(R.drawable.borda_cinza_fundo_azul)
+            binding.btnAnnouncement.setBackgroundResource(R.drawable.fundo_azul)
+            binding.btnSale.setBackgroundResource(R.drawable.fundo_azul)
+            binding.btnService.setBackgroundResource(R.drawable.fundo_azul)
+            binding.btnDonation.setBackgroundResource(R.drawable.fundo_azul)
             counterType = 0
             binding.typeSelection?.visibility  = View.GONE
         }
 
         binding.btnAnnouncement.setOnClickListener {
+            binding.btnPublication.setBackgroundResource(R.drawable.fundo_azul)
+            binding.btnAnnouncement.setBackgroundResource(R.drawable.borda_cinza_fundo_azul)
+            binding.btnSale.setBackgroundResource(R.drawable.fundo_azul)
+            binding.btnService.setBackgroundResource(R.drawable.fundo_azul)
+            binding.btnDonation.setBackgroundResource(R.drawable.fundo_azul)
             counterType = 1
             binding.typeSelection?.visibility  = View.VISIBLE
             binding.btnSale?.setOnClickListener {
+                binding.btnPublication.setBackgroundResource(R.drawable.fundo_azul)
+                binding.btnAnnouncement.setBackgroundResource(R.drawable.borda_cinza_fundo_azul)
+                binding.btnSale.setBackgroundResource(R.drawable.borda_cinza_fundo_azul)
+                binding.btnService.setBackgroundResource(R.drawable.fundo_azul)
+                binding.btnDonation.setBackgroundResource(R.drawable.fundo_azul)
                 counterAnnouncementType = 1
             }
             binding.btnService?.setOnClickListener {
+                binding.btnPublication.setBackgroundResource(R.drawable.fundo_azul)
+                binding.btnAnnouncement.setBackgroundResource(R.drawable.borda_cinza_fundo_azul)
+                binding.btnSale.setBackgroundResource(R.drawable.fundo_azul)
+                binding.btnService.setBackgroundResource(R.drawable.borda_cinza_fundo_azul)
+                binding.btnDonation.setBackgroundResource(R.drawable.fundo_azul)
                 counterAnnouncementType = 2
             }
             binding.btnDonation?.setOnClickListener {
+                binding.btnPublication.setBackgroundResource(R.drawable.fundo_azul)
+                binding.btnAnnouncement.setBackgroundResource(R.drawable.borda_cinza_fundo_azul)
+                binding.btnSale.setBackgroundResource(R.drawable.fundo_azul)
+                binding.btnService.setBackgroundResource(R.drawable.fundo_azul)
+                binding.btnDonation.setBackgroundResource(R.drawable.borda_cinza_fundo_azul)
                 counterAnnouncementType = 3
             }
         }
 
         binding.btnPublish.setOnClickListener {
+            binding.progressBar?.visibility = View.VISIBLE
             if (counterType == 0) {
                 createPublication{
                     showNotification(
@@ -202,6 +227,7 @@ class CreatePublicationFragment : Fragment() {
                 community?.id.toString(),
                 user?.id.toString(),
                 user?.name.toString(),
+                user?.profileImage.toString(),
                 imageList,
                 binding.editText.text.toString(),
                 mutableListOf()
@@ -231,6 +257,7 @@ class CreatePublicationFragment : Fragment() {
                 community?.id.toString(),
                 user?.id.toString(),
                 user?.name.toString(),
+                user?.profileImage.toString(),
                 imageList,
                 binding.editText.text.toString(),
                 announcementType,

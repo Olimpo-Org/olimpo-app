@@ -1,17 +1,21 @@
-package com.example.olimpo_app.presentation.adapters
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.olimpo_app.data.model.feedFlow.AdvertisementAPI
 import com.example.olimpo_app.data.model.feedFlow.Publication
 import com.example.olimpo_app.databinding.ItemAdvertisementBinding
 import com.example.olimpo_app.databinding.ItemPublicationBinding
+import com.example.olimpo_app.presentation.adapters.FeedItem
 import com.example.olimpo_app.presentation.listeners.OnLikeClicked
 import com.example.olimpo_app.presentation.listeners.OnUserNameClicked
 
 class FeedAdapter(
+    private val context: Context,
     val itemList: List<FeedItem>,
     private val onLikeClicked: OnLikeClicked,
     private val onUserNameClicked: OnUserNameClicked,
@@ -57,24 +61,32 @@ class FeedAdapter(
                 username.text = publication.senderName
                 description.text = publication.description
                 textView3.text = publication.likes?.size.toString()
-                recyclerView.adapter = SelectedImagesAdapter(publication.images.toMutableList())
+                Log.d(
+                    "FeedAdapter",
+                    "PublicationViewHolder: $publication"
+                )
+                Glide.with(root)
+                    .load(publication.senderImage)
+                    .into(userPhoto)
+                val imageUrlAdapter = ImageUrlAdapter(publication.images)
+                recyclerView.adapter = imageUrlAdapter
+                recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             }
-            if (publication.likes?.contains(userId.toString()) == true) {
-                binding.likeBtn.setImageResource(com.example.olimpo_app.R.drawable.heartp)
-            } else {
-                binding.likeBtn.setImageResource(com.example.olimpo_app.R.drawable.heartl)
-            }
+            binding.likeBtn.setImageResource(
+                if (publication.likes?.contains(userId.toString()) == true) {
+                    com.example.olimpo_app.R.drawable.heartp
+                } else {
+                    com.example.olimpo_app.R.drawable.heartl
+                }
+            )
+
             binding.likeBtn.setOnClickListener {
-                publication.publicationId?.let { it1 -> onLikeClicked.onLikeClicked(it1, userId) }
+                publication.publicationId?.let { id -> onLikeClicked.onLikeClicked(id, userId) }
             }
 
             binding.username.setOnClickListener {
-                onUserNameClicked.onUserNameClicked(
-                    publication.senderId.toInt(),
-                    publication.senderName,
-                )
+                onUserNameClicked.onUserNameClicked(publication.senderId.toInt(), publication.senderName)
             }
-            binding.recyclerView.adapter = ImageUrlAdapter(publication.images)
         }
     }
 
@@ -83,12 +95,10 @@ class FeedAdapter(
             binding.apply {
                 advertisementTitle.text = advertisement.title
                 advertisementDescription.text = advertisement.description
-                Glide.with(advertisementImage.context)
+                Glide.with(context)
                     .load(advertisement.imageUrl)
                     .into(advertisementImage)
             }
         }
     }
 }
-
-
