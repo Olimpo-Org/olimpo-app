@@ -26,7 +26,7 @@ class DashBoardActivity : AppCompatActivity() {
         }
         val webView = findViewById<WebView>(R.id.webview)
         val load = findViewById<ProgressBar>(R.id.progressBar2)
-        webView.loadUrl("https://www.youtube.com/watch?v=KVtLZ3HumkU")
+        webView.loadUrl("https://olimpo-dashboard.onrender.com/SiteOlimpo/areaRestrita")
         webView.settings.setJavaScriptEnabled(true)
 
         webView.webViewClient =object: WebViewClient(){

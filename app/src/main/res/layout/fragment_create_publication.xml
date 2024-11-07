@@ -50,7 +50,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/fundo_azul"
-        android:text="Publicação"
+        android:text="@string/publicacao"
+        android:textAllCaps="false"
         android:textColor="@color/Pure_White"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -63,6 +64,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/fundo_azul"
         android:text="Anúncio"
+        android:textAllCaps="false"
         android:textColor="@color/Pure_White"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -88,6 +90,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="@dimen/_15ssp"
                 android:text="Venda"
+                android:textAllCaps="false"
                 android:background="@drawable/fundo_azul"
                 android:textColor="@color/Pure_White" />
 
@@ -97,6 +100,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="@dimen/_20ssp"
                 android:text="Serviço"
+                android:textAllCaps="false"
                 android:background="@drawable/fundo_azul"
                 android:textColor="@color/Pure_White" />
 
@@ -106,6 +110,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="@dimen/_20ssp"
                 android:text="Doação"
+                android:textAllCaps="false"
                 android:background="@drawable/fundo_azul"
                 android:textColor="@color/Pure_White" />
         </LinearLayout>
