@@ -1,5 +1,6 @@
 package com.example.olimpo_app.presentation.fragment.feedFlow
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,14 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.olimpo_app.FeaturesApiInstance
-import com.example.olimpo_app.R
 import com.example.olimpo_app.data.model.accessFlow.CommunityAPI
-import com.example.olimpo_app.data.model.accessFlow.UserAPI
+import com.example.olimpo_app.data.model.accessFlow.User
 import com.example.olimpo_app.data.model.feedFlow.Publication
 import com.example.olimpo_app.data.repository.PublicationRepository
-import com.example.olimpo_app.databinding.FragmentFeedBinding
 import com.example.olimpo_app.databinding.FragmentOtherUserProfileBinding
+import com.example.olimpo_app.presentation.activity.messageFlow.ChatActivity
 import com.example.olimpo_app.presentation.adapters.PublicationAdapter
+import com.example.olimpo_app.presentation.listeners.ConversionListener
 import com.example.olimpo_app.presentation.ui.SpaceItemDecoration
 import com.example.olimpo_app.utils.Constants
 import com.example.olimpo_app.utils.ObjectsLocalStorage
@@ -26,7 +27,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
-class OtherUserProfileFragment : Fragment() {
+class OtherUserProfileFragment : Fragment(), ConversionListener {
     private lateinit var binding: FragmentOtherUserProfileBinding
     private val publicationRepository = PublicationRepository(FeaturesApiInstance.service)
     private val localStorage = ObjectsLocalStorage()
@@ -92,5 +93,11 @@ class OtherUserProfileFragment : Fragment() {
                 "Error setting up recycler | MESSAGE: ${e.message} | CAUSE: ${e.cause}"
             )
         }
+    }
+    override fun onConversionClicked(user: User) {
+        val intent = Intent(requireContext(), ChatActivity::class.java)
+        preferenceManager.putString(Constants.KEY_RECEIVER_ID, user.id.toString())
+        intent.putExtra(Constants.KEY_OBJ_USER, user)
+        startActivity(intent)
     }
 }

@@ -111,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
     // Função para mostrar ou esconder o carregamento
     private fun loading(isLoading: Boolean) {
         if (isLoading) {
-            binding.buttonSignIn.visibility = View.INVISIBLE
+            binding.buttonSignIn.visibility = View.VISIBLE
             binding.progressBar.visibility = View.VISIBLE
         } else {
             binding.progressBar.visibility = View.INVISIBLE
@@ -130,35 +130,45 @@ class LoginActivity : AppCompatActivity() {
             binding.inputPassword.text.toString().trim().isEmpty()) {
             Log.d("LoginActivity", "E-mail e senha estão vazios")
             binding.textEmail.setTextColor(getColor(R.color.Red_Bad))
+            binding.inputEmail.setBackgroundResource(R.drawable.borda_vermelha)
             binding.textSenha.setTextColor(getColor(R.color.Red_Bad))
+            binding.inputPassword.setBackgroundResource(R.drawable.borda_vermelha)
             binding.errorMessage.visibility = View.VISIBLE
             return false
 
         } else if (binding.inputEmail.text.toString().trim().isEmpty()) {
             Log.d("LoginActivity", "E-mail está vazio")
             binding.textEmail.setTextColor(getColor(R.color.Red_Bad))
+            binding.inputEmail.setBackgroundResource(R.drawable.borda_vermelha)
             binding.textSenha.setTextColor(getColor(R.color.Blue))
+            binding.inputPassword.setBackgroundResource(R.drawable.borda_cinza)
             binding.errorMessage.visibility = View.VISIBLE
             return false
 
         } else if (!Patterns.EMAIL_ADDRESS.matcher(binding.inputEmail.text.toString()).matches()) {
             Log.d("LoginActivity", "E-mail inválido")
             binding.textEmail.setTextColor(getColor(R.color.Red_Bad))
+            binding.inputEmail.setBackgroundResource(R.drawable.borda_vermelha)
             binding.textSenha.setTextColor(getColor(R.color.Blue))
+            binding.inputPassword.setBackgroundResource(R.drawable.borda_cinza)
             binding.errorMessage.visibility = View.VISIBLE
             return false
 
         } else if (binding.inputPassword.text.toString().trim().isEmpty()) {
             Log.d("LoginActivity", "Senha está vazia")
             binding.textEmail.setTextColor(getColor(R.color.Blue))
+            binding.inputEmail.setBackgroundResource(R.drawable.borda_cinza)
             binding.textSenha.setTextColor(getColor(R.color.Red_Bad))
+            binding.inputPassword.setBackgroundResource(R.drawable.borda_vermelha)
             binding.errorMessage.visibility = View.VISIBLE
             return false
 
         } else {
             Log.d("LoginActivity", "Detalhes de login válidos")
             binding.textEmail.setTextColor(getColor(R.color.Blue))
+            binding.inputEmail.setBackgroundResource(R.drawable.borda_cinza)
             binding.textSenha.setTextColor(getColor(R.color.Blue))
+            binding.inputPassword.setBackgroundResource(R.drawable.borda_cinza)
             binding.errorMessage.visibility = View.GONE
             return true
         }

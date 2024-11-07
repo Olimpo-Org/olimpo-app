@@ -79,18 +79,17 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/conversationsRecyclerView"
-            android:layout_width="382dp"
+            android:layout_width="573dp"
             android:layout_height="580dp"
-            android:layout_marginLeft="@dimen/_70sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_90sdp"
             android:clipToPadding="false"
             android:orientation="vertical"
             android:overScrollMode="never"
             android:padding="@dimen/_5sdp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_comunidade"
             android:visibility="visible"
-            />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_comunidade" />
 
         <LinearLayout
             android:id="@+id/LinearLayout"

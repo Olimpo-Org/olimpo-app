@@ -161,18 +161,15 @@ class CreateCommunityActivity : AppCompatActivity() {
     private fun isValidCreateDetails(): Boolean {
         return when {
             binding.inputName.text.toString().trim().isEmpty() -> {
-                binding.textName.setTextColor(getColor(R.color.Red_Bad))
-                binding.errorMessage.visibility = View.VISIBLE
+                binding.inputName.setBackgroundResource(R.drawable.borda_vermelha)
                 false
             }
             image == null -> {
-                binding.errorMessage.visibility = View.VISIBLE
                 showToast("Insira uma foto de perfil")
                 false
             }
             else -> {
-                binding.textName.setTextColor(getColor(R.color.Blue))
-                binding.errorMessage.visibility = View.GONE
+                binding.inputName.setBackgroundResource(R.drawable.borda_cinza)
                 true
             }
         }

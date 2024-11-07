@@ -144,17 +144,6 @@
                 app:layout_constraintHorizontal_bias="0.487"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                android:id="@+id/errorMessage"
-                android:layout_width="130dp"
-                android:layout_height="21dp"
-                android:layout_marginTop="62dp"
-                android:text="Algo está incorreto*"
-                android:textColor="@color/Red_Bad"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="@+id/inputName"
-                app:layout_constraintTop_toTopOf="@+id/inputName" />
-
 
             <Button
                 android:id="@+id/btnCreateCommunity"

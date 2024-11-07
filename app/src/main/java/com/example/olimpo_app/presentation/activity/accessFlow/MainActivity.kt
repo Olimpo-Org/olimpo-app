@@ -40,13 +40,18 @@ class MainActivity : BaseActivity(), CommunityClickListener {
             UserAPI::class.java
         )
         Log.d(
-            "Caralho",
+            "Catapimbas",
             "onCreate: ${loggedUser?.id} ${loggedUser?.name} ${loggedUser?.email} ${loggedUser?.profileImage}"
         )
 
         setListeners()
         getCommunityList()
         setAdapter()
+
+        binding.image.setOnClickListener {
+            startActivity(Intent(applicationContext, DashBoardActivity::class.java))
+            finish()
+        }
 
         binding.encontrarComunidade.setOnClickListener {
             startActivity(Intent(applicationContext, FindCommunitiesActivity::class.java))
