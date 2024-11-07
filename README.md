@@ -23,6 +23,7 @@
 O projeto está organizado em diferentes pacotes, não utilizamos nenhuma arquitetura em específico, mas o projeto está organizado para facilitar a compreensão do código
 
 
+```
 com
 └── example
     └── olimpo_app
@@ -50,6 +51,8 @@ com
         │   ├── listeners         # Listeners para eventos e interações com a UI
         │   └── ui                # Componentes e views da interface de usuário
         └── utils                 # Utilitários e helpers do projeto
+
+```
 
 
 
