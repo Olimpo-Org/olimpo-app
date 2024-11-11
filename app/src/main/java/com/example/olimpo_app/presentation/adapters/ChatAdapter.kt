@@ -1,6 +1,5 @@
 package com.example.olimpo_app.presentation.adapters
 
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +23,6 @@ class ChatAdapter(private val chatMessages: List<ChatMessage>, private var recei
             textMessage.text = message.message
             textDateTime.text = message.dateTime
         }
-
     }
 
     inner class ReceivedMessageViewHolder(private val binding: ItemMessageReceiveBinding): RecyclerView.ViewHolder(binding.root){
@@ -65,7 +63,7 @@ class ChatAdapter(private val chatMessages: List<ChatMessage>, private var recei
     override fun getItemCount(): Int = chatMessages.size
 
     override fun getItemViewType(position: Int): Int {
-        return if(chatMessages[position].senderId == senderId){
+        return if(chatMessages[position].senderId.toString() == senderId){
             VIEW_TYPE_SENT
         }else {
             VIEW_TYPE_RECEIVED

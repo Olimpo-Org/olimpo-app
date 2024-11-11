@@ -39,7 +39,7 @@ class CreateForunsFragment : Fragment(), UserClickListener{
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCreateForunsBinding.inflate(inflater, container, false)
         preferenceManager = PreferenceManager(requireContext())
         getUsersFromCommunity(object : UsersCallback {
@@ -121,8 +121,8 @@ class CreateForunsFragment : Fragment(), UserClickListener{
                             image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE)!!,
                             email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL)!!,
                             token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN),
-                            id = queryDocumentSnapshot.id,
-                            apiId = jsonConverter.getObjectFromLocalStorage(requireContext(), Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
+                            id = queryDocumentSnapshot.id.toInt(),
+                            apiId = jsonConverter.getObjectFromLocalStorage(requireContext(), Constants.KEY_OBJ_USER, UserAPI::class.java)?.id
                         )
                         users.add(user)
                     }
@@ -169,7 +169,7 @@ class CreateForunsFragment : Fragment(), UserClickListener{
     }
     override fun onUserClicked(user: User) {
         val intent = Intent(requireContext(), ChatActivity::class.java)
-        preferenceManager.putString(Constants.KEY_RECEIVER_ID, user.apiId)
+        user.apiId?.let { preferenceManager.putInt(Constants.KEY_RECEIVER_ID, it) }
         intent.putExtra(Constants.KEY_USER, user)
         startActivity(intent)
     }

@@ -2,14 +2,17 @@ package com.example.olimpo_app.presentation.activity.messageFlow
 
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.olimpo_app.data.model.accessFlow.User
+import com.example.olimpo_app.data.model.accessFlow.UserAPI
 import com.example.olimpo_app.data.model.messageFlow.ChatMessage
 import com.example.olimpo_app.databinding.ActivityChatMessageBinding
 import com.example.olimpo_app.presentation.activity.BaseActivity
 import com.example.olimpo_app.presentation.adapters.ChatAdapter
 import com.example.olimpo_app.utils.Constants
+import com.example.olimpo_app.utils.ObjectsLocalStorage
 import com.example.olimpo_app.utils.PreferenceManager
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.DocumentChange
@@ -28,11 +31,18 @@ class ChatActivity : BaseActivity() {
     private lateinit var database: FirebaseFirestore
     private var conversionId: String? = null
     private var isReceiverAvailable = false
+    private val objectsLocalStorage = ObjectsLocalStorage()
+    private var loggedUser: UserAPI? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatMessageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        loggedUser = objectsLocalStorage.getObjectFromLocalStorage(
+            this,
+            Constants.KEY_OBJ_USER,
+            UserAPI::class.java
+        )
         setListeners()
         loadReceiverDetails()
         init()
@@ -41,13 +51,13 @@ class ChatActivity : BaseActivity() {
 
     private fun listenMessages() {
         database.collection(Constants.KEY_COLLECTION_CHAT)
-            .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_OBJ_USER))
+            .whereEqualTo(Constants.KEY_SENDER_ID, loggedUser?.id)
             .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.id)
             .addSnapshotListener(eventListener)
 
         database.collection(Constants.KEY_COLLECTION_CHAT)
             .whereEqualTo(Constants.KEY_SENDER_ID, receiverUser.id)
-            .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_OBJ_USER))
+            .whereEqualTo(Constants.KEY_RECEIVER_ID, loggedUser?.id)
             .addSnapshotListener(eventListener)
     }
 
@@ -62,8 +72,8 @@ class ChatActivity : BaseActivity() {
             for (document in value.documentChanges) {
                 if (document.type == DocumentChange.Type.ADDED) {
                     val chatMessage = ChatMessage(
-                        document.document.getString(Constants.KEY_SENDER_ID)!!,
-                        document.document.getString(Constants.KEY_RECEIVER_ID)!!,
+                        document.document.getString(Constants.KEY_SENDER_ID)!!.toLong(),
+                        document.document.getString(Constants.KEY_RECEIVER_ID)!!.toLong(),
                         document.document.getString(Constants.KEY_MESSAGE)!!,
                         getReadableDateTime(document.document.getDate(Constants.KEY_TIMESTAMP)!!),
                         document.document.getDate(Constants.KEY_TIMESTAMP)!!,
@@ -93,7 +103,7 @@ class ChatActivity : BaseActivity() {
 
     private fun sendMessage() {
         val message = hashMapOf(
-            Constants.KEY_SENDER_ID to preferenceManager.getString(Constants.KEY_OBJ_USER),
+            Constants.KEY_SENDER_ID to loggedUser?.id,
             Constants.KEY_RECEIVER_ID to receiverUser.id,
             Constants.KEY_MESSAGE to binding.inputMessage.text.toString(),
             Constants.KEY_TIMESTAMP to Date()
@@ -104,10 +114,10 @@ class ChatActivity : BaseActivity() {
             updateConversion(binding.inputMessage.text.toString())
         } else {
             val conversion: HashMap<String, Any> = HashMap()
-            conversion[Constants.KEY_SENDER_ID] = preferenceManager.getString(Constants.KEY_OBJ_USER) ?: ""
+            conversion[Constants.KEY_SENDER_ID] = loggedUser?.id ?: -1
             conversion[Constants.KEY_SENDER_NAME] = preferenceManager.getString(Constants.KEY_NAME) ?: ""
             conversion[Constants.KEY_SENDER_IMAGE] = preferenceManager.getString(Constants.KEY_IMAGE) ?: ""
-            conversion[Constants.KEY_RECEIVER_ID] = receiverUser.apiId
+            conversion[Constants.KEY_RECEIVER_ID] = receiverUser.id ?: -1
             conversion[Constants.KEY_RECEIVER_NAME] = receiverUser.name ?: ""
             conversion[Constants.KEY_RECEIVER_IMAGE] = receiverUser.image ?: ""
             conversion[Constants.KEY_LAST_MESSAGE] = binding.inputMessage.text.toString()
@@ -133,7 +143,7 @@ class ChatActivity : BaseActivity() {
         chatAdapter = ChatAdapter(
             chatMessages,
            receiverUser.image ?: "",
-            preferenceManager.getString(Constants.KEY_OBJ_USER)!!
+            loggedUser?.id.toString()
         )
         binding.chatRecyclerView.adapter = chatAdapter
         database = FirebaseFirestore.getInstance()
@@ -141,7 +151,15 @@ class ChatActivity : BaseActivity() {
 
 
     private fun loadReceiverDetails() {
-        receiverUser = intent.getSerializableExtra(Constants.KEY_OBJ_USER) as User
+        receiverUser = objectsLocalStorage.getObjectFromLocalStorage(
+            this,
+            Constants.KEY_OBJ_USER_RECEIVED,
+            User::class.java
+        )!!
+        Log.d(
+            "Activity",
+            receiverUser.toString()
+        )
         binding.textName.text = receiverUser.name
     }
 
@@ -172,18 +190,26 @@ class ChatActivity : BaseActivity() {
 
     private fun checkForConversion() {
         if (chatMessages.isNotEmpty()) {
-            checkForConversionRemotely(
-                preferenceManager.getString(Constants.KEY_OBJ_USER).toString(),
-                receiverUser.apiId
-            )
-            checkForConversionRemotely(
-                receiverUser.apiId,
-                preferenceManager.getString(Constants.KEY_OBJ_USER).toString()
-            )
+            receiverUser.apiId?.let {
+                loggedUser?.id?.let { it1 ->
+                    checkForConversionRemotely(
+                        it1,
+                        it
+                    )
+                }
+            }
+            receiverUser.apiId?.let {
+                loggedUser?.id?.let { it1 ->
+                    checkForConversionRemotely(
+                        it,
+                        it1
+                    )
+                }
+            }
         }
     }
 
-    private fun checkForConversionRemotely(senderId: String, receiverId: String) {
+    private fun checkForConversionRemotely(senderId: Int, receiverId: Int) {
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
             .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
             .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)

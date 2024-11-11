@@ -35,21 +35,16 @@ class UserAdapter(
         private val userImage: ImageView = itemView.findViewById(R.id.OlimpoFoto)
 
         fun bind(user: UserAPI) {
-            // Exibe o nome do usuário ou um texto padrão caso esteja vazio
             username.text = user.name ?: "Usuário desconhecido"
 
-            // Define opções de carregamento de imagem com Glide
             val requestOptions = RequestOptions()
                 .placeholder(R.drawable.placeholder_image) // Placeholder enquanto carrega
-                // Imagem padrão em caso de erro
 
-            // Carrega a imagem do usuário (se disponível) ou aplica a imagem de erro
             Glide.with(itemView.context)
                 .load(user.profileImage.takeIf { !it.isNullOrEmpty() }) // Carrega se não for nulo ou vazio
                 .apply(requestOptions)
                 .into(userImage)
 
-            // Configura o clique no item para acionar o listener
             itemView.setOnClickListener {
                 userClickListener.onUserClicked(
                     User(
@@ -57,8 +52,8 @@ class UserAdapter(
                         image = user.profileImage,
                         email = null,
                         token = null,
-                        id = user.id.toString(),
-                        apiId = user.id.toString()
+                        id = user.id,
+                        apiId = user.id
                     ),
                     user
                 )

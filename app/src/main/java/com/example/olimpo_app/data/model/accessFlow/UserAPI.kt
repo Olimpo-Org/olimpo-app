@@ -1,7 +1,5 @@
 package com.example.olimpo_app.data.model.accessFlow
 
-
-
 data class UserAPI (
     val id: Int? = null,
     val email: String? = null,
