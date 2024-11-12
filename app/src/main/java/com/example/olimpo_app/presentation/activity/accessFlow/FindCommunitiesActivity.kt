@@ -79,7 +79,12 @@ class FindCommunitiesActivity : AppCompatActivity(), SolicitListener {
                             binding.conversationsRecyclerView.adapter = communityAdapter
                         }
                         binding.conversationsRecyclerView.visibility = if (communities.isNotEmpty()) View.VISIBLE else View.GONE
+//                        binding.LinearLayout?.visibility = if (communities.isEmpty()) View.VISIBLE else View.GONE
+                        binding.conversationsRecyclerView.visibility = View.VISIBLE
+                        binding.layoutError.visibility = View.GONE
                     } else {
+                        binding.layoutError.visibility = View.VISIBLE
+                        binding.conversationsRecyclerView.visibility = View.GONE
                         showToast("Failed to load communities")
                     }
                 }
@@ -88,7 +93,6 @@ class FindCommunitiesActivity : AppCompatActivity(), SolicitListener {
             }
         }
     }
-
     private fun showToast(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }

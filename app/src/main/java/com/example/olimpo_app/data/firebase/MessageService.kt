@@ -24,10 +24,10 @@ class MessageService: FirebaseMessagingService() {
 
         val user = User(
             name = remoteMessage.data[Constants.KEY_NAME]!!,
-            id = remoteMessage.data[Constants.KEY_FIREBASE_USER_ID]!!.toInt(),
+            id = remoteMessage.data[Constants.KEY_FIREBASE_USER_ID]!!,
             token = remoteMessage.data[Constants.KEY_FCM_TOKEN],
-            apiId = ObjectsLocalStorage().getObjectFromLocalStorage(this, Constants.KEY_OBJ_USER, UserAPI::class.java)?.id
-            )
+            apiId = ObjectsLocalStorage().getObjectFromLocalStorage(this, Constants.KEY_OBJ_USER, UserAPI::class.java)?.id.toString()
+        )
         val community = Community(
             name = remoteMessage.data[Constants.KEY_COMMUNITY_NAME]!!,
             id = remoteMessage.data[Constants.KEY_COMMUNITY_ID]!!,

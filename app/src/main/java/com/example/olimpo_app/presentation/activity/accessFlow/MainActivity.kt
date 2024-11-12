@@ -80,20 +80,20 @@ class MainActivity : BaseActivity(), CommunityClickListener {
                 if (apiCommunityList.isNotEmpty()) {
                     setAdapter()
                     binding.conversationsRecyclerView.visibility = View.VISIBLE
-                    binding.LinearLayout.visibility = View.GONE
+                    binding.layoutError.visibility = View.GONE
                     loading(false)
 
                 } else {
                     loading(false)
                     binding.conversationsRecyclerView.visibility = View.GONE
-                    binding.LinearLayout.visibility = View.VISIBLE
+                    binding.layoutError.visibility = View.VISIBLE
 
                 }
             } catch (e: Exception) {
                 loading(false)
                 showToast("Erro ao buscar comunidades")
                 binding.conversationsRecyclerView.visibility = View.GONE
-                binding.LinearLayout.visibility = View.VISIBLE
+                binding.layoutError.visibility = View.VISIBLE
             }
         }
     }

@@ -26,7 +26,7 @@
 
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/btnVenda"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="@dimen/_10ssp"
@@ -34,7 +34,7 @@
             android:textColor="@color/Pure_White" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btnServico"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="@dimen/_20ssp"
@@ -42,13 +42,12 @@
             android:textColor="@color/Pure_White" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnDoacao"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="@dimen/_20ssp"
             android:text="Doação"
             android:textColor="@color/Pure_White" />
-
 
     </LinearLayout>
 
@@ -66,5 +65,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/footer"
         app:layout_constraintVertical_bias="0.0"
+        android:visibility="gone"
         tools:listitem="@layout/item_shop" />
+    <LinearLayout
+        android:id="@+id/layoutError"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/archive_not_found"
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_50ssp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_50ssp"
+            android:text="Essa comunidade não possui anúncios... Publique você!!"
+            android:textAlignment="center"
+            android:textColor="@color/Grey_Standard"
+            android:textSize="@dimen/_15sdp" />
+    </LinearLayout>
 </FrameLayout>

@@ -87,6 +87,7 @@ class FindChatFragment : Fragment(), UserListener {
                         apiUserList.addAll(users)
                         userAdapter.notifyDataSetChanged()
                         binding.userList.visibility = View.VISIBLE
+                        binding.layoutError.visibility = View.GONE
                     } else {
                         showErrorToast("Nenhum usuário encontrado.")
                     }
@@ -116,5 +117,6 @@ class FindChatFragment : Fragment(), UserListener {
     private fun showErrorToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         binding.userList.visibility = View.GONE
+        binding.layoutError.visibility = View.VISIBLE
     }
 }

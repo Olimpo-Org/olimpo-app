@@ -26,7 +26,7 @@ class DashBoardActivity : AppCompatActivity() {
         }
         val webView = findViewById<WebView>(R.id.webview)
         val load = findViewById<ProgressBar>(R.id.progressBar2)
-        webView.loadUrl("https://olimpo-dashboard.onrender.com/SiteOlimpo/areaRestrita")
+        webView.loadUrl("https://app.powerbi.com/groups/me/reports/017c11cb-0e1d-4bd5-a20c-3b983c868cd7/632eab80770055ff7d31?experience=power-bi")
         webView.settings.setJavaScriptEnabled(true)
 
         webView.webViewClient =object: WebViewClient(){

@@ -140,6 +140,7 @@
         android:textColor="@color/Blue"
         android:textSize="@dimen/_13ssp"
         app:boxBackgroundMode="none"
+        app:passwordToggleEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"

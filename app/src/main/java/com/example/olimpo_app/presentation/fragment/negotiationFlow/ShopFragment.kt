@@ -62,17 +62,17 @@ class ShopFragment : Fragment(), GoToConversationClicked {
         }
 
         // Configuração dos botões
-        binding.btnVenda?.setOnClickListener {
+        binding.btnVenda.setOnClickListener {
             fetchData { annoucementRepository.getSalesAnnouncementsByCommunity(
                 community?.id.toString()
             ) }
         }
-        binding.btnServico?.setOnClickListener {
+        binding.btnServico.setOnClickListener {
             fetchData { annoucementRepository.getServiceAnnouncementsByCommunity(
                 community?.id.toString()
             ) }
         }
-        binding.btnDoacao?.setOnClickListener {
+        binding.btnDoacao.setOnClickListener {
             fetchData { annoucementRepository.getDonationsAnnouncementsByCommunity(
                 community?.id.toString()
             ) }
@@ -89,6 +89,7 @@ class ShopFragment : Fragment(), GoToConversationClicked {
                 Log.e("ShopFragment", "Error fetching posts: ${e.message}")
                 Toast.makeText(requireContext(), "Error fetching posts", Toast.LENGTH_SHORT).show()
                 binding.conversationsRecyclerView.visibility = View.GONE
+                binding.layoutError.visibility = View.VISIBLE
             }
         }
     }
@@ -97,6 +98,7 @@ class ShopFragment : Fragment(), GoToConversationClicked {
         annoucementAdapter.postsList = posts
         annoucementAdapter.notifyDataSetChanged()
         binding.conversationsRecyclerView.visibility = View.VISIBLE
+        binding.layoutError.visibility = View.GONE
     }
 
     override fun onGoToConversationClicked(userId: Int) {

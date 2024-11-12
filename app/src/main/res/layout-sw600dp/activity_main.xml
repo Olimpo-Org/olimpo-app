@@ -87,22 +87,26 @@
             android:orientation="vertical"
             android:overScrollMode="never"
             android:padding="@dimen/_5sdp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_comunidade" />
 
         <LinearLayout
-            android:id="@+id/LinearLayout"
+            android:id="@+id/layoutError"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/archive_not_found"
+                android:background="@drawable/frame_19"
 
                 />
 
@@ -112,7 +116,7 @@
                 android:layout_marginLeft="@dimen/_50ssp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginRight="@dimen/_50ssp"
-                android:text="Essa comunidade não tem publicações... Publique você!!"
+                android:text="Nenhuma comunidade encontrada..."
                 android:textAlignment="center"
                 android:textColor="@color/Grey_Standard"
                 android:textSize="@dimen/_15sdp" />
@@ -133,5 +137,14 @@
             android:textColor="@color/White" />
 
     </FrameLayout>
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/Blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

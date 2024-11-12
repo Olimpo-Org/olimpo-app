@@ -93,7 +93,7 @@
             tools:listitem="@layout/item_comunidade"
             />
         <LinearLayout
-            android:id="@+id/LinearLayout"
+            android:id="@+id/layoutError"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -103,13 +103,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/archive_not_found"
+                android:background="@drawable/frame_19"
 
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Essa comunidade não tem publicações... Publique você!!"
+                android:text="Nenhuma comunidade encontrada..."
                 android:textColor="@color/Grey_Standard"
                 android:layout_marginRight="@dimen/_50ssp"
                 android:layout_marginLeft="@dimen/_50ssp"

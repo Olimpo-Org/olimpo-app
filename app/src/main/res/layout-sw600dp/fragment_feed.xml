@@ -11,7 +11,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/conversationsRecyclerView"
             android:layout_width="480dp"
-            android:layout_height="820dp"
+            android:layout_height="800dp"
             android:clipToPadding="false"
             android:layout_marginLeft="@dimen/_40sdp"
             android:orientation="vertical"

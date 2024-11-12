@@ -90,6 +90,7 @@ tools:context=".presentation.activity.accessFlow.LoginActivity">
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:inputType="textPassword"
+            app:passwordToggleEnabled="true"
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             android:textColor="@color/Blue"

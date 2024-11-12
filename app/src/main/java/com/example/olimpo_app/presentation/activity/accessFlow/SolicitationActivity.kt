@@ -48,6 +48,7 @@ class SolicitationActivity : BaseActivity(), AcceptSolicitationListener, RejectS
                     )
                     binding.UsersRecyclerView.adapter = solicitationAdapter
                     binding.UsersRecyclerView.visibility = View.VISIBLE
+                    binding.layoutError.visibility = View.GONE
                 } else {
                     showToast("Failed to fetch users.")
                 }
@@ -87,6 +88,7 @@ class SolicitationActivity : BaseActivity(), AcceptSolicitationListener, RejectS
                         )
                         binding.UsersRecyclerView.adapter = solicitationAdapter
                         binding.UsersRecyclerView.visibility = View.VISIBLE
+                        binding.layoutError.visibility = View.GONE
                     }
                 }
                 val response = solicitationId?.let { communityRepository.acceptSolicitation(it) }
@@ -115,6 +117,7 @@ class SolicitationActivity : BaseActivity(), AcceptSolicitationListener, RejectS
                         )
                         binding.UsersRecyclerView.adapter = solicitationAdapter
                         binding.UsersRecyclerView.visibility = View.VISIBLE
+                        binding.layoutError.visibility = View.GONE
                     }
                 }
                 val response = solicitationId?.let { communityRepository.rejectSolicitation(it) }

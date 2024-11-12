@@ -7,6 +7,6 @@ data class User(
     var image: String? = null,
     val email: String? = null,
     var token: String?,
-    var id: Int?,
-    var apiId: Int?
+    var id: String?,
+    var apiId: String
 ): Serializable

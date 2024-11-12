@@ -64,12 +64,12 @@ class RecentConversationsAdapter(
                     image = chatMessage.conversionImage.toString(),
                     email = null,
                     token = null,
-                    id = chatMessage.conversionId?.toInt(),
+                    id = chatMessage.conversionId.toString(),
                     apiId = objectsLocalStorage.getObjectFromLocalStorage(
                         it.context,
                         Constants.KEY_OBJ_USER,
                         UserAPI::class.java
-                    )?.id
+                    )?.id.toString()
                 )
                 conversionListener.onConversionClicked(user)
             }

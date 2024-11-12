@@ -11,8 +11,8 @@ tools:context=".presentation.activity.accessFlow.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="647dp"
-        android:layout_height="907dp"
+        android:layout_width="668dp"
+        android:layout_height="845dp"
         android:background="@drawable/login_cadastro_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,6 +92,7 @@ tools:context=".presentation.activity.accessFlow.LoginActivity">
         android:importantForAutofill="no"
         android:inputType="textPassword"
         android:paddingStart="@dimen/_16sdp"
+        app:passwordToggleEnabled="true"
         android:paddingEnd="@dimen/_16sdp"
         android:textColor="@color/Blue"
         android:textSize="@dimen/_13ssp"

@@ -86,10 +86,12 @@ class UserProfileFragment : Fragment() {
                 val postsList = posts.body()
                 setupRecycler(postsList ?: emptyList())
                 binding.conversationsRecyclerView.visibility = View.VISIBLE
+                binding.layoutError.visibility = View.GONE
             } catch (e: Exception) {
                 Log.e("UserProfileFragment", "Error fetching posts | MESSAGE: ${e.message} | CAUSE: ${e.cause}")
                 Toast.makeText(requireContext(), "Error fetching posts", Toast.LENGTH_SHORT).show()
                 binding.conversationsRecyclerView.visibility = View.GONE
+                binding.layoutError.visibility = View.VISIBLE
             }
         }
     }

@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_16sdp"
-        android:background="@drawable/background_content_bottom"
+        android:background="@color/Pure_White"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -76,8 +76,35 @@
             android:orientation="vertical"
             android:overScrollMode="never"
             android:padding="@dimen/_5sdp"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_solicit_community"
             />
+        <LinearLayout
+            android:id="@+id/layoutError"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/frame_19"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nenhuma comunidade encontrada..."
+                android:textColor="@color/Grey_Standard"
+                android:layout_marginRight="@dimen/_50ssp"
+                android:layout_marginLeft="@dimen/_50ssp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:textAlignment="center"
+                android:textSize="@dimen/_15sdp"
+                />
+        </LinearLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
