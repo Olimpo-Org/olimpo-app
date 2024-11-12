@@ -10,8 +10,8 @@
     tools:context=".presentation.activity.accessFlow.RegisterActivity">
 
     <ImageView
-        android:layout_width="666dp"
-        android:layout_height="842dp"
+        android:layout_width="673dp"
+        android:layout_height="908dp"
         android:background="@drawable/login_cadastro_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

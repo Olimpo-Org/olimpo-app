@@ -49,13 +49,13 @@ class ListCommunitiesChatsFragment : Fragment(), ConversionListener {
                 .addToBackStack(null)
                 .commit()
         }
-        binding.btnCreateGroup.setOnClickListener {
-            val fragment = CreateForunsFragment()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
+//        binding.btnCreateGroup.setOnClickListener {
+//            val fragment = CreateForunsFragment()
+//            parentFragmentManager.beginTransaction()
+//                .replace(R.id.fragment, fragment)
+//                .addToBackStack(null)
+//                .commit()
+//        }
     }
 
     private fun init() {

@@ -11,8 +11,8 @@ tools:context=".presentation.activity.accessFlow.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="668dp"
-        android:layout_height="845dp"
+        android:layout_width="671dp"
+        android:layout_height="923dp"
         android:background="@drawable/login_cadastro_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
